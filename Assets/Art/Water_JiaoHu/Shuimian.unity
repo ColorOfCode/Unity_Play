@@ -128,7 +128,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1483296454}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &330482384
+--- !u!43 &282888461
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -884,7 +884,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550523344}
-  m_Mesh: {fileID: 330482384}
+  m_Mesh: {fileID: 282888461}
 --- !u!4 &1550523348
 Transform:
   m_ObjectHideFlags: 0
