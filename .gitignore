@@ -56,3 +56,6 @@ Thumbs.db
 *.merge
 *.threadsafe
 *.contract
+
+# Local tooling
+.workbuddy/

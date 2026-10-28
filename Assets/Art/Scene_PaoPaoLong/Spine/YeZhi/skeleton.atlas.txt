@@ -1,0 +1,13 @@
+
+skeleton.png
+size: 644,166
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Tex_SP_Yezhi01
+  rotate: false
+  xy: 2, 2
+  size: 640, 162
+  orig: 640, 162
+  offset: 0, 0
+  index: -1

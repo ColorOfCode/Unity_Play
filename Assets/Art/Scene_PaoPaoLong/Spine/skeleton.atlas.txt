@@ -1,0 +1,146 @@
+
+skeleton.png
+size: 1223,432
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Tex_SP_S_Lian
+  rotate: false
+  xy: 432, 135
+  size: 352, 295
+  orig: 355, 295
+  offset: 2, 0
+  index: -1
+Tex_SP_S_QiPao
+  rotate: false
+  xy: 2, 2
+  size: 428, 428
+  orig: 428, 428
+  offset: 0, 0
+  index: -1
+Tex_SP_S_QiPaoDian
+  rotate: false
+  xy: 1168, 257
+  size: 53, 56
+  orig: 53, 56
+  offset: 0, 0
+  index: -1
+Tex_SP_S_ShenTi
+  rotate: false
+  xy: 920, 330
+  size: 158, 100
+  orig: 158, 100
+  offset: 0, 0
+  index: -1
+Tex_SP_S_YouHungyun
+  rotate: true
+  xy: 710, 2
+  size: 131, 83
+  orig: 140, 92
+  offset: 5, 3
+  index: -1
+Tex_SP_S_YouShou
+  rotate: false
+  xy: 916, 141
+  size: 124, 97
+  orig: 124, 97
+  offset: 0, 0
+  index: -1
+Tex_SP_S_YouTui
+  rotate: false
+  xy: 572, 17
+  size: 136, 116
+  orig: 137, 116
+  offset: 1, 0
+  index: -1
+Tex_SP_S_YouYan
+  rotate: true
+  xy: 1056, 206
+  size: 107, 110
+  orig: 107, 110
+  offset: 0, 0
+  index: -1
+Tex_SP_S_YouYan2
+  rotate: true
+  xy: 786, 153
+  size: 135, 128
+  orig: 135, 128
+  offset: 0, 0
+  index: -1
+Tex_SP_S_YouYanquan
+  rotate: false
+  xy: 786, 290
+  size: 132, 140
+  orig: 132, 140
+  offset: 0, 0
+  index: -1
+Tex_SP_S_ZhuoHongyun
+  rotate: false
+  xy: 920, 240
+  size: 134, 88
+  orig: 151, 114
+  offset: 11, 4
+  index: -1
+Tex_SP_S_ZhuoShou
+  rotate: false
+  xy: 907, 42
+  size: 124, 97
+  orig: 124, 97
+  offset: 0, 0
+  index: -1
+Tex_SP_S_ZhuoTui
+  rotate: true
+  xy: 795, 27
+  size: 124, 110
+  orig: 124, 110
+  offset: 0, 0
+  index: -1
+Tex_SP_S_ZhuoYan
+  rotate: true
+  xy: 1042, 99
+  size: 105, 107
+  orig: 105, 107
+  offset: 0, 0
+  index: -1
+Tex_SP_S_ZhuoYan2
+  rotate: false
+  xy: 1080, 315
+  size: 135, 115
+  orig: 135, 115
+  offset: 0, 0
+  index: -1
+Tex_SP_S_ZhuoYanquan
+  rotate: true
+  xy: 432, 3
+  size: 130, 138
+  orig: 131, 138
+  offset: 0, 0
+  index: -1
+Tex_SP_S_Zui
+  rotate: false
+  xy: 1168, 221
+  size: 24, 34
+  orig: 24, 34
+  offset: 0, 0
+  index: -1
+Tex_SP_S_Zui2
+  rotate: false
+  xy: 1121, 19
+  size: 85, 78
+  orig: 85, 78
+  offset: 0, 0
+  index: -1
+Tex_SP_S_gaoxing01
+  rotate: true
+  xy: 1151, 121
+  size: 83, 68
+  orig: 83, 68
+  offset: 0, 0
+  index: -1
+Tex_SP_S_gaoxing02
+  rotate: true
+  xy: 1033, 33
+  size: 64, 86
+  orig: 64, 86
+  offset: 0, 0
+  index: -1

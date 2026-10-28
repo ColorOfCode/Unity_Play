@@ -1,0 +1,132 @@
+
+skeleton.png
+size: 391,205
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Tex_SP_D_BiZi
+  rotate: true
+  xy: 377, 17
+  size: 16, 12
+  orig: 16, 12
+  offset: 0, 0
+  index: -1
+Tex_SP_D_Lian
+  rotate: true
+  xy: 159, 73
+  size: 130, 123
+  orig: 130, 123
+  offset: 0, 0
+  index: -1
+Tex_SP_D_Shenti
+  rotate: true
+  xy: 284, 83
+  size: 120, 103
+  orig: 120, 103
+  offset: 0, 0
+  index: -1
+Tex_SP_D_YinYing
+  rotate: false
+  xy: 2, 4
+  size: 162, 28
+  orig: 166, 30
+  offset: 2, 1
+  index: -1
+Tex_SP_D_YouShou
+  rotate: false
+  xy: 247, 14
+  size: 50, 57
+  orig: 50, 57
+  offset: 0, 0
+  index: -1
+Tex_SP_D_YouTongKong
+  rotate: true
+  xy: 263, 3
+  size: 9, 11
+  orig: 9, 11
+  offset: 0, 0
+  index: -1
+Tex_SP_D_YouYan
+  rotate: false
+  xy: 166, 10
+  size: 19, 23
+  orig: 19, 23
+  offset: 0, 0
+  index: -1
+Tex_SP_D_YouYanXiao
+  rotate: false
+  xy: 299, 3
+  size: 35, 27
+  orig: 35, 27
+  offset: 0, 0
+  index: -1
+Tex_SP_D_YouYanquan
+  rotate: false
+  xy: 159, 35
+  size: 28, 36
+  orig: 30, 37
+  offset: 1, 0
+  index: -1
+Tex_SP_D_YouYanyun2
+  rotate: false
+  xy: 247, 3
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1
+Tex_SP_D_Zui
+  rotate: false
+  xy: 377, 2
+  size: 11, 13
+  orig: 11, 13
+  offset: 0, 0
+  index: -1
+Tex_SP_D_ZuoShou
+  rotate: false
+  xy: 189, 4
+  size: 56, 67
+  orig: 56, 67
+  offset: 0, 0
+  index: -1
+Tex_SP_D_ZuoTongKong
+  rotate: true
+  xy: 276, 3
+  size: 9, 11
+  orig: 9, 11
+  offset: 0, 0
+  index: -1
+Tex_SP_D_ZuoYan
+  rotate: false
+  xy: 336, 5
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+Tex_SP_D_ZuoYanXiao
+  rotate: true
+  xy: 347, 35
+  size: 46, 38
+  orig: 46, 38
+  offset: 0, 0
+  index: -1
+Tex_SP_D_ZuoYanquan
+  rotate: true
+  xy: 299, 32
+  size: 49, 46
+  orig: 50, 50
+  offset: 1, 1
+  index: -1
+Tex_SP_D_ZuoYanyun2
+  rotate: true
+  xy: 363, 14
+  size: 19, 12
+  orig: 19, 12
+  offset: 0, 0
+  index: -1
+Tex_SP_S_Zui2
+  rotate: false
+  xy: 2, 34
+  size: 155, 169
+  orig: 155, 169
+  offset: 0, 0
+  index: -1
