@@ -1,0 +1,58 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]serSettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# IDE / Rider / VS
+.idea/
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity crash reports
+sysinfo.txt
+*.stackdump
+CrashReports/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Unity meta should be kept, but ignore these
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity temp
+*.unityproj
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Backup
+*.[Rr]ecord
+*.bak
+
+# Plastic SCM / Plastic
+.ignore
+*.merge
+*.threadsafe
+*.contract
