@@ -175,7 +175,7 @@ namespace Shuimian.Gameplay.EditorTools
             sb.AppendLine(follow != null
                 ? $"[检查] CameraFollow 在 {follow.gameObject.name} 上，target={(follow.target ? follow.target.name : "null")}，" +
                   $"controller={(follow.controller ? follow.controller.name : "null")}，实际跟随={(follow.ResolveFollowTarget() ? follow.ResolveFollowTarget().name : "null")}，" +
-                  $"offset={follow.offset}，smoothTime={follow.smoothTime}"
+                  $"offset={follow.offset}，回弹={follow.followBounce}（0=不回弹），刚度={follow.followStiffness}，环绕={follow.followTargetYaw}"
                 : "[检查] 场景里没有 CameraFollow");
 
             var look = Object.FindObjectOfType<MouseLookController>();

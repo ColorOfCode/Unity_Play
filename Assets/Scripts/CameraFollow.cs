@@ -26,11 +26,19 @@ namespace Shuimian.Gameplay
         [Tooltip("未手动设置偏移时，用场景初始位置自动计算偏移")]
         public bool autoOffsetOnStart = true;
 
-        [Header("平滑")]
-        [Tooltip("平滑时间（秒），0 = 硬跟随（不做任何缓动）")]
-        [Min(0f)] public float smoothTime = 0f;
-        [Tooltip("最大跟随速度（米/秒）。<=0 表示不限速（内部会传 Infinity；传 0 会把相机锁死不动）")]
-        [Min(0f)] public float maxSpeed = 0f;
+        [Header("回弹（弹性跟随）")]
+        [Tooltip("0 = 完全不回弹（相机硬性贴合目标，跟随最稳）；值越大，追上目标时的回弹/过冲越明显")]
+        [Range(0f, 0.95f)] public float followBounce = 0f;
+        [Tooltip("回弹追击刚度：越大追得越快、回弹频率越高幅度越小；越小则软绵绵地荡回来")]
+        [Min(1f)] public float followStiffness = 60f;
+
+        [Header("跟随船旋转")]
+        [Tooltip("船转向时，相机绕着船同步旋转（始终保持在船的相对方位，例如正后方）。" +
+                 "只取水平的偏航增量，不受模型自身倾斜影响，起始机位保持你在编辑器里摆的样子")]
+        public bool followTargetYaw = true;
+        [Tooltip("相机朝向也跟着船的偏航一起转（转向后镜头始终对着船）。" +
+                 "如果相机上挂了 MouseLookController，朝向由它处理，这里请关闭")]
+        public bool rotateCameraWithTarget = false;
 
         [Header("朝向")]
         [Tooltip("是否让相机始终看向目标（关闭则只平移、保持原朝向）")]
@@ -42,11 +50,20 @@ namespace Shuimian.Gameplay
 
         Vector3 _velocity;
 
+        float _baseYawDeg;        // 初始时刻目标的水平朝向
+        float _cameraBaseYaw;     // 初始时刻相机自身的左右朝向
+        Transform _yawBaseTarget; // 基准对应的物体（换目标时重新记录）
+        bool _yawBaseReady;
+
+        /// <summary>目标相对初始朝向的水平偏航增量（度），可被其它脚本读取统一朝向</summary>
+        public float YawDeltaDeg { get; private set; }
+
         void Start()
         {
             Transform t = ResolveFollowTarget();
             if (autoOffsetOnStart && t != null)
                 offset = transform.position - t.position;
+            EnsureYawBase(t);
         }
 
         /// <summary>解析真正要跟随的 Transform（优先用控制器真正的移动目标）</summary>
@@ -64,17 +81,43 @@ namespace Shuimian.Gameplay
             Transform t = ResolveFollowTarget();
             if (t == null) return;
 
-            // 固定世界偏移：相机与目标的相对位置 = 你在编辑器里摆好的机位
-            Vector3 desired = t.position + offset;
-            if (smoothTime > 0f)
+            // ---- 环绕：船转向时，偏移绕 Y 轴同步旋转 ----
+            Vector3 worldOffset = offset;
+            if (followTargetYaw)
             {
-                // 注意：SmoothDamp 的 maxSpeed 传 0 会把位移钳制为 0（相机完全不动），
-                // 因此 0 表示不限速时必须传 Infinity
-                float speedLimit = maxSpeed > 0f ? maxSpeed : Mathf.Infinity;
-                transform.position = Vector3.SmoothDamp(transform.position, desired, ref _velocity, smoothTime, speedLimit);
+                EnsureYawBase(t);
+                YawDeltaDeg = Mathf.DeltaAngle(_baseYawDeg, PlanarYawDeg(FlatForward(t)));
+                worldOffset = Quaternion.AngleAxis(YawDeltaDeg, Vector3.up) * offset;
             }
             else
             {
+                YawDeltaDeg = 0f;
+            }
+
+            Vector3 desired = t.position + worldOffset;
+
+            if (followBounce > 0f)
+            {
+                // 弹簧-阻尼：followBounce 越大 → 阻尼比越小 → 越过目标位再荡回来（回弹）
+                float zeta = Mathf.Clamp(1f - followBounce, 0.05f, 1f);
+                float omega = Mathf.Sqrt(followStiffness);
+                float dt = Mathf.Min(Time.deltaTime, 1f / 20f);
+
+                // 分子步积分，保证大风大 elastic 系数下也稳定
+                int steps = Mathf.Clamp(Mathf.CeilToInt(dt * 120f), 1, 8);
+                float h = dt / steps;
+                for (int i = 0; i < steps; i++)
+                {
+                    Vector3 accel = (desired - transform.position) * followStiffness
+                                    - _velocity * (2f * zeta * omega);
+                    _velocity += accel * h;
+                    transform.position += _velocity * h;
+                }
+            }
+            else
+            {
+                // 不回弹：硬性贴合，任何旧的平滑参数都不生效
+                _velocity = Vector3.zero;
                 transform.position = desired;
             }
 
@@ -84,6 +127,40 @@ namespace Shuimian.Gameplay
                 if (lookDir.sqrMagnitude > 0.0001f)
                     transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
             }
+            else if (rotateCameraWithTarget && followTargetYaw)
+            {
+                // 相机自身没有 MouseLookController 时，用它保证镜头对着转过来的船
+                Vector3 e = transform.eulerAngles;
+                transform.rotation = Quaternion.Euler(e.x, _cameraBaseYaw + YawDeltaDeg, 0f);
+            }
+        }
+
+        /// <summary>记录基准朝向（只在目标变更或首帧时取，避免把已转过的结果当成基准）</summary>
+        void EnsureYawBase(Transform t)
+        {
+            if (t == null) return;
+            if (_yawBaseReady && _yawBaseTarget == t) return;
+            _baseYawDeg = PlanarYawDeg(FlatForward(t));
+            _cameraBaseYaw = transform.eulerAngles.y;
+            _yawBaseTarget = t;
+            _yawBaseReady = true;
+        }
+
+        /// <summary>目标的水平朝向：优先用控制器算出的船头（含 forwardOffsetDeg 修正）</summary>
+        Vector3 FlatForward(Transform t)
+        {
+            if (controller != null)
+                return controller.ForwardFlat;
+            Vector3 f = t.forward;
+            f.y = 0f;
+            if (f.sqrMagnitude < 0.0001f) f = Vector3.forward;
+            return f.normalized;
+        }
+
+        /// <summary>水平方向 → 绕 Y 轴的角度（度）</summary>
+        public static float PlanarYawDeg(Vector3 flatForward)
+        {
+            return Mathf.Atan2(flatForward.x, flatForward.z) * Mathf.Rad2Deg;
         }
 
         /// <summary>运行时 HUD：显示跟随目标与相机实时世界坐标</summary>
@@ -92,7 +169,8 @@ namespace Shuimian.Gameplay
             if (!showDebugHud || !Application.isPlaying) return;
             Transform t = ResolveFollowTarget();
             string info = t != null
-                ? $"跟随目标: {t.name}\n目标位置: {t.position:F2}\n相机位置: {transform.position:F2}\n偏移: {offset:F2}"
+                ? $"跟随目标: {t.name}\n目标位置: {t.position:F2}\n相机位置: {transform.position:F2}\n" +
+                  $"回弹: {followBounce:F2}（0=不回弹）  偏移: {offset:F2}"
                 : "跟随目标: null（未设置！）";
             var style = new GUIStyle(GUI.skin.label) { fontSize = 18 };
             GUI.color = new Color(1f, 0.92f, 0.2f);

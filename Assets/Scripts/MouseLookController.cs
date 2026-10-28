@@ -23,7 +23,7 @@ namespace Shuimian.Gameplay
         [Min(0f)] public float sensitivityX = 3f;
         [Tooltip("上下（俯仰）灵敏度：度/像素")]
         [Min(0f)] public float sensitivityY = 2f;
-        [Tooltip("反转 Y 轴（鼠标上移=向下看）")]
+        [Tooltip("把鼠标 Y 轴翻回原来的方向（勾选 = 鼠标上移向上看；默认不勾 = 鼠标上移向下看）")]
         public bool invertY = false;
 
         [Header("俯仰限制（度）")]
@@ -47,7 +47,8 @@ namespace Shuimian.Gameplay
         float _yawSmooth;
         float _pitchSmooth;
         Quaternion _baseRotation;  // 船的初始朝向（保留 FBX 自带的旋转，不覆盖）
-        float _cameraBaseYaw;      // 相机的初始左右朝向（保持不变，不受鼠标影响）
+        float _cameraBaseYaw;      // 相机的初始左右朝向（只有俯仰和船的转向会叠加到它上面）
+        CameraFollow _cameraFollow; // 同物体上的相机跟随脚本（用于取同步的偏航增量）
         bool _hasBase;             // 初始朝向是否已记录
         bool _cursorLocked;
 
@@ -102,7 +103,10 @@ namespace Shuimian.Gameplay
             float my = Input.GetAxis("Mouse Y");
 
             _yaw += mx * sensitivityX;
-            _pitch += my * sensitivityY * (invertY ? -1f : 1f);
+            // 鼠标 Y：默认已翻转 —— 鼠标上移 = 向下看，鼠标下移 = 向上看
+            // （想恢复成“鼠标上移=向上看”，把 Invert Y 勾上）
+            float ySign = invertY ? 1f : -1f;
+            _pitch += my * sensitivityY * ySign;
             _pitch = Mathf.Clamp(_pitch, -pitchDownLimit, pitchUpLimit);
 
             // 0~1 的平滑系数，1 表示立即跟手
@@ -113,9 +117,33 @@ namespace Shuimian.Gameplay
             if (yawTarget != null)
                 yawTarget.rotation = Quaternion.AngleAxis(_yawSmooth, Vector3.up) * _baseRotation;
 
-            // 相机：只改俯仰（上下），左右朝向保持初始机位不变，不跟随鼠标也不跟随船
+            // 相机：俯仰由鼠标控制；左右朝向 = 初始机位朝向 + 船的转向增量
+            // （船转多少，镜头就跟着绕多少，保证转向后镜头仍对着船，而不是被镜头挪出画面）
             if (cameraTarget != null)
-                cameraTarget.rotation = Quaternion.Euler(_pitchSmooth, _cameraBaseYaw + yawOffsetDeg, 0f);
+            {
+                float shipYaw = ShipYawDeltaDeg;
+                cameraTarget.rotation = Quaternion.Euler(_pitchSmooth, _cameraBaseYaw + yawOffsetDeg + shipYaw, 0f);
+            }
+        }
+
+        /// <summary>
+        /// 船相对初始朝向的水平偏航增量（度）。
+        /// 优先用 CameraFollow 算出的结果（位置与朝向完全同步），没有则回退到本脚本施加给船的旋转量。
+        /// 若 CameraFollow 关闭了 followTargetYaw（位置不环绕），则朝向也不跟随，避免两者不一致。
+        /// </summary>
+        float ShipYawDeltaDeg
+        {
+            get
+            {
+                if (cameraTarget != null && _cameraFollow == null)
+                    _cameraFollow = cameraTarget.GetComponent<CameraFollow>();
+
+                // CameraFollow 关闭了环绕（相机位置不绕），朝向也不绕，避免位置/朝向不一致
+                if (_cameraFollow != null && !_cameraFollow.followTargetYaw) return 0f;
+
+                // 用本帧刚施加给船的旋转量，数值与 CameraFollow.YawDeltaDeg 一致且无滞后
+                return yawTarget != null ? _yawSmooth : 0f;
+            }
         }
 
         void HandleCursor()
@@ -155,8 +183,8 @@ namespace Shuimian.Gameplay
             if (!Application.isPlaying) return;
             var style = new GUIStyle(GUI.skin.label) { fontSize = 16 };
             GUI.color = new Color(0.5f, 1f, 0.5f);
-            GUI.Label(new Rect(10, 120, 620, 70),
-                $"鼠标偏航 yaw={_yaw:F1}°  俯仰 pitch={_pitch:F1}°\n" +
+            GUI.Label(new Rect(10, 120, 620, 90),
+                $"鼠标偏航 yaw={_yaw:F1}°  俯仰 pitch={_pitch:F1}°  相机环绕={ShipYawDeltaDeg:F1}°\n" +
                 $"旋转目标: {(yawTarget ? yawTarget.name : "null")}  相机: {(cameraTarget ? cameraTarget.name : "null")}",
                 style);
         }
