@@ -33,6 +33,9 @@ public class AimGuideDemoInput : MonoBehaviour
     [SerializeField] private GameObject[] shotTrailPrefabs = new GameObject[5];
     [Tooltip("发射道具碰撞后，拖尾粒子渐变消失的时间（秒）。")]
     [SerializeField, Min(0.01f)] private float shotTrailFadeDuration = 0.3f;
+    [Header("自动清屏")]
+    [Tooltip("清屏期间两次发射之间的时间间隔（秒）。")]
+    [SerializeField, Min(0f)] private float autoShotDelay = 0.2f;
 
     [Header("发射道具圆环")]
     [Tooltip("发射点到圆心的距离，也是圆环半径（世界单位）。")]
@@ -91,6 +94,111 @@ public class AimGuideDemoInput : MonoBehaviour
     private static readonly int ParticleColorId = Shader.PropertyToID("_Color");
     private Vector2 shotDirection;
     private int shotType;
+    private Coroutine autoClearRoutine;
+    private int autoShotsInFlight;
+    private readonly HashSet<Collider2D> autoReserved = new HashSet<Collider2D>();
+    private readonly List<GameObject> autoProjectiles = new List<GameObject>();
+
+    private void OnEnable()
+    {
+        if (Application.isPlaying)
+            AimNumberMinAnimation.AutoClearRequested += BeginAutoClear;
+    }
+
+    private void BeginAutoClear()
+    {
+        if (autoClearRoutine != null || board == null) return;
+        holding = false;
+        activeFinger = -1;
+        pressTarget = PressTarget.None;
+        if (guide != null) guide.Hide();
+        board.BeginAutoClear();
+        autoClearRoutine = StartCoroutine(AutoClearBoard());
+    }
+
+    private IEnumerator AutoClearBoard()
+    {
+        while (shot != null || rotating) yield return null;
+        while (board.HasBubbles || autoShotsInFlight > 0)
+        {
+            if (!board.HasBubbles) { yield return null; continue; }
+
+            int targetType;
+            Vector2 direction;
+            Collider2D targetCollider;
+            int mask = wallMask.value | targetMask.value;
+            if (!board.TryGetAutoAim(LaunchPosition(), ballRadius, mask,
+                                     autoReserved,
+                                     out targetType, out direction,
+                                     out targetCollider))
+            {
+                // All remaining targets may already have shots in flight.
+                yield return null;
+                continue;
+            }
+
+            if (currentType != targetType)
+            {
+                DestroyVisual(currentVisual);
+                currentType = targetType;
+                currentVisual = CreateVisual(currentType, LaunchPosition(), 1f);
+                ApplyLauncherSprite();
+            }
+            aimDirection = direction;
+            if (guide != null) guide.Hide();
+            GameObject projectile = CreateVisual(targetType, LaunchPosition(), 1f);
+            if (projectile == null) { yield return null; continue; }
+            projectile.name = "Auto_Flying_AimDot" + targetType;
+            GameObject trail = StartShotTrail(targetType, projectile.transform);
+            autoReserved.Add(targetCollider);
+            autoProjectiles.Add(projectile);
+            autoShotsInFlight++;
+            StartCoroutine(FlyAutoShot(projectile, trail, targetCollider, targetType));
+            float interval = Mathf.Max(0f, autoShotDelay);
+            if (interval > 0f) yield return new WaitForSeconds(interval);
+            else yield return null;
+        }
+
+        yield return board.FinishAutoClearAndRefill();
+        AimNumberMinAnimation.NotifyAutoClearCompleted();
+        autoClearRoutine = null;
+    }
+
+    private IEnumerator FlyAutoShot(GameObject projectile, GameObject trail,
+                                    Collider2D targetCollider, int type)
+    {
+        while (projectile != null && targetCollider != null)
+        {
+            Vector2 target = targetCollider.bounds.center;
+            Vector2 origin = projectile.transform.position;
+            Vector2 direction = (target - origin).normalized;
+            float stopRadius = ballRadius +
+                Mathf.Max(targetCollider.bounds.extents.x, 0.01f);
+            float step = Mathf.Max(0.1f, shotSpeed) * Time.fixedDeltaTime;
+            Vector2 next = Vector2.MoveTowards(origin, target, step);
+            if (Vector2.Distance(next, target) <= stopRadius)
+            {
+                Vector2 impact = target - direction * stopRadius;
+                projectile.transform.position = impact;
+                if (trail != null) trail.transform.position = impact;
+                board.ResolveCollision(targetCollider, type, impact);
+                break;
+            }
+            projectile.transform.position = next;
+            if (trail != null) trail.transform.position = next;
+            yield return new WaitForFixedUpdate();
+        }
+
+        autoReserved.Remove(targetCollider);
+        autoShotsInFlight--;
+        autoProjectiles.Remove(projectile);
+        if (trail != null)
+        {
+            fadingShotTrails.Add(trail);
+            StartCoroutine(FadeShotTrail(trail));
+        }
+        if (projectile != null) Destroy(projectile);
+    }
 
     private void Start()
     {
@@ -198,7 +306,7 @@ public class AimGuideDemoInput : MonoBehaviour
 
     private void BeginPress(Vector2 screen, int fingerId)
     {
-        if (holding || rotating) return;
+        if (holding || rotating || autoClearRoutine != null) return;
         Vector2 world = ScreenToWorld(screen);
 
         float centerRadius = Mathf.Min(Mathf.Max(0.01f, centerTapRadius),
@@ -688,6 +796,11 @@ public class AimGuideDemoInput : MonoBehaviour
 
     private void ClearVisuals()
     {
+        foreach (GameObject projectile in autoProjectiles)
+            DestroyVisual(projectile);
+        autoProjectiles.Clear();
+        autoReserved.Clear();
+        autoShotsInFlight = 0;
         foreach (GameObject effect in fadingShotTrails)
             DestroyVisual(effect);
         fadingShotTrails.Clear();
@@ -714,7 +827,11 @@ public class AimGuideDemoInput : MonoBehaviour
 
     private void OnDisable()
     {
+        AimNumberMinAnimation.AutoClearRequested -= BeginAutoClear;
         StopAllCoroutines();
+        if (autoClearRoutine != null && board != null && Application.isPlaying)
+            board.CancelAutoClear();
+        autoClearRoutine = null;
         if (guide != null) guide.Hide();
         ClearVisuals();
         rotating = false;

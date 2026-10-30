@@ -5,12 +5,14 @@ using UnityEngine.UI;
 // Plays the number bounce once for each special item that reaches its target.
 public class AimNumberMinAnimation : MonoBehaviour
 {
+    public static event System.Action AutoClearRequested;
+    public static event System.Action AutoClearCompleted;
     private const string StateName = "Ani_Node_Number_Min";
 
     [SerializeField] private Animator numberAnimator;
     [SerializeField] private Text numberText;
 
-    private int currentNumber = 5;
+    private int currentNumber = 3;
     private int pendingArrivals;
     private Coroutine playRoutine;
     private float clipLength = 1.35f;
@@ -52,11 +54,13 @@ public class AimNumberMinAnimation : MonoBehaviour
 
         HoldFirstFrame();
         SpecialAimDot5.ReachedDestination += OnSpecialReachedDestination;
+        AutoClearCompleted += ResetForNextBoard;
     }
 
     private void OnDisable()
     {
         SpecialAimDot5.ReachedDestination -= OnSpecialReachedDestination;
+        AutoClearCompleted -= ResetForNextBoard;
         if (playRoutine != null) StopCoroutine(playRoutine);
         playRoutine = null;
         pendingArrivals = 0;
@@ -77,9 +81,12 @@ public class AimNumberMinAnimation : MonoBehaviour
             numberAnimator.speed = playbackSpeed;
             numberAnimator.Play(StateName, 0, 0f);
             numberAnimator.Update(0f);
-            currentNumber = Mathf.Max(0, currentNumber - 1);
+            int previousNumber = currentNumber;
+            currentNumber = Mathf.Min(5, currentNumber + 1);
             // Keep the original whitespace: this UI Text uses trailing newlines for placement.
             numberText.text = textPrefix + currentNumber + textSuffix;
+            if (previousNumber < 5 && currentNumber == 5)
+                AutoClearRequested?.Invoke();
 
             float elapsed = 0f;
             float duration = clipLength / playbackSpeed;
@@ -94,6 +101,18 @@ public class AimNumberMinAnimation : MonoBehaviour
 
         playRoutine = null;
     }
+
+    private void ResetForNextBoard()
+    {
+        pendingArrivals = 0;
+        if (playRoutine != null) StopCoroutine(playRoutine);
+        playRoutine = null;
+        currentNumber = 3;
+        if (numberText != null) numberText.text = textPrefix + currentNumber + textSuffix;
+        HoldFirstFrame();
+    }
+
+    public static void NotifyAutoClearCompleted() => AutoClearCompleted?.Invoke();
 
     private void HoldFirstFrame()
     {

@@ -99,6 +99,7 @@ public class BubbleBoard2D : MonoBehaviour
     private bool hasSpecialSpawnSettings;
     private bool specialSpawnPending;
     private bool refillPending;
+    private bool autoClearActive;
     private int removalAnimations;
     private int rowParityOffset;
     private bool initialized;
@@ -106,6 +107,77 @@ public class BubbleBoard2D : MonoBehaviour
     public int TypeCount => bubblePrefabs == null ? 0 : bubblePrefabs.Length;
     public float TopRowY => topRowY;
     public event System.Action BoardChanged;
+    public bool HasBubbles { get { Initialize(); return cells.Count > 0; } }
+
+    public void BeginAutoClear()
+    {
+        Initialize();
+        autoClearActive = true;
+    }
+
+    public bool TryGetAutoAim(Vector2 origin, float radius, int collisionMask,
+                              ICollection<Collider2D> reserved,
+                              out int type, out Vector2 direction,
+                              out Collider2D targetCollider)
+    {
+        Initialize();
+        Physics2D.SyncTransforms();
+        type = -1;
+        direction = Vector2.up;
+        targetCollider = null;
+        float nearest = float.PositiveInfinity;
+        Bubble fallback = null;
+        float fallbackDistance = float.PositiveInfinity;
+        foreach (Bubble bubble in cells.Values)
+        {
+            if (reserved != null && reserved.Contains(bubble.collider)) continue;
+            Vector2 offset = (Vector2)bubble.root.position - origin;
+            if (offset.sqrMagnitude < 0.0001f) continue;
+            if (offset.sqrMagnitude < fallbackDistance)
+            {
+                fallback = bubble;
+                fallbackDistance = offset.sqrMagnitude;
+            }
+            if (offset.y <= 0f) continue;
+            Vector2 aim = offset.normalized;
+            float distance = offset.magnitude;
+            RaycastHit2D hit = Physics2D.CircleCast(
+                origin + aim * 0.002f, radius, aim, distance + radius,
+                collisionMask);
+            Bubble firstHit;
+            if (!hit || !byCollider.TryGetValue(hit.collider, out firstHit) ||
+                (reserved != null && reserved.Contains(firstHit.collider))) continue;
+            float hitDistance = ((Vector2)firstHit.root.position - origin).sqrMagnitude;
+            if (hitDistance >= nearest) continue;
+            nearest = hitDistance;
+            type = firstHit.type;
+            targetCollider = firstHit.collider;
+            direction = ((Vector2)firstHit.root.position - origin).normalized;
+        }
+        if (targetCollider == null && fallback != null)
+        {
+            type = fallback.type;
+            targetCollider = fallback.collider;
+            direction = ((Vector2)fallback.root.position - origin).normalized;
+        }
+        return targetCollider != null;
+    }
+
+    public IEnumerator FinishAutoClearAndRefill()
+    {
+        while (removalAnimations > 0 || specialItem != null)
+            yield return null;
+        bool cleared = cells.Count == 0;
+        if (cleared) AddTopRows(3);
+        autoClearActive = false;
+        if (!cleared) TryScheduleRefill();
+    }
+
+    public void CancelAutoClear()
+    {
+        autoClearActive = false;
+        TryScheduleRefill();
+    }
 
     public void RegisterSpecial(SpecialAimDot5 item)
     {
@@ -213,9 +285,23 @@ public class BubbleBoard2D : MonoBehaviour
         if (hit == ceiling)
         {
             Vector2Int topSlot;
-            if (!FindTopSlot(impactCenter.x, out topSlot)) return false;
-            return ResolvePlacedBubble(AddBubble(topSlot, shotType),
-                                       topSlot, impactCenter);
+            if (FindTopSlot(impactCenter.x, out topSlot))
+                return ResolvePlacedBubble(AddBubble(topSlot, shotType),
+                                           topSlot, impactCenter);
+            // A full top row leaves no ceiling slot. Attach to the nearest
+            // top bubble instead of discarding the shot at the ceiling.
+            Bubble nearestTop = null;
+            float nearestX = float.PositiveInfinity;
+            foreach (Bubble bubble in cells.Values)
+            {
+                if (bubble.cell.y != 0) continue;
+                float distance = Mathf.Abs(bubble.root.position.x - impactCenter.x);
+                if (distance >= nearestX) continue;
+                nearestX = distance;
+                nearestTop = bubble;
+            }
+            if (nearestTop == null) return false;
+            hit = nearestTop.collider;
         }
 
         Bubble touched;
@@ -377,7 +463,10 @@ public class BubbleBoard2D : MonoBehaviour
         if (prefab == null) return null;
 
         GameObject wrapper = new GameObject($"Bubble_R{cell.y:00}_C{cell.x:00}_AimDot{type}");
-        wrapper.layer = LayerMask.NameToLayer("Target");
+        // The scene's Target Mask is layer 9. Keep collision working even if
+        // an open Editor has not reloaded TagManager.asset yet.
+        int targetLayer = LayerMask.NameToLayer("Target");
+        wrapper.layer = targetLayer >= 0 ? targetLayer : 9;
         wrapper.transform.SetParent(transform, false);
         wrapper.transform.position = WorldForCell(cell);
 
@@ -414,7 +503,8 @@ public class BubbleBoard2D : MonoBehaviour
 
     private void TryScheduleRefill()
     {
-        if (refillPending || OccupiedRowCount() > Mathf.Max(0, refillAtRowCount))
+        if (autoClearActive || refillPending ||
+            OccupiedRowCount() > Mathf.Max(0, refillAtRowCount))
             return;
         refillPending = true;
         StartCoroutine(RefillWhenReady());
@@ -428,7 +518,8 @@ public class BubbleBoard2D : MonoBehaviour
                (specialItem != null && specialItem.IsActivating))
             yield return null;
 
-        if (OccupiedRowCount() <= Mathf.Max(0, refillAtRowCount))
+        if (!autoClearActive &&
+            OccupiedRowCount() <= Mathf.Max(0, refillAtRowCount))
             AddTopRows(Mathf.Max(1, refillRows));
         refillPending = false;
     }
