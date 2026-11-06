@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.4806771, g: 0.6788599, b: 0.70440245, a: 1}
+  m_FogColor: {r: 0.56078434, g: 0.6509804, b: 0.73333335, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.001
   m_LinearFogStart: 0
@@ -440,7 +440,7 @@ PrefabInstance:
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 116314f7bb8b47ed8a00281a2635b117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sourceMaterial: {fileID: 2100000, guid: cd336a8b3629493428f3f1bdc889d3c9, type: 2}
+  sourceMaterial: {fileID: 2100000, guid: b9f6119739fb46c68df9ac06839d1a93, type: 2}
   nearCellSize: 0.33333334
   subdivisions: 96
   lodCount: 7
@@ -547,12 +547,79 @@ MonoBehaviour:
   waveTimeScale: 2
   waveTextureResolution: 402
   previewWavesInEditor: 1
+  enableShallowAttenuation: 1
+  shallowAttenuation: 0.95
+  shallowAttenuationMaxDepth: 1000
   enablePlanarReflection: 1
+  mirrorReflectionStrength: 0.1
+  mirrorNormalInfluence: 0.2
+  reflectionSky: 1
+  reflectionShadows: 1
+  reflectionFog: 1
+  reflectionPostProcessing: 1
+  reflectionPostProcessingStrength: 1
   reflectionTextureSize: 512
   reflectionLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   reflectionClipOffset: 0.07
+  MyMeshRenderer: {fileID: 0}
+  MyForwardTransform: {fileID: 0}
+  maxRenderingDistance: 10000
+  fadeDistance: 0.735
+  maxBlend: 1
+  FadeColor: {r: 1, g: 1, b: 1, a: 1}
+  useRecursiveDarkening: 0
+  recursiveDarkeningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.030555569
+      value: -0.022035986
+      inSlope: 0.3287913
+      outSlope: 0.3287913
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.2237572
+    - serializedVersion: 3
+      time: 1.0194397
+      value: 0.025684357
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reflectionDistanceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableUnderwater: 1
+  enableCaustics: 1
   enableFoam: 1
   foamWaveStrength: 3.27
   foamWaveCoverage: 0.76

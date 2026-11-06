@@ -37,11 +37,46 @@ namespace Shuimian.Gameplay
         [Range(0f, 1f)] public float shallowAttenuation = .95f;
         [Tooltip("超过此水深恢复完整波强；1000 沿用 Water 的默认波长衰减方式。")]
         [Range(1f, 1000f)] public float shallowAttenuationMaxDepth = 1000f;
-        [Header("独立平面反射")]
+        [Header("镜面反射（R1_MirrorPlane3）")]
+        [Tooltip("镜面反射总开关。")]
         public bool enablePlanarReflection = true;
+        [Tooltip("0 完全关闭镜像，1 完整混合镜像。")]
+        [Range(0f, 1f)] public float mirrorReflectionStrength = 1f;
+        [Tooltip("水面法线对镜像扭曲的影响；同时受水材质 Overall Normal Strength 影响。0 为平面镜像，1 为完整水面扰动。")]
+        [Range(0f, 1f)] public float mirrorNormalInfluence = .2f;
+        [Tooltip("天空是否出现在镜面反射中。")]
+        public bool reflectionSky = true;
+        [Tooltip("是否在镜像中渲染实时阴影。")]
+        public bool reflectionShadows;
+        [Tooltip("是否在镜像中渲染场景雾效。")]
+        public bool reflectionFog = true;
+        [Tooltip("是否对镜像应用场景后处理。")]
+        public bool reflectionPostProcessing;
+        [Tooltip("反射后处理的混合强度：0 为原始镜像，1 为完整后处理；只在上方开关启用时生效。")]
+        [Range(0f, 1f)] public float reflectionPostProcessingStrength = .5f;
         [Range(128, 2048)] public int reflectionTextureSize = 512;
+        [Tooltip("参与镜像的模型和特效所在 Layer，默认 Everything。")]
         public LayerMask reflectionLayers = ~0;
         [Range(0f, .5f)] public float reflectionClipOffset = .07f;
+        [Header("镜面表面与距离淡出")]
+        [Tooltip("参与反射判断的镜面 Renderer；留空时自动使用生成的水面 LOD 模型。")]
+        public MeshRenderer MyMeshRenderer;
+        [Tooltip("镜面平面的位置和方向，负 Z 轴是镜面正面；留空时自动使用水平海面。")]
+        public Transform MyForwardTransform;
+        [Tooltip("相机到镜面最近位置的最大捕获距离（米），同时作为下方 Alpha 曲线的最远距离。")]
+        [Min(.01f)] public float maxRenderingDistance = 100f;
+        [Tooltip("沿用 R1：最大距离末尾的淡出比例，相机远离镜面时将镜像颜色过渡到 Fade Color。")]
+        [Range(0f, 1f)] public float fadeDistance = .735f;
+        [Tooltip("镜像 Alpha 的上限，最终还会乘 Mirror Reflection Strength 与距离 Alpha 曲线。")]
+        [Range(0f, 1f)] public float maxBlend = 1f;
+        [Tooltip("距离淡出的颜色；Alpha=0 时淡回水体本色，Alpha=1 时采用此颜色。")]
+        public Color FadeColor = new Color(.06759523f, .2789998f, .2924528f, 1f);
+        [Tooltip("仅从第二层镜像开始按递归曲线暗化；普通单层水面不受影响。")]
+        public bool useRecursiveDarkening;
+        public AnimationCurve recursiveDarkeningCurve = new AnimationCurve(
+            new Keyframe(0f, 0f, 3.2204275f, 3.2204275f), new Keyframe(1f, 1f, 0f, 0f));
+        [Tooltip("X=水面像素到相机的距离 / Max Rendering Distance（0最近、1最远）；Y=镜像 Alpha。")]
+        public AnimationCurve reflectionDistanceCurve = AnimationCurve.Linear(0f, 1f, 1f, 0f);
         [Header("水下表现")]
         [Tooltip("启用水面背面的折射与内部反射，以及沿波浪水线裁切的水下深度雾。")]
         public bool enableUnderwater = true;
@@ -85,6 +120,8 @@ namespace Shuimian.Gameplay
         Material surfaceMaterial, materialSource;
         Material[] ringMaterials;
         Texture2D normalSource, filteredNormals;
+        Texture2D mirrorDistanceLut, mirrorRecursiveLut;
+        int mirrorDistanceCurveHash, mirrorRecursiveCurveHash;
         MeshRenderer waterRenderer;
         ComputeBuffer cascadeBuffer, instanceBuffer;
         Texture2DArray seaFloorDepth;
@@ -111,6 +148,11 @@ namespace Shuimian.Gameplay
         public RenderTexture WaveDisplacement => waves?.Displacement;
         public RenderTexture FoamTexture => waves?.Foam;
         public Texture GetReflectionTexture(Camera camera) => reflections?.GetTexture(camera);
+        public Texture GetReflectionCoverageTexture(Camera camera) => reflections?.GetCoverageTexture(camera);
+        public Texture GetUnprocessedReflectionTexture(Camera camera) => reflections?.GetUnprocessedTexture(camera);
+        public MeshRenderer EffectiveMirrorRenderer => MyMeshRenderer != null ? MyMeshRenderer : waterRenderer;
+        Vector3 MirrorPoint => MyForwardTransform != null ? MyForwardTransform.position : transform.position;
+        Vector3 MirrorNormal => MyForwardTransform != null ? -MyForwardTransform.forward : Vector3.up;
         public float OuterHalfExtent => Mathf.Clamp(subdivisions / 4 * 4, 8, 128)
             * Mathf.Max(.05f, nearCellSize) * .5f * (1 << (Mathf.Clamp(lodCount, 1, 9) - 1));
 
@@ -184,6 +226,8 @@ namespace Shuimian.Gameplay
             }
             surfaceMaterial.CopyPropertiesFromMaterial(sourceMaterial);
             foreach (string keyword in SimulationKeywords) surfaceMaterial.DisableKeyword(keyword);
+            surfaceMaterial.SetFloat("_ShuimianMirrorStrength", enablePlanarReflection ? Mathf.Clamp01(mirrorReflectionStrength) : 0f);
+            surfaceMaterial.SetFloat("_ShuimianReflectSky", reflectionSky ? 1f : 0f);
             SetKeyword("_UNDERWATER_ON", enableUnderwater);
             SetKeyword("_CAUSTICS_ON", enableCaustics && sourceMaterial.IsKeywordEnabled("_CAUSTICS_ON")
                 && sourceMaterial.GetTexture("_CausticsTexture") != null);
@@ -259,12 +303,16 @@ namespace Shuimian.Gameplay
         void PrepareCamera(ScriptableRenderContext context, Camera camera)
         {
             if (ShuimianPlanarReflection.IsRendering || camera.cameraType == CameraType.Preview || camera.cameraType == CameraType.Reflection) return;
-            if (enablePlanarReflection)
+            if (enablePlanarReflection && mirrorReflectionStrength > 0f && maxBlend > 0f)
             {
                 EnsureSurface();
                 if (reflections == null) reflections = new ShuimianPlanarReflection();
-                reflections.Render(context, camera, waterRenderer, transform.position.y,
-                    reflectionTextureSize, reflectionLayers, reflectionClipOffset);
+                if (MirrorVisible(camera))
+                    reflections.Render(context, camera, waterRenderer, transform.position.y,
+                        reflectionTextureSize, reflectionLayers, reflectionClipOffset,
+                        reflectionSky, reflectionShadows, reflectionFog, reflectionPostProcessing,
+                        MyForwardTransform, EffectiveMirrorRenderer, Mathf.Clamp01(reflectionPostProcessingStrength));
+                else reflections.ReleaseView(camera);
             }
             else if (reflections != null) { reflections.Dispose(); reflections = null; }
             PrepareSurface(camera, CurrentTime);
@@ -279,10 +327,12 @@ namespace Shuimian.Gameplay
         }
 
         // Explicit time also supports deterministic rendering/verification without a game loop.
-        public void PrepareSurface(Camera camera, float time)
+        public void PrepareSurface(Camera camera, float time, int reflectionDepth = 1, int reflectionRecursions = 2)
         {
             EnsureSurface(); EnsureMaterial(); EnsureWaves();
             if (surfaceMaterial == null) return;
+            UpdateMirrorCurve(ref mirrorDistanceLut, ref mirrorDistanceCurveHash, reflectionDistanceCurve, true);
+            UpdateMirrorCurve(ref mirrorRecursiveLut, ref mirrorRecursiveCurveHash, recursiveDarkeningCurve, false);
             var cameraData = camera.GetComponent<UniversalAdditionalCameraData>();
             if (cameraData != null)
             {
@@ -324,8 +374,11 @@ namespace Shuimian.Gameplay
                     foamShoreDepth, foamShoreStrength);
             SetKeyword("_FOAM_ON", enableFoam && waves?.Foam != null);
             SetKeyword("_FOAM3DLIGHTING_ON", enableFoam && waves?.Foam != null && sourceMaterial.IsKeywordEnabled("_FOAM3DLIGHTING_ON"));
-            Texture reflectionTexture = enablePlanarReflection ? reflections?.GetTexture(camera) : null;
-            SetKeyword("_PLANARREFLECTIONS_ON", reflectionTexture != null && camera.transform.position.y >= center.y);
+            bool mirrorVisible = MirrorVisible(camera);
+            Texture reflectionTexture = mirrorVisible ? reflections?.GetTexture(camera) : null;
+            Texture reflectionCoverage = reflectionTexture != null ? reflections?.GetCoverageTexture(camera) : null;
+            Texture unprocessedReflection = reflectionTexture != null ? reflections?.GetUnprocessedTexture(camera) : null;
+            SetKeyword("_PLANARREFLECTIONS_ON", reflectionTexture != null);
             if (cascadeBuffer == null || cascadeBuffer.count != cascadeCount)
             {
                 ClearProperties();
@@ -382,16 +435,99 @@ namespace Shuimian.Gameplay
                 properties.SetFloat("_CrestTime", time);
                 properties.SetInt("_CrestDepthTextureOffset", msaa > 1 ? 1 : 0);
                 properties.SetFloat("_CrestForceUnderwater", forceUnderwater);
+                properties.SetFloat("_ShuimianMirrorStrength", mirrorVisible ? Mathf.Clamp01(mirrorReflectionStrength) : 0f);
+                properties.SetFloat("_ShuimianReflectSky", reflectionSky ? 1f : 0f);
+                properties.SetFloat("_ShuimianMirrorNormalInfluence", Mathf.Clamp01(mirrorNormalInfluence));
+                properties.SetVector("_ShuimianMirrorUVScaleOffset", reflections != null
+                    ? reflections.GetScaleOffset(camera) : new Vector4(1f, 1f, 0f, 0f));
+                properties.SetVector("_ShuimianMirrorDistanceParams", new Vector4(Mathf.Max(.01f, maxRenderingDistance),
+                    Mathf.Clamp01(fadeDistance), Mathf.Clamp01(maxBlend), MirrorCameraDistance(camera)));
+                properties.SetColor("_ShuimianMirrorFadeColor", FadeColor);
+                properties.SetTexture("_ShuimianMirrorDistanceCurve", mirrorDistanceLut);
+                properties.SetTexture("_ShuimianMirrorRecursiveCurve", mirrorRecursiveLut);
+                properties.SetFloat("_ShuimianMirrorRecursiveDarkening", useRecursiveDarkening ? 1f : 0f);
+                properties.SetVector("_ShuimianMirrorRecursionData", new Vector4(Mathf.Max(1, reflectionDepth),
+                    Mathf.Max(1, reflectionRecursions), 0f, 0f));
                 properties.SetTexture("_LD_TexArray_SeaFloorDepth", seaFloorDepth);
                 if (waves != null) properties.SetTexture("_LD_TexArray_AnimatedWaves", waves.Displacement);
                 if (enableFoam && waves?.Foam != null) properties.SetTexture("_LD_TexArray_Foam", waves.Foam);
                 if (reflectionTexture != null) properties.SetTexture("_ReflectionTex", reflectionTexture);
+                properties.SetFloat("_ShuimianUseReflectionCoverage", reflectionCoverage != null ? 1f : 0f);
+                if (reflectionCoverage != null) properties.SetTexture("_ShuimianReflectionCoverage", reflectionCoverage);
+                properties.SetFloat("_ShuimianReflectionPostProcessingStrength", unprocessedReflection != null
+                    ? Mathf.Clamp01(reflectionPostProcessingStrength) : 1f);
+                if (unprocessedReflection != null) properties.SetTexture("_ShuimianReflectionUnprocessed", unprocessedReflection);
                 waterRenderer.SetPropertyBlock(properties, level);
             }
             WaveFieldCenter = new Vector2(center.x, center.z);
             WaveFieldDiameters = new Vector2(nearDiameter, farDiameter);
             WaveFieldCascadeCount = cascadeCount;
             SurfacePrepared?.Invoke(camera);
+        }
+        float MirrorCameraDistance(Camera camera)
+        {
+            var target = EffectiveMirrorRenderer;
+            if (target != null && target != waterRenderer)
+                return Vector3.Distance(camera.transform.position, target.bounds.ClosestPoint(camera.transform.position));
+            // Generated ocean bounds include the horizon and wave-height margin.
+            // Its mean reflection plane gives the meaningful closest distance.
+            return Mathf.Abs(Vector3.Dot(MirrorNormal, camera.transform.position - MirrorPoint));
+        }
+        bool MirrorVisible(Camera camera)
+        {
+            if (camera == null || !enablePlanarReflection || mirrorReflectionStrength <= 0f || maxBlend <= 0f) return false;
+            var target = EffectiveMirrorRenderer;
+            if (target == null || !target.enabled || !target.gameObject.activeInHierarchy) return false;
+            if (Vector3.Dot(MirrorNormal, camera.transform.position - MirrorPoint) < 0f
+                || MirrorCameraDistance(camera) >= Mathf.Max(.01f, maxRenderingDistance)) return false;
+            return target == waterRenderer || GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(camera), target.bounds);
+        }
+        /// <summary>R1 distance/recursive blend with a safe zero-width fade and a common blend cap.</summary>
+        public static float EvaluateMirrorBlend(float distance, float maxDistance, float fadeFraction, float blendLimit,
+            bool recursive, AnimationCurve recursionCurve, int depth = 1, int recursions = 2)
+        {
+            maxDistance = Mathf.Max(.01f, maxDistance);
+            float blend = fadeFraction <= 0f ? (distance < maxDistance ? 1f : 0f)
+                : Mathf.Clamp01((maxDistance - distance) / (maxDistance * Mathf.Clamp01(fadeFraction)));
+            if (depth > Mathf.Max(1, recursions)) blend = 0f;
+            else if (recursive && depth > 1)
+                blend = Mathf.Clamp01(recursionCurve != null ? recursionCurve.Evaluate(1f - (depth - 1f) / Mathf.Max(1, recursions))
+                    : 1f - (depth - 1f) / Mathf.Max(1, recursions));
+            return blend * Mathf.Clamp01(blendLimit);
+        }
+        static void UpdateMirrorCurve(ref Texture2D texture, ref int previousHash, AnimationCurve curve, bool falling)
+        {
+            int hash = falling ? 1 : 2;
+            unchecked
+            {
+                if (curve != null)
+                {
+                    hash = hash * 31 + (int)curve.preWrapMode; hash = hash * 31 + (int)curve.postWrapMode;
+                    foreach (var key in curve.keys)
+                    {
+                        hash = hash * 31 + key.time.GetHashCode(); hash = hash * 31 + key.value.GetHashCode();
+                        hash = hash * 31 + key.inTangent.GetHashCode(); hash = hash * 31 + key.outTangent.GetHashCode();
+                        hash = hash * 31 + key.inWeight.GetHashCode(); hash = hash * 31 + key.outWeight.GetHashCode();
+                        hash = hash * 31 + (int)key.weightedMode;
+                    }
+                }
+            }
+            if (texture != null && previousHash == hash) return;
+            const int count = 256;
+            if (texture == null)
+                texture = new Texture2D(count, 1, TextureFormat.RFloat, false, true)
+                {
+                    name = falling ? "Shuimian Mirror Distance Alpha" : "Shuimian Mirror Recursive Darkening",
+                    hideFlags = HideFlags.HideAndDontSave, filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp
+                };
+            var values = new float[count];
+            for (int i = 0; i < count; i++)
+            {
+                float t = i / (count - 1f);
+                float value = curve != null && curve.length > 0 ? curve.Evaluate(t) : (falling ? 1f - t : t);
+                values[i] = float.IsNaN(value) || float.IsInfinity(value) ? 0f : Mathf.Clamp01(value);
+            }
+            texture.SetPixelData(values, 0); texture.Apply(false, false); previousHash = hash;
         }
         void SetKeyword(string keyword, bool enabled)
         {
@@ -418,6 +554,8 @@ namespace Shuimian.Gameplay
             reflections?.Dispose(); reflections = null;
             underwaterRenderer?.Dispose(); underwaterRenderer = null;
             waterViewState?.Dispose(); waterViewState = null;
+            ReleaseObject(mirrorDistanceLut); mirrorDistanceLut = null;
+            ReleaseObject(mirrorRecursiveLut); mirrorRecursiveLut = null;
             ReleaseMaterial();
             ReleaseObject(surface); surface = null; waterRenderer = null;
             ReleaseObject(mesh); mesh = null;
