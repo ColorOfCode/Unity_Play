@@ -1,0 +1,258 @@
+// Independent adapter from FFT frequency-band displacement to the surface shader's
+// world-space near/far cascade textures. No Crest simulation components are used.
+
+#pragma kernel Combine
+#pragma kernel SampleHeight
+#pragma kernel UpdateFoam
+#pragma kernel FixUnderwaterMask
+#pragma kernel FixUnderwaterMaskArray
+
+Texture2DArray<float4> _RawDisplacement;
+Texture2DArray<float4> _WaveSeaFloorDepth;
+SamplerState sampler_linear_repeat;
+SamplerState sampler_linear_clamp;
+RWTexture2DArray<float4> _Displacement;
+
+int _OutputResolution;
+int _CascadeCount;
+float2 _Center;
+float2 _Diameters;
+float _Amplitude;
+// Shallow-wave weighting is adapted from Crest Ocean System's FFT inputs.
+// Copyright 2020 Wave Harmonic Ltd.
+int _WaveHasDepth;
+float _WaveSeaLevel;
+float _ShallowAttenuation;
+float _MaximumAttenuationDepth;
+
+[numthreads(8, 8, 1)]
+void Combine(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_OutputResolution || id.y >= (uint)_OutputResolution || id.z >= (uint)_CascadeCount)
+        return;
+
+    const float diameter = _CascadeCount == 2
+        ? (id.z == 0 ? _Diameters.x : _Diameters.y)
+        : _Diameters.x * exp2((float)id.z);
+    const float texelWidth = diameter / _OutputResolution;
+    const float2 uv = (id.xy + 0.5) / _OutputResolution;
+    const float2 worldPosition = _Center + (uv - 0.5) * diameter;
+    float depth = 1000.0;
+    if (_WaveHasDepth != 0 && _ShallowAttenuation > 0.0)
+    {
+        float2 floorData = _WaveSeaFloorDepth.SampleLevel(sampler_linear_clamp, float3(uv, id.z), 0).rg;
+        depth = max(0.0, _WaveSeaLevel - floorData.r + floorData.g);
+    }
+    float3 displacement = 0.0;
+
+    [unroll]
+    for (int band = 0; band < 16; band++)
+    {
+        const float bandDiameter = 0.5 * (1 << band);
+        // FFT bands contain wave numbers below eight on each axis. Use the
+        // diagonal limit as well, and fade before the output Nyquist frequency.
+        // Thus the far cascade keeps every long wave but omits unresolved detail.
+        const float minimumWavelength = bandDiameter / (8.0 * 1.41421356);
+        const float weight = saturate((minimumWavelength / texelWidth - 2.0) * 0.5);
+        if (weight > 0.0)
+        {
+            // Anchor phase to world coordinates, never to the moving mesh center.
+            // Repeat sampling preserves a continuous field across FFT tile edges.
+            float shallowWeight = 1.0;
+            if (_WaveHasDepth != 0 && _ShallowAttenuation > 0.0)
+            {
+                // ShapeFFT.MinWavelength is diameter/8; WaveBatch supplies
+                // 1.5 times that minimum as the band's average wavelength.
+                // This is intentionally independent of our diagonal LOD filter.
+                const float averageWavelength = 1.5 * bandDiameter / 8.0;
+                float depthWeight = saturate(2.0 * depth / averageWavelength);
+                if (_MaximumAttenuationDepth < 1000.0)
+                    depthWeight = lerp(depthWeight, 1.0, saturate(depth / _MaximumAttenuationDepth));
+                shallowWeight = 1.0 - _ShallowAttenuation + _ShallowAttenuation * depthWeight;
+            }
+            displacement += (weight * shallowWeight) * _RawDisplacement.SampleLevel(
+                sampler_linear_repeat, float3(worldPosition / bandDiameter, band), 0).xyz;
+        }
+    }
+
+    _Displacement[id] = float4(displacement * _Amplitude, 0.0);
+}
+
+// Query the same displaced surface that the material renders. Reading only a few
+// results avoids copying the full displacement textures back to the CPU each frame.
+Texture2DArray<float4> _HeightDisplacement;
+StructuredBuffer<float4> _SamplePositions;
+RWStructuredBuffer<float4> _SampleResults;
+int _SampleCount;
+float _SeaLevel;
+
+float3 SurfaceDisplacement(float2 position)
+{
+    float distanceFromCenter = max(abs(position.x - _Center.x), abs(position.y - _Center.y));
+    float baseScale = _Diameters.x * 0.25;
+    int slice = _CascadeCount == 2 ? 0 : min((int)floor(log2(max(distanceFromCenter / baseScale, 1.0))), _CascadeCount - 2);
+    float diameter = _Diameters.x * exp2((float)slice);
+    float nextDiameter = _CascadeCount == 2 ? _Diameters.y : diameter * 2.0;
+    float alpha = saturate(distanceFromCenter / (diameter * 0.25) - 1.0);
+    float2 nearUV = (position - _Center) / diameter + 0.5;
+    float2 farUV = (position - _Center) / nextDiameter + 0.5;
+    float3 nearDisplacement = _HeightDisplacement.SampleLevel(sampler_linear_clamp, float3(nearUV, slice), 0).xyz;
+    float3 farDisplacement = _HeightDisplacement.SampleLevel(sampler_linear_clamp, float3(farUV, slice + 1), 0).xyz;
+    return lerp(nearDisplacement, farDisplacement, alpha);
+}
+
+[numthreads(8, 1, 1)]
+void SampleHeight(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_SampleCount) return;
+    float2 target = _SamplePositions[id.x].xz;
+    float2 undisplaced = target;
+    // Invert horizontal chop: the rendered point under the ship started at a
+    // different X/Z coordinate before the wave displacement was applied.
+    [unroll]
+    for (int iteration = 0; iteration < 8; iteration++)
+        undisplaced = target - SurfaceDisplacement(undisplaced).xz;
+    float3 displacement = SurfaceDisplacement(undisplaced);
+    float residual = length(undisplaced + displacement.xz - target);
+    _SampleResults[id.x] = float4(_SeaLevel + displacement.y, residual, 0.0, 1.0);
+}
+
+// Independent implementation of the displacement-Jacobian foam accumulation
+// used by Crest Ocean System. Foam generation/prewarming formula adapted from
+// UpdateFoam.compute, Copyright 2020 Wave Harmonic Ltd.
+// History remains anchored in world space when the mesh follows a camera.
+Texture2DArray<float4> _FoamDisplacement;
+Texture2DArray<float4> _FoamHistory;
+Texture2DArray<float4> _FoamSeaFloorDepth;
+RWTexture2DArray<float4> _FoamOutput;
+float2 _FoamPreviousCenter;
+float2 _FoamPreviousDiameters;
+int _FoamHistoryValid;
+int _FoamPrewarm;
+int _FoamHasDepth;
+float _FoamDeltaTime;
+float _FoamStrength;
+float _FoamCoverage;
+float _FoamFadeRate;
+float _FoamSeaLevel;
+float _FoamShoreMaxDepth;
+float _FoamShoreStrength;
+
+float FoamDiameter(int slice, float2 diameters)
+{
+    return _CascadeCount == 2
+        ? (slice == 0 ? diameters.x : diameters.y)
+        : diameters.x * exp2((float)slice);
+}
+
+float4 ReadFoamHistory(float2 worldPosition, float targetDiameter)
+{
+    if (_FoamHistoryValid == 0) return 0.0;
+    // Reuse a coarser source when the center or mesh scale changes, so scrolling
+    // into a new near cascade does not create a visible empty band of foam.
+    [loop]
+    for (int slice = 0; slice < _CascadeCount; slice++)
+    {
+        float diameter = FoamDiameter(slice, _FoamPreviousDiameters);
+        if (diameter < targetDiameter * 0.999 && slice + 1 < _CascadeCount) continue;
+        float2 uv = (worldPosition - _FoamPreviousCenter) / diameter + 0.5;
+        float2 radius = abs(uv - 0.5);
+        if (max(radius.x, radius.y) <= 0.5 - 1.0 / _OutputResolution)
+            return _FoamHistory.SampleLevel(sampler_linear_clamp, float3(uv, slice), 0.0);
+    }
+    return 0.0;
+}
+
+[numthreads(8, 8, 1)]
+void UpdateFoam(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_OutputResolution || id.y >= (uint)_OutputResolution || id.z >= (uint)_CascadeCount)
+        return;
+    float diameter = FoamDiameter(id.z, _Diameters);
+    float texelWidth = diameter / _OutputResolution;
+    float2 uv = (id.xy + 0.5) / _OutputResolution;
+    float2 worldPosition = _Center + (uv - 0.5) * diameter;
+    float3 samplePosition = float3(uv, id.z);
+    float3 displacement = _FoamDisplacement.SampleLevel(sampler_linear_clamp, samplePosition, 0.0).xyz;
+
+    float4 previous = ReadFoamHistory(worldPosition, diameter);
+    if (_FoamDeltaTime > 0.0 && previous.a > 0.5)
+    {
+        // Advect bubbles with the horizontal movement of their underlying waves.
+        // GB stores the prior displacement at this world position, not velocity,
+        // so camera translation does not introduce an artificial flow.
+        float2 movement = displacement.xz - previous.gb;
+        previous = ReadFoamHistory(worldPosition - movement, diameter);
+    }
+    float foam = previous.r * max(0.0, 1.0 - _FoamFadeRate * _FoamDeltaTime);
+
+    // Determinant of I + horizontal displacement gradient: values below one
+    // indicate compression; negative values identify overlapping wave crests.
+    float3 stepX = float3(1.0 / _OutputResolution, 0.0, 0.0);
+    float3 stepZ = float3(0.0, 1.0 / _OutputResolution, 0.0);
+    float2 derivativeX = (
+        _FoamDisplacement.SampleLevel(sampler_linear_clamp, samplePosition + stepX, 0.0).xz -
+        _FoamDisplacement.SampleLevel(sampler_linear_clamp, samplePosition - stepX, 0.0).xz) / (2.0 * texelWidth);
+    float2 derivativeZ = (
+        _FoamDisplacement.SampleLevel(sampler_linear_clamp, samplePosition + stepZ, 0.0).xz -
+        _FoamDisplacement.SampleLevel(sampler_linear_clamp, samplePosition - stepZ, 0.0).xz) / (2.0 * texelWidth);
+    float jacobian = (1.0 + derivativeX.x) * (1.0 + derivativeZ.y) - derivativeX.y * derivativeZ.x;
+    float waveDelta = _FoamPrewarm != 0
+        ? max(_FoamDeltaTime, saturate(_FoamStrength - 1.0) / _FoamFadeRate)
+        : _FoamDeltaTime;
+    foam += 5.0 * waveDelta * _FoamStrength * saturate(_FoamCoverage - jacobian);
+
+    if (_FoamHasDepth != 0 && _FoamShoreStrength > 0.0)
+    {
+        // Shoreline geometry is world-anchored. Query at the horizontally
+        // displaced position, and include wave height in the actual water depth.
+        float2 displacedUV = uv + displacement.xz / diameter;
+        float2 floorData = _FoamSeaFloorDepth.SampleLevel(sampler_linear_clamp, float3(displacedUV, id.z), 0.0).rg;
+        float signedDepth = _FoamSeaLevel - floorData.r + floorData.g + displacement.y;
+        float shoreDelta = _FoamPrewarm != 0 ? 1.0 / _FoamFadeRate : _FoamDeltaTime;
+        foam += _FoamShoreStrength * shoreDelta * saturate(1.0 - signedDepth / _FoamShoreMaxDepth);
+    }
+    _FoamOutput[id] = float4(saturate(foam), displacement.xz, 1.0);
+}
+
+// Isolated-mask-pixel correction follows Crest's FillMaskArtefacts algorithm.
+// Copyright 2021 Wave Harmonic Ltd. Keep real waterline boundaries: a pixel is
+// changed only when all four orthogonal or all four diagonal neighbours agree.
+RWTexture2D<float> _UnderwaterMask;
+RWTexture2DArray<float> _UnderwaterMaskArray;
+
+bool SameMask(float4 values)
+{
+    return values.x == values.y && values.y == values.z && values.z == values.w;
+}
+
+[numthreads(8, 8, 1)]
+void FixUnderwaterMask(uint3 id : SV_DispatchThreadID)
+{
+    uint width, height;
+    _UnderwaterMask.GetDimensions(width, height);
+    // Edges have no complete neighbourhood. Also bound rounded-up dispatches.
+    if (id.x == 0 || id.y == 0 || id.x + 1 >= width || id.y + 1 >= height) return;
+    int2 p = id.xy;
+    float4 orthogonal = float4(_UnderwaterMask[p + int2(1,0)], _UnderwaterMask[p + int2(-1,0)],
+        _UnderwaterMask[p + int2(0,1)], _UnderwaterMask[p + int2(0,-1)]);
+    if (SameMask(orthogonal)) { _UnderwaterMask[p] = orthogonal.x; return; }
+    float4 diagonal = float4(_UnderwaterMask[p + int2(1,1)], _UnderwaterMask[p + int2(-1,-1)],
+        _UnderwaterMask[p + int2(1,-1)], _UnderwaterMask[p + int2(-1,1)]);
+    if (SameMask(diagonal)) _UnderwaterMask[p] = diagonal.x;
+}
+
+[numthreads(8, 8, 1)]
+void FixUnderwaterMaskArray(uint3 id : SV_DispatchThreadID)
+{
+    uint width, height, slices;
+    _UnderwaterMaskArray.GetDimensions(width, height, slices);
+    if (id.z >= slices || id.x == 0 || id.y == 0 || id.x + 1 >= width || id.y + 1 >= height) return;
+    int3 p = id;
+    float4 orthogonal = float4(_UnderwaterMaskArray[p + int3(1,0,0)], _UnderwaterMaskArray[p + int3(-1,0,0)],
+        _UnderwaterMaskArray[p + int3(0,1,0)], _UnderwaterMaskArray[p + int3(0,-1,0)]);
+    if (SameMask(orthogonal)) { _UnderwaterMaskArray[p] = orthogonal.x; return; }
+    float4 diagonal = float4(_UnderwaterMaskArray[p + int3(1,1,0)], _UnderwaterMaskArray[p + int3(-1,-1,0)],
+        _UnderwaterMaskArray[p + int3(1,-1,0)], _UnderwaterMaskArray[p + int3(-1,1,0)]);
+    if (SameMask(diagonal)) _UnderwaterMaskArray[p] = diagonal.x;
+}

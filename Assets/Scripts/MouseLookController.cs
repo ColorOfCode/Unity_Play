@@ -48,6 +48,7 @@ namespace Shuimian.Gameplay
         float _pitchSmooth;
         Quaternion _baseRotation;  // 船的初始朝向（保留 FBX 自带的旋转，不覆盖）
         float _cameraBaseYaw;      // 相机的初始左右朝向（只有俯仰和船的转向会叠加到它上面）
+        float _cameraBasePitch;    // 编辑模式下设置的初始俯仰角
         CameraFollow _cameraFollow; // 同物体上的相机跟随脚本（用于取同步的偏航增量）
         bool _hasBase;             // 初始朝向是否已记录
         bool _cursorLocked;
@@ -62,7 +63,10 @@ namespace Shuimian.Gameplay
             // 进入运行时才记录基准朝向，保证拿到的是 Play 开始那一刻的机位
             AutoWire();
             if (cameraTarget != null)
+            {
                 _cameraBaseYaw = cameraTarget.eulerAngles.y;
+                _cameraBasePitch = Mathf.DeltaAngle(0f, cameraTarget.eulerAngles.x);
+            }
             if (yawTarget != null && !_hasBase)
             {
                 _baseRotation = yawTarget.rotation;
@@ -107,7 +111,8 @@ namespace Shuimian.Gameplay
             // （想恢复成“鼠标上移=向上看”，把 Invert Y 勾上）
             float ySign = invertY ? 1f : -1f;
             _pitch += my * sensitivityY * ySign;
-            _pitch = Mathf.Clamp(_pitch, -pitchDownLimit, pitchUpLimit);
+            _pitch = Mathf.Clamp(_pitch, -pitchDownLimit - _cameraBasePitch,
+                pitchUpLimit - _cameraBasePitch);
 
             // 0~1 的平滑系数，1 表示立即跟手
             _yawSmooth = Mathf.Lerp(_yawSmooth, _yaw, smoothing);
@@ -122,7 +127,8 @@ namespace Shuimian.Gameplay
             if (cameraTarget != null)
             {
                 float shipYaw = ShipYawDeltaDeg;
-                cameraTarget.rotation = Quaternion.Euler(_pitchSmooth, _cameraBaseYaw + yawOffsetDeg + shipYaw, 0f);
+                cameraTarget.rotation = Quaternion.Euler(_cameraBasePitch + _pitchSmooth,
+                    _cameraBaseYaw + yawOffsetDeg + shipYaw, 0f);
             }
         }
 

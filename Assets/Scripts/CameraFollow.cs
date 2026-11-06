@@ -26,6 +26,10 @@ namespace Shuimian.Gameplay
         [Tooltip("未手动设置偏移时，用场景初始位置自动计算偏移")]
         public bool autoOffsetOnStart = true;
 
+        [Header("高度跟随")]
+        [Tooltip("关闭时保持相机初始世界高度，让船体随浪的上下运动在 Game 视图中可见。")]
+        public bool followTargetHeight = false;
+
         [Header("回弹（弹性跟随）")]
         [Tooltip("0 = 完全不回弹（相机硬性贴合目标，跟随最稳）；值越大，追上目标时的回弹/过冲越明显")]
         [Range(0f, 0.95f)] public float followBounce = 0f;
@@ -49,6 +53,8 @@ namespace Shuimian.Gameplay
         public bool showDebugHud = true;
 
         Vector3 _velocity;
+        float _fixedCameraHeight;
+        bool _heightBaseReady, _wasFollowingHeight;
 
         float _baseYawDeg;        // 初始时刻目标的水平朝向
         float _cameraBaseYaw;     // 初始时刻相机自身的左右朝向
@@ -60,6 +66,9 @@ namespace Shuimian.Gameplay
 
         void Start()
         {
+            _fixedCameraHeight = transform.position.y;
+            _heightBaseReady = true;
+            _wasFollowingHeight = followTargetHeight;
             Transform t = ResolveFollowTarget();
             if (autoOffsetOnStart && t != null)
                 offset = transform.position - t.position;
@@ -95,6 +104,13 @@ namespace Shuimian.Gameplay
             }
 
             Vector3 desired = t.position + worldOffset;
+            if (!_heightBaseReady || (!followTargetHeight && _wasFollowingHeight))
+            {
+                _fixedCameraHeight = transform.position.y;
+                _heightBaseReady = true;
+            }
+            _wasFollowingHeight = followTargetHeight;
+            if (!followTargetHeight) desired.y = _fixedCameraHeight;
 
             if (followBounce > 0f)
             {

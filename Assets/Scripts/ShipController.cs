@@ -46,6 +46,7 @@ namespace Shuimian.Gameplay
         public bool drawDebugGizmo = false;
 
         Vector3 _velocity; // 当前速度（仅 X/Z 有用）
+        ShuimianShipTerrainCollision _terrainCollision;
 
         /// <summary>当前实际移动的 Transform</summary>
         public Transform Target => moveTarget != null ? moveTarget : transform;
@@ -107,12 +108,22 @@ namespace Shuimian.Gameplay
 
             if (_velocity.sqrMagnitude <= 0.000001f) return;
 
-            // 只位移 X/Z，保持 Y 不变，也不改变旋转
+            Vector3 requested = _velocity * Time.deltaTime;
+            Vector3 actual = Move(requested);
+            if (Time.deltaTime > 0f && (actual - requested).sqrMagnitude > .000001f)
+                _velocity = actual / Time.deltaTime;
+        }
+
+        /// <summary>Move horizontally through the same terrain constraints used by WASD.</summary>
+        public Vector3 Move(Vector3 displacement)
+        {
+            displacement.y = 0f;
+            if (_terrainCollision == null) _terrainCollision = GetComponent<ShuimianShipTerrainCollision>();
             Transform t = Target;
-            Vector3 p = t.position;
-            p.x += _velocity.x * Time.deltaTime;
-            p.z += _velocity.z * Time.deltaTime;
-            t.position = p;
+            if (_terrainCollision != null && _terrainCollision.isActiveAndEnabled)
+                displacement = _terrainCollision.ConstrainMove(t, displacement);
+            t.position += displacement;
+            return displacement;
         }
 
         Vector2 ReadInput()
