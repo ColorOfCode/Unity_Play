@@ -1,0 +1,180 @@
+// Independent moving-hull wave packets and world-space foam trails.
+// RGBA = displacement X, height Y, displacement Z, foam coverage.
+#pragma kernel GenerateWake
+#pragma kernel AddDisplacement
+#pragma kernel CompositeFoam
+
+struct WakeSample
+{
+    float4 positionTime;
+    float4 directionShape;
+    float4 trailEndpoints;
+    float4 waveParams;
+    float4 foamParams;
+    float4 foamLifeParams;
+    float4 foamSizeParams;
+};
+StructuredBuffer<WakeSample> _WakeSamples;
+RWTexture2D<float4> _WakeOutput;
+int _WakeSampleCount;
+int _WakeResolution;
+float _WakeTime;
+float2 _WakeCenter;
+float _WakeAreaSize;
+
+float StrokeDistance(float2 p, float2 a, float2 b)
+{
+    float2 v = b - a;
+    return length(p - a - saturate(dot(p - a, v) / max(dot(v, v), 0.00001)) * v);
+}
+float Gaussian(float distance, float width)
+{
+    float t = distance / max(width, 0.05);
+    return exp(-0.5 * t * t);
+}
+
+[numthreads(8, 8, 1)]
+void GenerateWake(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_WakeResolution || id.y >= (uint)_WakeResolution) return;
+    float2 uv = (id.xy + 0.5) / _WakeResolution;
+    float2 world = _WakeCenter + (uv - 0.5) * _WakeAreaSize;
+    float height = 0.0, foamDensity = 0.0;
+    [loop]
+    for (int i = 0; i < _WakeSampleCount; i++)
+    {
+        WakeSample s = _WakeSamples[i];
+        if (s.positionTime.w < 0.0)
+        {
+            // A live hull-waterline source persists both underway and at rest.
+            float2 f = s.directionShape.xy;
+            float2 r = float2(f.y, -f.x);
+            float2 delta = world - s.positionTime.xy;
+            float2 radii = max(float2(s.directionShape.z * .46, s.directionShape.w * .42), .2);
+            float2 local = float2(dot(delta, r), dot(delta, f));
+            float edgeDistance = (length(local / radii) - 1.0) * min(radii.x, radii.y);
+            float band = Gaussian(edgeDistance, s.foamParams.y);
+            float pulse = .75 + .25 * sin(_WakeTime * 2.5 + local.y * .8);
+            foamDensity += s.foamParams.x * 2.0 * band * pulse;
+            height += s.waveParams.x * sin(edgeDistance * 9.0 - _WakeTime * 3.0)
+                * Gaussian(edgeDistance - .3, .6);
+            continue;
+        }
+        float age = _WakeTime - s.positionTime.z;
+        float life = max(s.foamParams.y, 0.1);
+        if (age < 0.0 || age >= life) continue;
+        float2 forward = s.directionShape.xy;
+        float2 right = float2(forward.y, -forward.x);
+        float width = max(s.directionShape.z, 0.2);
+        float speedWeight = s.positionTime.w;
+        float endFade = 1.0 - smoothstep(life * 0.6, life, age);
+        float decay = exp(-age / (life * 0.5)) * endFade;
+        float duration = s.foamParams.z;
+        float foamLife = max(.1, s.foamLifeParams.x);
+        float2 currentStern = s.foamLifeParams.zw - forward * (s.directionShape.w * .38);
+        float tailDistance = length((s.trailEndpoints.xy + s.trailEndpoints.zw) * .5 - currentStern);
+        float normalizedAge = max(age / foamLife, tailDistance / max(.2, s.foamLifeParams.y * foamLife));
+        float fade = saturate(1.0 - normalizedAge);
+        float noise = .5 + .5 * sin(world.x * 3.7 + sin(world.y * 2.1)) * sin(world.y * 4.3);
+        // Same lifetime controls alpha and the fraction of bubbles that survive.
+        float densityMask = smoothstep(1.0 - fade - .12, 1.0 - fade + .12, noise);
+        float foamFade = fade * densityMask;
+        float spread = s.foamParams.w;
+        float foamSize = clamp(s.foamSizeParams.x, .1, 4.0);
+        float2 bow = s.positionTime.xy + forward * (s.directionShape.w * 0.33);
+        float initialRadius = max(width * 0.45, 0.3);
+        float radius = initialRadius + s.waveParams.y * age;
+        float packet = max(s.waveParams.w, s.waveParams.z * 0.45);
+        float2 radial = world - bow;
+        // Reject most old packets before evaluating length, exponentials or sine.
+        float bound = radius + packet * 3.2 * max(1.0, foamSize);
+        if (max(abs(radial.x), abs(radial.y)) <= bound)
+        {
+            float r = length(radial);
+            float offset = r - radius;
+            if (abs(offset) < packet * 3.2 * max(1.0, foamSize))
+            {
+                float envelope = Gaussian(offset, packet);
+                float phase = offset * (6.28318530718 / max(s.waveParams.z, 0.3));
+                float crest = cos(phase);
+                float dilution = sqrt(initialRadius / max(radius, initialRadius));
+                float start = 1.0 - exp(-age * 15.0);
+                if (abs(offset) < packet * 3.2)
+                    height += s.waveParams.x * speedWeight * duration * 3.0 * decay * dilution * crest * envelope * start;
+                // Continuous emissions form V-shaped crests, rather than a
+                // screen-space white circle. Prefer the sides of each packet.
+                float side = smoothstep(0.3, 0.85, abs(dot(radial / max(r, 0.001), right)));
+                foamDensity += foamFade * s.foamParams.x * speedWeight * duration * 2.0 * decay * Gaussian(offset, packet * foamSize)
+                    * pow(saturate(crest), 3.0) * side;
+            }
+        }
+        if (s.foamParams.x <= 0.0 || foamFade <= 0.0) continue;
+        float2 a = s.trailEndpoints.xy, b = s.trailEndpoints.zw;
+        float sideWidth = max(0.2, width * 0.13 + spread * age) * foamSize;
+        float lateral = width * 0.38 + s.waveParams.y * 0.65 * age * foamSize;
+        float strokeBound = lateral + sideWidth * 3.5 + length(b - a);
+        float2 middle = (a + b) * 0.5;
+        if (max(abs(world.x - middle.x), abs(world.y - middle.y)) > strokeBound) continue;
+        float leftDistance = StrokeDistance(world, a - right * lateral, b - right * lateral);
+        float rightDistance = StrokeDistance(world, a + right * lateral, b + right * lateral);
+        float centralWidth = max(0.2, width * 0.2 + spread * age * 1.5) * foamSize;
+        float centerDistance = StrokeDistance(world, a, b);
+        float trail = 0.95 * (Gaussian(leftDistance, sideWidth) + Gaussian(rightDistance, sideWidth))
+            + 0.12 * Gaussian(centerDistance, centralWidth);
+        foamDensity += foamFade * s.foamParams.x * speedWeight * duration * 8.0 * decay * trail;
+    }
+    // Material foam supplies the small bubbles. This slow, world-space breakup
+    // keeps the larger trail from looking like two perfectly drawn white lines.
+    float breakup = 0.78 + 0.22 * sin(world.x * 1.73 + sin(world.y * 0.83)) * sin(world.y * 1.27 - world.x * 0.39);
+    float edge = min(min(uv.x, 1.0 - uv.x), min(uv.y, 1.0 - uv.y));
+    float feather = smoothstep(0.0, 0.06, edge);
+    _WakeOutput[id.xy] = float4(0.0, clamp(height, -1.25, 1.25) * feather, 0.0,
+        saturate(1.0 - exp(-foamDensity * breakup)) * feather);
+}
+
+Texture2D<float4> _WakeField;
+SamplerState sampler_linear_clamp;
+RWTexture2DArray<float4> _WakeDisplacement;
+Texture2DArray<float4> _SurfaceDisplacement;
+Texture2DArray<float4> _NativeFoam;
+RWTexture2DArray<float4> _CompositeFoam;
+int _SurfaceResolution;
+int _SurfaceCascades;
+float2 _SurfaceCenter;
+float2 _SurfaceDiameters;
+int _HasNativeFoam;
+float Diameter(int slice)
+{
+    return _SurfaceCascades == 2 ? (slice == 0 ? _SurfaceDiameters.x : _SurfaceDiameters.y)
+        : _SurfaceDiameters.x * exp2((float)slice);
+}
+float4 SampleWake(float2 position, float texelSize)
+{
+    float2 uv = (position - _WakeCenter) / _WakeAreaSize + 0.5;
+    if (any(uv <= 0.0) || any(uv >= 1.0)) return 0.0;
+    float lod = max(0.0, log2(max(1.0, texelSize * _WakeResolution / _WakeAreaSize)));
+    return _WakeField.SampleLevel(sampler_linear_clamp, uv, lod);
+}
+[numthreads(8, 8, 1)]
+void AddDisplacement(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_SurfaceResolution || id.y >= (uint)_SurfaceResolution || id.z >= (uint)_SurfaceCascades) return;
+    float diameter = Diameter(id.z);
+    float4 baseDisplacement = _WakeDisplacement[id];
+    float2 world = _SurfaceCenter + ((id.xy + 0.5) / _SurfaceResolution - 0.5) * diameter + baseDisplacement.xz;
+    // Each cascade is already a full filtered sum, so adding the same world
+    // field to each gives a single wake after the shader's normalized LOD blend.
+    baseDisplacement.xyz += SampleWake(world, diameter / _SurfaceResolution).xyz;
+    _WakeDisplacement[id] = baseDisplacement; // W is the original FFT variance.
+}
+[numthreads(8, 8, 1)]
+void CompositeFoam(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_SurfaceResolution || id.y >= (uint)_SurfaceResolution || id.z >= (uint)_SurfaceCascades) return;
+    float diameter = Diameter(id.z);
+    float4 displacement = _SurfaceDisplacement.Load(int4(id, 0));
+    float2 world = _SurfaceCenter + ((id.xy + 0.5) / _SurfaceResolution - 0.5) * diameter + displacement.xz;
+    float4 foam = _HasNativeFoam != 0 ? _NativeFoam.Load(int4(id, 0)) : 0.0;
+    foam.r = max(foam.r, SampleWake(world, diameter / _SurfaceResolution).a);
+    _CompositeFoam[id] = foam;
+}

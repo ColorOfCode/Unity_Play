@@ -89,6 +89,13 @@ namespace Shuimian.Gameplay
         [Min(.001f)] public float foamFadeRate = .8f;
         [Min(.01f)] public float foamShoreDepth = 1f;
         [Min(0f)] public float foamShoreStrength = 2f;
+        [Header("船与水面交互")]
+        [Tooltip("船体的真实水面起伏与独立泡沫尾迹，按实际水平移动生成。")]
+        public bool enableShipInteraction = true;
+        public ComputeShader shipWakeShader;
+        [Range(128, 1024)] public int shipWakeResolution = 512;
+        [Tooltip("围绕船和尾迹的局部交互区域（米），与观察相机无关。")]
+        [Min(32f)] public float shipWakeAreaSize = 192f;
         [Header("独立波浪计算资源")]
         public ComputeShader spectrumShader;
         public ComputeShader fftShader;
@@ -130,6 +137,10 @@ namespace Shuimian.Gameplay
         ShuimianUnderwaterRenderer underwaterRenderer;
         ShuimianWaterViewState waterViewState;
         ShuimianWaveSimulation waves;
+        ShuimianWakeSimulation shipWakes;
+        ComputeShader activeShipWake;
+        RenderTexture shipFoamTexture, effectiveFoamTexture;
+        float shipInteractionTimeOverride = float.NaN;
         ComputeShader activeSpectrum, activeFft, activeCombine;
         MaterialPropertyBlock properties;
         CascadeData[] cascades;
@@ -146,7 +157,10 @@ namespace Shuimian.Gameplay
         public Mesh SurfaceMesh => mesh;
         public MeshRenderer SurfaceRenderer => waterRenderer;
         public RenderTexture WaveDisplacement => waves?.Displacement;
-        public RenderTexture FoamTexture => waves?.Foam;
+        public RenderTexture FoamTexture => effectiveFoamTexture;
+        public RenderTexture NativeFoamTexture => waves?.Foam;
+        public RenderTexture ShipWakeField => shipWakes?.Field;
+        public RenderTexture ShipFoamTexture => shipFoamTexture;
         public Texture GetReflectionTexture(Camera camera) => reflections?.GetTexture(camera);
         public Texture GetReflectionCoverageTexture(Camera camera) => reflections?.GetCoverageTexture(camera);
         public Texture GetUnprocessedReflectionTexture(Camera camera) => reflections?.GetUnprocessedTexture(camera);
@@ -179,7 +193,7 @@ namespace Shuimian.Gameplay
 #if UNITY_EDITOR
         void EditorTick()
         {
-            if (Application.isPlaying || !previewWavesInEditor || !enableWaves) return;
+            if (Application.isPlaying || (!(previewWavesInEditor && enableWaves) && !ShipInteractionConfigured)) return;
             double now = EditorApplication.timeSinceStartup;
             if (now < nextEditorUpdate) return;
             nextEditorUpdate = now + 1.0 / 30.0;
@@ -270,12 +284,12 @@ namespace Shuimian.Gameplay
         }
         void EnsureWaves()
         {
-            bool available = enableWaves && spectrumShader != null && fftShader != null && combineShader != null
+            bool available = (enableWaves || ShipInteractionConfigured) && spectrumShader != null && fftShader != null && combineShader != null
                 && SystemInfo.supportsComputeShaders && SystemInfo.supports2DArrayTextures;
             if (!available)
             {
                 waves?.Dispose(); waves = null;
-                if (enableWaves && !warnedAboutWaves)
+                if ((enableWaves || ShipInteractionConfigured) && !warnedAboutWaves)
                 {
                     Debug.LogWarning("Shuimian 海浪需要指定三个独立计算资源，并使用支持 Compute Shader 的图形设备。", this);
                     warnedAboutWaves = true;
@@ -287,6 +301,44 @@ namespace Shuimian.Gameplay
             waves = new ShuimianWaveSimulation(spectrumShader, fftShader, combineShader);
             activeSpectrum = spectrumShader; activeFft = fftShader; activeCombine = combineShader;
             warnedAboutWaves = false;
+        }
+        bool ShipInteractionConfigured => enableShipInteraction && shipWakeShader != null;
+        float ShipInteractionTime
+        {
+            get
+            {
+                if (!float.IsNaN(shipInteractionTimeOverride)) return shipInteractionTimeOverride;
+                // All views in the same simulation tick share one clock. This
+                // deliberately does not use the natural FFT wave-time multiplier.
+                double now = Time.time;
+#if UNITY_EDITOR
+                if (!Application.isPlaying) now = EditorApplication.timeSinceStartup - editorStartTime;
+#endif
+                return (float)(System.Math.Floor(now * 30.0) / 30.0);
+            }
+        }
+        /// <summary>Drive wakes from an explicit timeline until ClearShipInteractionTimeOverride is called.</summary>
+        public void PrepareShipInteraction(float time)
+        {
+            shipInteractionTimeOverride = time;
+            UpdateShipInteraction(time);
+        }
+        public void ClearShipInteractionTimeOverride() => shipInteractionTimeOverride = float.NaN;
+        void UpdateShipInteraction(float time)
+        {
+            if (!ShipInteractionConfigured || !SystemInfo.supportsComputeShaders || !SystemInfo.supports2DArrayTextures)
+            {
+                shipWakes?.Dispose(); shipWakes = null; activeShipWake = null;
+                shipFoamTexture = null;
+                return;
+            }
+            if (shipWakes == null || activeShipWake != shipWakeShader)
+            {
+                shipWakes?.Dispose();
+                shipWakes = new ShuimianWakeSimulation(shipWakeShader);
+                activeShipWake = shipWakeShader;
+            }
+            shipWakes.Update(this, time, shipWakeResolution, shipWakeAreaSize);
         }
         float CurrentTime
         {
@@ -365,15 +417,26 @@ namespace Shuimian.Gameplay
             seaFloorDepth = waterDepth.Update(new Vector2(center.x, center.z), nearDiameter, cascadeCount, center.y);
             if (waves != null)
                 waves.Update(new Vector2(center.x, center.z), nearDiameter, farDiameter, waveTextureResolution,
-                    time, windSpeedKmh, windTurbulence, waveChop, waveAmplitude, waveDirectionDegrees, cascadeCount,
+                    time, windSpeedKmh, windTurbulence, waveChop, enableWaves ? waveAmplitude : 0f, waveDirectionDegrees, cascadeCount,
                     seaFloorDepth, center.y, enableShallowAttenuation ? shallowAttenuation : 0f, shallowAttenuationMaxDepth);
+            UpdateShipInteraction(ShipInteractionTime);
+            bool hasShipField = shipWakes?.Field != null && shipWakes.SampleCount > 0;
+            if (hasShipField && waves?.Displacement != null)
+                shipWakes.ApplyDisplacement(waves.Displacement, new Vector2(center.x, center.z), nearDiameter, farDiameter, cascadeCount);
             int resolution = waves?.Displacement.width ?? Mathf.Clamp(waveTextureResolution, 16, 1024);
             if (enableFoam && waves != null)
                 waves.UpdateFoam(new Vector2(center.x, center.z), nearDiameter, farDiameter, cascadeCount,
                     time, foamWaveStrength, foamWaveCoverage, foamFadeRate, seaFloorDepth, center.y,
                     foamShoreDepth, foamShoreStrength);
-            SetKeyword("_FOAM_ON", enableFoam && waves?.Foam != null);
-            SetKeyword("_FOAM3DLIGHTING_ON", enableFoam && waves?.Foam != null && sourceMaterial.IsKeywordEnabled("_FOAM3DLIGHTING_ON"));
+            // Keep wake coverage out of the native whitecap history, otherwise
+            // repeated camera rendering would re-inject and prolong the trail.
+            Texture nativeFoam = enableFoam ? waves?.Foam : null;
+            shipFoamTexture = hasShipField && waves?.Displacement != null
+                ? shipWakes.CompositeFoam(nativeFoam, waves.Displacement, new Vector2(center.x, center.z), nearDiameter, farDiameter, cascadeCount)
+                : null;
+            effectiveFoamTexture = shipFoamTexture != null ? shipFoamTexture : nativeFoam as RenderTexture;
+            SetKeyword("_FOAM_ON", effectiveFoamTexture != null);
+            SetKeyword("_FOAM3DLIGHTING_ON", effectiveFoamTexture != null && sourceMaterial.IsKeywordEnabled("_FOAM3DLIGHTING_ON"));
             bool mirrorVisible = MirrorVisible(camera);
             Texture reflectionTexture = mirrorVisible ? reflections?.GetTexture(camera) : null;
             Texture reflectionCoverage = reflectionTexture != null ? reflections?.GetCoverageTexture(camera) : null;
@@ -450,7 +513,7 @@ namespace Shuimian.Gameplay
                     Mathf.Max(1, reflectionRecursions), 0f, 0f));
                 properties.SetTexture("_LD_TexArray_SeaFloorDepth", seaFloorDepth);
                 if (waves != null) properties.SetTexture("_LD_TexArray_AnimatedWaves", waves.Displacement);
-                if (enableFoam && waves?.Foam != null) properties.SetTexture("_LD_TexArray_Foam", waves.Foam);
+                if (effectiveFoamTexture != null) properties.SetTexture("_LD_TexArray_Foam", effectiveFoamTexture);
                 if (reflectionTexture != null) properties.SetTexture("_ReflectionTex", reflectionTexture);
                 properties.SetFloat("_ShuimianUseReflectionCoverage", reflectionCoverage != null ? 1f : 0f);
                 if (reflectionCoverage != null) properties.SetTexture("_ShuimianReflectionCoverage", reflectionCoverage);
@@ -548,6 +611,8 @@ namespace Shuimian.Gameplay
 #endif
             ClearProperties();
             waves?.Dispose(); waves = null;
+            shipWakes?.Dispose(); shipWakes = null; activeShipWake = null;
+            shipFoamTexture = null; effectiveFoamTexture = null; shipInteractionTimeOverride = float.NaN;
             cascadeBuffer?.Release(); cascadeBuffer = null;
             instanceBuffer?.Release(); instanceBuffer = null;
             waterDepth?.Dispose(); waterDepth = null; seaFloorDepth = null;

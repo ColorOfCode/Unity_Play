@@ -20,9 +20,13 @@ namespace Shuimian.Gameplay
         [Header("上下漂浮")]
         [Tooltip("保留场景中船根对象相对平均海面的初始高度。")]
         public bool preserveInitialHeight = true;
+        [Tooltip("根据当前启用模型自动调整浮力采样范围和相对水线，响应子模型缩放、位置和替换。")]
+        public bool autoFitModel = true;
+        [Tooltip("模型整体高度中，从底部起算的吃水比例；自动使该水线对齐波面，并叠加初始高度/额外高度偏移。")]
+        [Range(0f, .9f)] public float draftFraction = .13f;
         [Tooltip("在原有吃水位置上额外增加的高度（米）。")]
         public float heightOffset;
-        [Tooltip("取船中心及四周的平均海面高度，减少短波抖动；0 表示只采样中心。")]
+        [Tooltip("自动模式按模型中心/长宽布置采样；关闭自动模式时使用此半径；0表示只采样中心。")]
         [Min(0f)] public float sampleRadius = 1.5f;
         [Tooltip("数值越大越贴近波面；0 表示直接跟随。")]
         [Min(0f)] public float response = 10f;
@@ -40,6 +44,9 @@ namespace Shuimian.Gameplay
         float[] sampleHeights;
         float initialHeight, sampledSeaHeight;
         bool initialized, hasSample;
+        public bool TryGetModelFootprint(out ShuimianShipGeometry.Footprint footprint)
+            => ShuimianShipGeometry.TryFootprint(target != null ? target : floatingTarget != null ? floatingTarget
+                : controller != null ? controller.Target : transform, controller != null ? controller.ForwardFlat : transform.forward, out footprint);
 #if UNITY_EDITOR
         double lastEditorTime, nextEditorUpdate;
         float authoredHeight, lastPreviewHeight;
@@ -100,6 +107,7 @@ namespace Shuimian.Gameplay
             if (!CanRun) return;
             if (!initialized) Initialize();
             if (!initialized || target == null) return;
+            if (autoFitModel && !TryGetModelFootprint(out _)) return;
             if (sampler != null && sampler.TryGetHeights(sampleHeights))
             {
                 float sum = 0f;
@@ -110,6 +118,11 @@ namespace Shuimian.Gameplay
             if (!hasSample) return;
             Vector3 position = target.position;
             float desired = sampledSeaHeight + (preserveInitialHeight ? initialHeight : 0f) + heightOffset;
+            if (autoFitModel && TryGetModelFootprint(out var hull))
+            {
+                float offset = hull.Waterline(draftFraction) - target.position.y;
+                desired -= offset;
+            }
             float blend = response <= 0f ? 1f : 1f - Mathf.Exp(-response * Mathf.Max(0f, deltaTime));
             position.y = Mathf.Lerp(position.y, desired, blend);
             if (terrainCollision == null) terrainCollision = GetComponent<ShuimianShipTerrainCollision>();
@@ -136,7 +149,7 @@ namespace Shuimian.Gameplay
                 if (main != null && camera != main) return;
             }
             else if (camera.cameraType != CameraType.Game && camera.cameraType != CameraType.SceneView) return;
-            if (!water.enableWaves || water.WaveDisplacement == null)
+            if ((!water.enableWaves && !water.enableShipInteraction) || water.WaveDisplacement == null)
             {
                 sampler?.Dispose(); sampler = null;
                 sampledSeaHeight = water.transform.position.y;
@@ -161,14 +174,18 @@ namespace Shuimian.Gameplay
             {
                 samplePoints = new Vector3[count]; sampleHeights = new float[count];
             }
-            Vector3 center = target.position;
+            var modelHull = default(ShuimianShipGeometry.Footprint);
+            bool fit = autoFitModel && TryGetModelFootprint(out modelHull);
+            Vector3 center = fit ? modelHull.center : target.position;
             samplePoints[0] = center;
             if (count == 5)
             {
-                samplePoints[1] = center + Vector3.right * sampleRadius;
-                samplePoints[2] = center - Vector3.right * sampleRadius;
-                samplePoints[3] = center + Vector3.forward * sampleRadius;
-                samplePoints[4] = center - Vector3.forward * sampleRadius;
+                Vector3 across = fit ? modelHull.right * (modelHull.width * .35f) : Vector3.right * sampleRadius;
+                Vector3 along = fit ? modelHull.forward * (modelHull.length * .35f) : Vector3.forward * sampleRadius;
+                samplePoints[1] = center + across;
+                samplePoints[2] = center - across;
+                samplePoints[3] = center + along;
+                samplePoints[4] = center - along;
             }
             sampler.Request(samplePoints, water.WaveDisplacement, water.WaveFieldCenter,
                 water.WaveFieldDiameters, water.transform.position.y, water.WaveFieldCascadeCount);

@@ -33,6 +33,8 @@ namespace Shuimian.Gameplay
         public bool normalizeDiagonal = true;
         [Tooltip("是否允许用方向键 ↑↓←→ 代替 WASD")]
         public bool alsoArrowKeys = true;
+        [Tooltip("允许 A/D 横移和 S 后退（含对应方向键）；关闭时只保留 W/上方向键前进。")]
+        public bool enableADS = false;
         [Header("移动坐标空间")]
         [Tooltip("Camera（默认）= 沿相机看的方向，W 永远朝画面里走；ShipForward = 沿船头；World = 世界轴")]
         public MoveSpace moveSpace = MoveSpace.Camera;
@@ -66,6 +68,9 @@ namespace Shuimian.Gameplay
                 f.y = 0f;
                 if (f.sqrMagnitude < 0.0001f) f = Vector3.forward;
                 f.Normalize();
+                if (forwardSource == null && ShuimianShipGeometry.TryFootprint(Target, f, out var hull)
+                    && hull.width > hull.length * 1.1f)
+                    f = Vector3.Cross(Vector3.up, f).normalized;
                 if (Mathf.Abs(forwardOffsetDeg) > 0.001f)
                     f = Quaternion.AngleAxis(forwardOffsetDeg, Vector3.up) * f;
                 return f;
@@ -141,8 +146,11 @@ namespace Shuimian.Gameplay
                 if (Input.GetKey(KeyCode.UpArrow)) y += 1f;
                 if (Input.GetKey(KeyCode.DownArrow)) y -= 1f;
             }
-            return new Vector2(Mathf.Clamp(x, -1f, 1f), Mathf.Clamp(y, -1f, 1f));
+            return FilterMovementInput(new Vector2(x, y), enableADS);
         }
+        public static Vector2 FilterMovementInput(Vector2 input, bool allowADS)
+            => new Vector2(allowADS ? Mathf.Clamp(input.x, -1f, 1f) : 0f,
+                Mathf.Clamp(input.y, allowADS ? -1f : 0f, 1f));
 
 #if UNITY_EDITOR
         void OnDrawGizmos()

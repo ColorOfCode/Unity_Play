@@ -14,6 +14,8 @@ namespace Shuimian.Gameplay
         public ShuimianWaterMesh water;
         [Tooltip("根据模型自动计算船体的水平范围及船底位置。")]
         public bool autoFitHull = true;
+        [Tooltip("自动匹配时，船体碰撞高度占模型总高度的比例。")]
+        [Range(.01f, 1f)] public float hullHeightFraction = .27f;
         [Min(.1f)] public float hullHeight = 2.5f;
         [Tooltip("关闭自动匹配时使用，相对移动目标的局部坐标。")]
         public Vector3 hullCenter = new Vector3(0f, -.25f, 0f);
@@ -29,46 +31,23 @@ namespace Shuimian.Gameplay
 
         TerrainCollider[] terrains;
         float nextTerrainRefresh;
-        Transform fittedTarget;
-        Vector3 fittedCenter, fittedSize;
+
+
         readonly RaycastHit[] hits = new RaycastHit[32];
 
         void OnEnable()
         {
-            fittedTarget = null; terrains = null; nextTerrainRefresh = -1f;
+            terrains = null; nextTerrainRefresh = -1f;
         }
-        void OnValidate() => fittedTarget = null;
+
 
         void GetHull(Transform target, out Vector3 center, out Vector3 size)
         {
             center = hullCenter; size = hullSize;
-            if (autoFitHull)
+            if (autoFitHull && ShuimianShipGeometry.TryLocalBounds(target, out var bounds))
             {
-                if (fittedTarget != target)
-                {
-                    var renderers = target.GetComponentsInChildren<Renderer>();
-                    Bounds bounds = default;
-                    bool found = false;
-                    foreach (var renderer in renderers)
-                    {
-                        // Mesh bounds transformed into the ship's own axes avoid
-                        // fitting a large world AABB when the ship is already yawed.
-                        Matrix4x4 matrix = target.worldToLocalMatrix * renderer.localToWorldMatrix;
-                        Bounds local = renderer.localBounds;
-                        for (int corner = 0; corner < 8; corner++)
-                        {
-                            var sign = new Vector3((corner & 1) == 0 ? -1 : 1,
-                                (corner & 2) == 0 ? -1 : 1, (corner & 4) == 0 ? -1 : 1);
-                            Vector3 point = matrix.MultiplyPoint3x4(local.center + Vector3.Scale(local.extents, sign));
-                            if (!found) { bounds = new Bounds(point, Vector3.zero); found = true; }
-                            else bounds.Encapsulate(point);
-                        }
-                    }
-                    fittedSize = found ? new Vector3(bounds.size.x, Mathf.Max(.1f, hullHeight), bounds.size.z) : hullSize;
-                    fittedCenter = found ? new Vector3(bounds.center.x, bounds.min.y + fittedSize.y * .5f, bounds.center.z) : hullCenter;
-                    fittedTarget = target;
-                }
-                center = fittedCenter; size = fittedSize;
+                size = new Vector3(bounds.size.x, Mathf.Max(.1f, bounds.size.y * hullHeightFraction), bounds.size.z);
+                center = new Vector3(bounds.center.x, bounds.min.y + size.y * .5f, bounds.center.z);
             }
             size = new Vector3(Mathf.Max(.1f, size.x), Mathf.Max(.1f, size.y), Mathf.Max(.1f, size.z));
         }
@@ -97,9 +76,9 @@ namespace Shuimian.Gameplay
         void WorldHull(Transform target, out Vector3 center, out Vector3 half, out Quaternion yaw)
         {
             GetHull(target, out var localCenter, out var localSize);
-            Vector3 scale = target.lossyScale;
-            scale = new Vector3(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
-            center = Vector3.Scale(localCenter, scale);
+            Vector3 signedScale = target.lossyScale;
+            Vector3 scale = new Vector3(Mathf.Abs(signedScale.x), Mathf.Abs(signedScale.y), Mathf.Abs(signedScale.z));
+            center = Vector3.Scale(localCenter, signedScale);
             half = Vector3.Scale(localSize, scale) * .5f;
             yaw = Quaternion.Euler(0f, target.eulerAngles.y, 0f);
         }
@@ -108,6 +87,7 @@ namespace Shuimian.Gameplay
         public float ClampFloatHeight(Transform target, float desiredHeight)
         {
             if (target == null) return desiredHeight;
+            if (autoFitHull && !ShuimianShipGeometry.TryLocalBounds(target, out _)) return desiredHeight;
             RefreshTerrains();
             WorldHull(target, out var center, out var half, out var yaw);
             float minimumHeight = Penetration(target.position, center, half, yaw, 0f, out _);
@@ -118,6 +98,7 @@ namespace Shuimian.Gameplay
         {
             requested.y = 0f;
             if (target == null || requested.sqrMagnitude < .00000001f) return Vector3.zero;
+            if (autoFitHull && !ShuimianShipGeometry.TryLocalBounds(target, out _)) return requested;
             RefreshTerrains();
             int terrainLayers = 0;
             foreach (var terrain in terrains) if (Solid(terrain)) terrainLayers |= 1 << terrain.gameObject.layer;

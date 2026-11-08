@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4816328821630488272}
   - component: {fileID: 1278724388}
+  - component: {fileID: 1800000011}
+  - component: {fileID: 1800000012}
+  - component: {fileID: 1800000013}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -50,7 +53,93 @@ MonoBehaviour:
   acceleration: 40
   normalizeDiagonal: 1
   alsoArrowKeys: 1
+  enableADS: 0
+  moveSpace: 2
+  forwardSource: {fileID: 0}
+  forwardOffsetDeg: 0
   drawDebugGizmo: 0
+--- !u!114 &1800000011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306369936262813032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ff779770d39f494f9e0ea155a06f063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  water: {fileID: 0}
+  controller: {fileID: 1278724388}
+  floatingTarget: {fileID: 4816328821630488272}
+  preserveInitialHeight: 1
+  heightOffset: 0
+  sampleRadius: 1.5
+  response: 10
+  previewInEditor: 1
+--- !u!114 &1800000012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306369936262813032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2794a6e7e50f9a24e8703f84235392fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  water: {fileID: 0}
+  autoFitHull: 1
+  hullHeight: 2.5
+  hullCenter: {x: 0, y: -0.25, z: 0}
+  hullSize: {x: 3, y: 2.5, z: 8}
+  blockingLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  skin: 0.05
+  maxStepDistance: 0.5
+  terrainSampleSpacing: 1
+--- !u!114 &1800000013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306369936262813032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 311f19dcf3ac4bc8b5e08d1b4927d786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  water: {fileID: 0}
+  controller: {fileID: 1278724388}
+  motionTarget: {fileID: 4816328821630488272}
+  emit: 1
+  previewInEditor: 1
+  centerOffset: {x: 0, y: 0, z: 0}
+  waterContactRange: 4
+  hullWidth: 4
+  hullLength: 13.5
+  minSpeed: 0.2
+  fullSpeed: 8
+  alignWithMotion: 1
+  enableWaves: 1
+  waveStrength: 0.3
+  waveSpeed: 3.2
+  wavelength: 2.6
+  packetWidth: 1.2
+  enableFoam: 1
+  foamStrength: 3
+  foamDisappearTime: 3
+  stationaryContactFoam: 1
+  wakeFoamSize: 1
+  contactFoamStrength: 1.5
+  contactFoamWidth: 0.58
+  foamSpread: 0
+  lifetime: 10
+  sampleInterval: 0.1
 --- !u!1001 &4203364363789386803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76,17 +165,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 398671d1633c4c64294bc6ec7f3c605a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.02
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 398671d1633c4c64294bc6ec7f3c605a,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.02
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 398671d1633c4c64294bc6ec7f3c605a,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.02
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 398671d1633c4c64294bc6ec7f3c605a,
         type: 3}
@@ -96,7 +185,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 398671d1633c4c64294bc6ec7f3c605a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 398671d1633c4c64294bc6ec7f3c605a,
         type: 3}
