@@ -421,7 +421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
       propertyPath: heightOffset
-      value: 0
+      value: -4.64
       objectReference: {fileID: 0}
     - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
       propertyPath: sampleRadius
