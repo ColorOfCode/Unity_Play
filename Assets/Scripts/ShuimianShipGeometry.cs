@@ -49,6 +49,11 @@ namespace Shuimian.Gameplay
             public float Waterline(float draftFraction) => minY + height * Mathf.Clamp01(draftFraction);
         }
         public static bool TryFootprint(Transform target, Vector3 forward, out Footprint footprint)
+            => TryFootprint(target, forward, target != null ? target.rotation : Quaternion.identity, out footprint);
+
+        // Measure an unrocked hull without moving scene transforms. Child scale,
+        // replacement meshes and offsets are still measured on every call.
+        public static bool TryFootprint(Transform target, Vector3 forward, Quaternion rootRotation, out Footprint footprint)
         {
             footprint = default;
             forward.y = 0;
@@ -56,7 +61,11 @@ namespace Shuimian.Gameplay
             forward.Normalize();
             var rotation = Quaternion.LookRotation(forward, Vector3.up);
             var frame = Matrix4x4.TRS(target != null ? target.position : Vector3.zero, rotation, Vector3.one);
-            if (!Gather(target, frame.inverse, out var bounds)) return false;
+            if (target == null) return false;
+            var unrock = Matrix4x4.Translate(target.position)
+                * Matrix4x4.Rotate(rootRotation * Quaternion.Inverse(target.rotation))
+                * Matrix4x4.Translate(-target.position);
+            if (!Gather(target, frame.inverse * unrock, out var bounds)) return false;
             footprint = new Footprint
             {
                 center = frame.MultiplyPoint3x4(bounds.center), forward = forward,

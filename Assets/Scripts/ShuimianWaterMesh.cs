@@ -80,6 +80,8 @@ namespace Shuimian.Gameplay
         [Header("水下表现")]
         [Tooltip("启用水面背面的折射与内部反射，以及沿波浪水线裁切的水下深度雾。")]
         public bool enableUnderwater = true;
+        [Tooltip("水下雾、散射颜色与焦散的独立材质；留空自动使用默认 ShuimianUnderwater 材质。水面材质保持独立。")]
+        public Material underwaterMaterial;
         [Tooltip("复用水面材质中的焦散贴图、强度、尺寸和运动参数。")]
         public bool enableCaustics = true;
         [Header("浪尖与岸边泡沫")]
@@ -372,8 +374,9 @@ namespace Shuimian.Gameplay
             // same URP renderer and must not consume this view's water passes.
             if (enableUnderwater && surfaceMaterial != null)
             {
+                if (underwaterMaterial == null) underwaterMaterial = Resources.Load<Material>("ShuimianUnderwater");
                 if (underwaterRenderer == null) underwaterRenderer = new ShuimianUnderwaterRenderer(combineShader);
-                underwaterRenderer.Enqueue(camera, surfaceMaterial, waterRenderer, transform.position.y);
+                underwaterRenderer.Enqueue(camera, surfaceMaterial, waterRenderer, transform.position.y, underwaterMaterial);
             }
             else if (underwaterRenderer != null) { underwaterRenderer.Dispose(); underwaterRenderer = null; }
         }

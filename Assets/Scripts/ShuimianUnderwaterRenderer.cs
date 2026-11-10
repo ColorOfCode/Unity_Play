@@ -64,7 +64,7 @@ namespace Shuimian.Gameplay
                 effectPass = new EffectPass(this);
             }
 
-            public void Prepare(Material surfaceMaterial, MeshRenderer surface, Mesh surfaceMesh, float seaLevel)
+            public void Prepare(Material surfaceMaterial, MeshRenderer surface, Mesh surfaceMesh, float seaLevel, Material underwaterMaterial)
             {
                 mesh = surfaceMesh;
                 localToWorld = surface.localToWorldMatrix;
@@ -80,8 +80,10 @@ namespace Shuimian.Gameplay
                 }
                 surface.GetPropertyBlock(effectProperties, 0);
 
-                // All optical appearance still comes from the user's ocean material.
-                effectMaterial.CopyPropertiesFromMaterial(surfaceMaterial);
+                // Keep camera/LOD state per view; only optical settings come
+                // from the exposed asset. Never write to the user's material.
+                if (underwaterMaterial != null) effectMaterial.shader = underwaterMaterial.shader;
+                effectMaterial.CopyPropertiesFromMaterial(underwaterMaterial != null ? underwaterMaterial : surfaceMaterial);
                 // Meniscus belongs to the nearby waterline. A forced air/deep
                 // view must not add a dark rim to the distant horizon.
                 SetKeyword(effectMaterial, "CREST_MENISCUS", Mathf.Abs(effectProperties.GetFloat("_CrestForceUnderwater")) < .5f);
@@ -92,7 +94,8 @@ namespace Shuimian.Gameplay
                 SetKeyword(effectMaterial, "_PROJECTION_PERSPECTIVE", !camera.orthographic);
                 // Share the surface's caustics texture/settings. The original
                 // underwater shader projects them only onto submerged geometry.
-                SetKeyword(effectMaterial, "_CAUSTICS_ON", surfaceMaterial.IsKeywordEnabled("_CAUSTICS_ON"));
+                SetKeyword(effectMaterial, "_CAUSTICS_ON", surfaceMaterial.IsKeywordEnabled("_CAUSTICS_ON")
+                    && (underwaterMaterial == null || underwaterMaterial.IsKeywordEnabled("_CAUSTICS_ON")));
                 SetKeyword(effectMaterial, "_SHADOWS_ON", false);
                 maskMaterial.SetInt("_StencilRef", 0);
                 SetKeyword(maskMaterial, "CREST_WATER_VOLUME", false);
@@ -238,7 +241,7 @@ namespace Shuimian.Gameplay
         }
 
         /// <summary>Call after the surface's per-camera LOD data has been prepared.</summary>
-        public void Enqueue(Camera camera, Material surfaceMaterial, MeshRenderer surfaceRenderer, float seaLevel)
+        public void Enqueue(Camera camera, Material surfaceMaterial, MeshRenderer surfaceRenderer, float seaLevel, Material underwaterMaterial = null)
         {
             if (camera == null || surfaceMaterial == null || surfaceRenderer == null ||
                 (camera.cameraType != CameraType.Game && camera.cameraType != CameraType.SceneView && camera.cameraType != CameraType.VR) ||
@@ -270,7 +273,8 @@ namespace Shuimian.Gameplay
                 view = new View(camera, maskShader, effectShader, maskCorrection, correctionKernel, arrayCorrectionKernel);
                 views.Add(id, view);
             }
-            view.Prepare(surfaceMaterial, surfaceRenderer, filter.sharedMesh, seaLevel);
+            if (underwaterMaterial == null) view.effectMaterial.shader = effectShader;
+            view.Prepare(surfaceMaterial, surfaceRenderer, filter.sharedMesh, seaLevel, underwaterMaterial);
             renderer.EnqueuePass(view.maskPass);
             renderer.EnqueuePass(view.effectPass);
         }

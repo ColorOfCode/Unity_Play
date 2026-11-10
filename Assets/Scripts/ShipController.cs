@@ -65,10 +65,14 @@ namespace Shuimian.Gameplay
                     src = mr != null ? mr.transform : Target;
                 }
                 Vector3 f = src.forward;
+                var floating = GetComponent<ShuimianShipFloat>();
+                Quaternion level = floating != null && floating.Target == Target ? floating.UnrockedRotation : Target.rotation;
+                if (src == Target || src.IsChildOf(Target))
+                    f = level * Quaternion.Inverse(Target.rotation) * f;
                 f.y = 0f;
                 if (f.sqrMagnitude < 0.0001f) f = Vector3.forward;
                 f.Normalize();
-                if (forwardSource == null && ShuimianShipGeometry.TryFootprint(Target, f, out var hull)
+                if (forwardSource == null && ShuimianShipGeometry.TryFootprint(Target, f, level, out var hull)
                     && hull.width > hull.length * 1.1f)
                     f = Vector3.Cross(Vector3.up, f).normalized;
                 if (Mathf.Abs(forwardOffsetDeg) > 0.001f)

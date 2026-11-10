@@ -88,8 +88,27 @@ namespace Shuimian.Gameplay
         public float EffectiveHullWidth => hasFittedHull && autoFitModel ? fittedHull.width : hullWidth;
         public float EffectiveHullLength => hasFittedHull && autoFitModel ? fittedHull.length : hullLength;
         float HullScale => Mathf.Clamp(Mathf.Sqrt(EffectiveHullWidth / 4f * EffectiveHullLength / 13.5f), .1f, 20f);
-        public void RefreshHull() => hasFittedHull = autoFitModel && ShuimianShipGeometry.TryFootprint(Target,
-            controller != null ? controller.ForwardFlat : Target.forward, out fittedHull);
+        ShuimianShipFloat floating;
+        public void RefreshHull()
+        {
+            if (floating == null) floating = GetComponent<ShuimianShipFloat>();
+            hasFittedHull = autoFitModel && ShuimianShipGeometry.TryFootprint(Target,
+                controller != null ? controller.ForwardFlat : Target.forward,
+                floating != null && floating.Target == Target ? floating.UnrockedRotation : Target.rotation, out fittedHull);
+        }
+        bool TouchingWater
+        {
+            get
+            {
+                if (water == null) return true;
+                // Reuse the actual GPU buoyancy surface, rather than rejecting
+                // a floating hull when a crest exceeds the mean sea level.
+                float surface = water.transform.position.y;
+                if (floating != null && floating.isActiveAndEnabled && floating.water == water && floating.Target == Target
+                    && floating.TryGetWaterSurfaceHeight(out float sampled)) surface = sampled;
+                return Mathf.Abs(CenterPosition.y - surface) <= Mathf.Max(.1f, waterContactRange);
+            }
+        }
         public static IReadOnlyList<ShuimianShipWake> ActiveSources => active;
         public int PendingSampleCount => count;
         public Vector2 Position
@@ -173,7 +192,8 @@ namespace Shuimian.Gameplay
             if (autoFitModel && !hasFittedHull) { Speed = 0f; Anchor(position, time); return; }
             if (hasFittedHull)
             {
-                Vector3 relative = Quaternion.Inverse(Target.rotation) * (center3 - Target.position);
+                Quaternion level = floating != null && floating.Target == Target ? floating.UnrockedRotation : Target.rotation;
+                Vector3 relative = Quaternion.Inverse(level) * (center3 - Target.position);
                 Vector3 size = new Vector3(fittedHull.width, fittedHull.height, fittedHull.length);
                 bool changed = hasGeometryBaseline && ((relative - previousGeometryCenter).sqrMagnitude > .00001f
                     || (size - previousGeometrySize).sqrMagnitude > .00001f);
@@ -196,7 +216,7 @@ namespace Shuimian.Gameplay
                 Speed = 0f; Anchor(position, time); return;
             }
             if (distance > .00001f) direction = alignWithMotion ? travel / distance : ForwardDirection();
-            bool touching = water == null || Mathf.Abs(center3.y - water.transform.position.y) <= Mathf.Max(.1f, waterContactRange);
+            bool touching = TouchingWater;
             if (!emit || !touching || Speed < Mathf.Max(.01f, minSpeed) || (!enableWaves && !enableFoam))
             {
                 if (!touching) Speed = 0f;
@@ -229,7 +249,8 @@ namespace Shuimian.Gameplay
         void AddSample(Vector2 start, Vector2 end, Vector2 heading, float time, float duration, float speed)
         {
             float width = Mathf.Max(.2f, EffectiveHullWidth), length = Mathf.Max(.5f, EffectiveHullLength);
-            if (autoFitModel && ShuimianShipGeometry.TryFootprint(Target, new Vector3(heading.x, 0, heading.y), out var movingHull))
+            if (autoFitModel && ShuimianShipGeometry.TryFootprint(Target, new Vector3(heading.x, 0, heading.y),
+                floating != null && floating.Target == Target ? floating.UnrockedRotation : Target.rotation, out var movingHull))
             { width = movingHull.width; length = movingHull.length; }
             Vector2 sternOffset = heading * (length * .38f);
             Vector2 a = start - sternOffset, b = end - sternOffset;
@@ -264,7 +285,7 @@ namespace Shuimian.Gameplay
                 destination.Add(sample);
             }
             if (emit && enableFoam && stationaryContactFoam && (!autoFitModel || hasFittedHull)
-                && (water == null || Mathf.Abs(CenterPosition.y - water.transform.position.y) <= waterContactRange))
+                && TouchingWater)
             {
                 Vector2 f = ForwardDirection();
                 destination.Add(new WakeSample

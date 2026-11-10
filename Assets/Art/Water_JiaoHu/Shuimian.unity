@@ -424,8 +424,24 @@ PrefabInstance:
       value: -4.64
       objectReference: {fileID: 0}
     - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
+      propertyPath: maxRollAngle
+      value: 3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
+      propertyPath: rollStrength
+      value: 0.245
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
       propertyPath: sampleRadius
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
+      propertyPath: maxPitchAngle
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
+      propertyPath: pitchStrength
+      value: 0.846
       objectReference: {fileID: 0}
     - target: {fileID: 1800000012, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
       propertyPath: water
@@ -473,22 +489,22 @@ PrefabInstance:
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: -0.003130294
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.017390927
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.9979174
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.06203719
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
@@ -642,6 +658,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   enableUnderwater: 1
+  underwaterMaterial: {fileID: 2100000, guid: 06c1a2185f1a4227bf7c453269cca1d1, type: 2}
   enableCaustics: 1
   enableFoam: 1
   foamWaveStrength: 3.27

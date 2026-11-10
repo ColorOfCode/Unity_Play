@@ -69,7 +69,7 @@ namespace Shuimian.Gameplay
             }
             if (yawTarget != null && !_hasBase)
             {
-                _baseRotation = yawTarget.rotation;
+                _baseRotation = HeadingRotation();
                 _hasBase = true;
             }
         }
@@ -90,7 +90,7 @@ namespace Shuimian.Gameplay
             // 初始朝向只记录一次，避免把已经转过的结果当成基准
             if (yawTarget != null && !_hasBase)
             {
-                _baseRotation = yawTarget.rotation;
+                _baseRotation = HeadingRotation();
                 _hasBase = true;
             }
         }
@@ -120,7 +120,16 @@ namespace Shuimian.Gameplay
 
             // 船左右旋转：在初始朝向上叠加世界 Y 轴旋转（不覆盖模型自带朝向）
             if (yawTarget != null)
-                yawTarget.rotation = Quaternion.AngleAxis(_yawSmooth, Vector3.up) * _baseRotation;
+            {
+                var heading = Quaternion.AngleAxis(_yawSmooth, Vector3.up) * _baseRotation;
+                var floating = yawTarget.GetComponent<ShuimianShipFloat>();
+                // Steering owns yaw; buoyancy owns pitch/roll. Replacing the
+                // whole rotation made the next buoyancy update subtract a tilt
+                // that was no longer present and reset the wake's geometry test.
+                if (floating != null && floating.isActiveAndEnabled && floating.Target == yawTarget)
+                    floating.SetHeadingRotation(heading);
+                else yawTarget.rotation = heading;
+            }
 
             // 相机：俯仰由鼠标控制；左右朝向 = 初始机位朝向 + 船的转向增量
             // （船转多少，镜头就跟着绕多少，保证转向后镜头仍对着船，而不是被镜头挪出画面）
@@ -150,6 +159,13 @@ namespace Shuimian.Gameplay
                 // 用本帧刚施加给船的旋转量，数值与 CameraFollow.YawDeltaDeg 一致且无滞后
                 return yawTarget != null ? _yawSmooth : 0f;
             }
+        }
+
+        Quaternion HeadingRotation()
+        {
+            var floating = yawTarget.GetComponent<ShuimianShipFloat>();
+            return floating != null && floating.isActiveAndEnabled && floating.Target == yawTarget
+                ? floating.UnrockedRotation : yawTarget.rotation;
         }
 
         void HandleCursor()
@@ -202,7 +218,7 @@ namespace Shuimian.Gameplay
             _yaw = _pitch = _yawSmooth = _pitchSmooth = 0f;
             if (yawTarget != null)
             {
-                _baseRotation = yawTarget.rotation;
+                _baseRotation = HeadingRotation();
                 _hasBase = true;
             }
         }
