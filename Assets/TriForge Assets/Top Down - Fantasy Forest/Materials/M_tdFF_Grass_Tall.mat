@@ -8,9 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_tdFF_Grass_Tall
-  m_Shader: {fileID: 4800000, guid: 7d1c5a9e3f2b4c8d9a0e1f2a3b4c5d03, type: 3}
+  m_Shader: {fileID: 4800000, guid: f60296727cb783743a96c297ba3ff206, type: 3}
   m_ValidKeywords:
+  - _ENVIRONMENTREFLECTIONS_OFF
   - _GRADIENTUV_UV2
+  - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords:
   - _ALPHATEST_ON
   m_LightmapFlags: 4
@@ -96,21 +98,25 @@ Material:
     - _DetailBendingScale: 18
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EnvironmentReflections: 0
     - _Float5: -80
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GradientPosition: 2.93
     - _GradientUV: 0
+    - _GrassSpecularStrength: 0
     - _MainTextureBrightness: 1
     - _Metallic: 0
     - _Mode: 1
     - _NormalIntensity: 1
+    - _OBCGrassMeshBase: -0.211337
+    - _OBCGrassMeshHeight: 3.115798
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Smoothness: 0.678
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
+    - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _TopBrightness: 1
     - _UVSec: 0

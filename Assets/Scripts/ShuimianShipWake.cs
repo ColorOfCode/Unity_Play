@@ -23,7 +23,7 @@ namespace Shuimian.Gameplay
     /// <summary>World-space movement history, independent of cameras and vertical buoyancy.</summary>
     [ExecuteAlways, DisallowMultipleComponent]
     [AddComponentMenu("Shuimian/船行波浪与尾迹")]
-    public sealed class ShuimianShipWake : MonoBehaviour
+    public sealed class ShuimianShipWake : MonoBehaviour, IShuimianWakeSource
     {
         [Header("水面与运动目标")]
         public ShuimianWaterMesh water;
@@ -109,6 +109,8 @@ namespace Shuimian.Gameplay
                 return Mathf.Abs(CenterPosition.y - surface) <= Mathf.Max(.1f, waterContactRange);
             }
         }
+        public ShuimianWaterMesh Water { get => water; set => water = value; }
+        public float MinSpeed => minSpeed;
         public static IReadOnlyList<ShuimianShipWake> ActiveSources => active;
         public int PendingSampleCount => count;
         public Vector2 Position
@@ -151,9 +153,10 @@ namespace Shuimian.Gameplay
             if (controller == null) controller = GetComponent<ShipController>();
             if (water == null) water = FindObjectOfType<ShuimianWaterMesh>();
             if (!active.Contains(this)) active.Add(this);
+            ShuimianWakeSources.Register(this);
             ClearHistory();
         }
-        void OnDisable() { active.Remove(this); ClearHistory(); }
+        void OnDisable() { active.Remove(this); ShuimianWakeSources.Unregister(this); ClearHistory(); }
         public void ClearHistory()
         {
             first = count = 0; initialized = false; Speed = 0f; hasGeometryBaseline = false;

@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Shuimian.Gameplay
 {
-    /// <summary>World-anchored boat wakes, projected into each camera's existing water cascades.</summary>
+    /// <summary>World-anchored ship and character wakes, projected into each camera's existing water cascades.</summary>
     public sealed class ShuimianWakeSimulation : IDisposable
     {
         const int MaximumSamples = 256;
@@ -39,18 +39,18 @@ namespace Shuimian.Gameplay
             if (disposed) throw new ObjectDisposedException(nameof(ShuimianWakeSimulation));
             if (owner == null || float.IsNaN(time) || float.IsInfinity(time)) return;
             samples.Clear();
-            ShuimianShipWake primary = null;
-            var sources = ShuimianShipWake.ActiveSources;
-            bool rewind = !float.IsNaN(previousTime) && time < previousTime;
+            IShuimianWakeSource primary = null;
+            var sources = ShuimianWakeSources.Active;
+            bool rewind = !float.IsNaN(previousTime) && time < previousTime - .00001f;
             for (int i = 0; i < sources.Count; i++)
             {
                 var source = sources[i];
-                if (source == null || !source.CanSimulate) continue;
-                if (source.water == null) source.water = owner;
-                if (source.water != owner) continue;
+                if (source == null || (source is Object unityObject && unityObject == null) || !source.CanSimulate) continue;
+                if (source.Water == null) source.Water = owner;
+                if (source.Water != owner) continue;
                 if (rewind) source.ClearHistory();
                 source.SampleMotion(time); source.AppendSamples(samples, time);
-                if (primary == null || (primary.Speed < source.minSpeed && source.Speed >= source.minSpeed)) primary = source;
+                if (primary == null || (primary.Speed < primary.MinSpeed && source.Speed >= source.MinSpeed)) primary = source;
             }
             if (samples.Count > MaximumSamples)
             {

@@ -83,7 +83,7 @@ namespace ObscuredByClouds.Gameplay
         public string boneSpine = "spine_01";
 
         [Header("地面")]
-        [Tooltip("勾选：移动时用整身胶囊贴地，下落探测至少 0.15 米")]
+        [Tooltip("勾选：移动和待机时持续用整身胶囊贴地；脚下悬空时按重力下落，落地时检测碰撞。")]
         public bool stickToGround = false;
         [Tooltip("贴地射线检测的层")]
         public LayerMask groundMask = ~0;
@@ -141,6 +141,7 @@ namespace ObscuredByClouds.Gameplay
         bool _runAnimState;         // 当前驱动值（true = 应该在跑）
         float _speedMul;            // 起跑/刹车的速度系数 0~1
         float _lastAnimSpeed = 1f;
+        float _fallSpeed;
         RaycastHit[] _hitBuffer = new RaycastHit[32];
         RaycastHit[] _sweepHits = new RaycastHit[32];   // 查询满载时自动扩容并重查
 
@@ -317,6 +318,7 @@ namespace ObscuredByClouds.Gameplay
             if (_hasTarget) MoveStep(dt);
             else PlayIdle();
 
+            UpdateGrounding(dt);
             ApplyAnimPlaybackSpeed(dt);
         }
 
@@ -559,7 +561,7 @@ namespace ObscuredByClouds.Gameplay
                         else break;
                     }
                 }
-                if (!stepped) pos.y = ResolveFeetY(pos, pos);
+                if (!stepped) pos.y = ResolveFeetY(pos);
                 pos = RecoverOverlap(pos);
             }
             traveled = Vector3.ProjectOnPlane(pos - moveStart, Vector3.up).magnitude;
@@ -592,7 +594,9 @@ namespace ObscuredByClouds.Gameplay
             return true;
         }
 
-        float ResolveFeetY(Vector3 from, Vector3 pos)
+        // Short adhesion keeps feet attached to descending slopes. It does not
+        // replace gravity when the ground is farther away or missing entirely.
+        float ResolveFeetY(Vector3 pos)
         {
             float drop = stickToGround ? Mathf.Max(maxStepHeight, 0.15f) : maxStepHeight;
             Vector3 start = pos + Vector3.up * Skin;
@@ -601,6 +605,41 @@ namespace ObscuredByClouds.Gameplay
                 return start.y - Mathf.Max(0f, hit.distance - Skin);
             return pos.y;
         }
+
+        void UpdateGrounding(float dt)
+        {
+            if (!stickToGround || dt <= 0f)
+            {
+                _fallSpeed = 0f;
+                return;
+            }
+            Vector3 pos = RecoverOverlap(_tr.position);
+            Vector3 start = pos + Vector3.up * Skin;
+            float snapDistance = Mathf.Max(maxStepHeight, .15f);
+            int mask = groundMask | blockMask;
+            if (CastBody(start, Vector3.down, snapDistance + Skin * 2f, out RaycastHit support, mask)
+                && IsWalkable(support.normal))
+            {
+                pos.y = start.y - Mathf.Max(0f, support.distance - Skin);
+                _fallSpeed = 0f;
+            }
+            else
+            {
+                _fallSpeed = Mathf.Min(50f, _fallSpeed + Mathf.Max(0f, -Physics.gravity.y) * dt);
+                float distance = _fallSpeed * dt;
+                // Sweep the full body over the complete fall so long frames
+                // cannot move the character through a floor or a platform.
+                if (distance > 0f && CastBody(pos, Vector3.down, distance + Skin, out RaycastHit hit, mask))
+                {
+                    distance = Mathf.Min(distance, Mathf.Max(0f, hit.distance - Skin));
+                    _fallSpeed = 0f;
+                }
+                pos += Vector3.down * distance;
+            }
+            _tr.position = pos;
+        }
+
+        void OnDisable() => _fallSpeed = 0f;
 
         bool TryGroundBelow(Vector3 origin, float length, out RaycastHit result)
         {

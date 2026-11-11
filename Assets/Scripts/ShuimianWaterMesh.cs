@@ -91,6 +91,13 @@ namespace Shuimian.Gameplay
         [Min(.001f)] public float foamFadeRate = .8f;
         [Min(.01f)] public float foamShoreDepth = 1f;
         [Min(0f)] public float foamShoreStrength = 2f;
+        [Header("模型岸线深度")]
+        [Tooltip("将当前场景中与水面相交的静态不透明模型写入岸线水深，使岩石周围生成泡沫。")]
+        public bool enableMeshShoreline = true;
+        public LayerMask shorelineGeometryLayers = ~0;
+        [Range(256, 2048)] public int shorelineGeometryResolution = 1024;
+        [Tooltip("默认只捕获标记为 Static 的岸边模型，避免人物和船体写入静态岸线缓存。")]
+        public bool shorelineStaticOnly = true;
         [Header("船与水面交互")]
         [Tooltip("船体的真实水面起伏与独立泡沫尾迹，按实际水平移动生成。")]
         public bool enableShipInteraction = true;
@@ -133,8 +140,9 @@ namespace Shuimian.Gameplay
         int mirrorDistanceCurveHash, mirrorRecursiveCurveHash;
         MeshRenderer waterRenderer;
         ComputeBuffer cascadeBuffer, instanceBuffer;
-        Texture2DArray seaFloorDepth;
+        Texture seaFloorDepth;
         ShuimianWaterDepth waterDepth;
+        ShuimianMeshShoreDepth meshShoreDepth;
         ShuimianPlanarReflection reflections;
         ShuimianUnderwaterRenderer underwaterRenderer;
         ShuimianWaterViewState waterViewState;
@@ -417,7 +425,14 @@ namespace Shuimian.Gameplay
             // Waves, foam and surface rendering must use the same camera's
             // depth field, including the very first prepared frame.
             if (waterDepth == null) waterDepth = new ShuimianWaterDepth();
-            seaFloorDepth = waterDepth.Update(new Vector2(center.x, center.z), nearDiameter, cascadeCount, center.y);
+            var terrainDepth = waterDepth.Update(new Vector2(center.x, center.z), nearDiameter, cascadeCount, center.y);
+            if (enableMeshShoreline)
+            {
+                if (meshShoreDepth == null) meshShoreDepth = new ShuimianMeshShoreDepth(gameObject.scene);
+                seaFloorDepth = meshShoreDepth.Update(terrainDepth, new Vector2(center.x, center.z), nearDiameter,
+                    cascadeCount, center.y, foamShoreDepth, shorelineGeometryLayers, shorelineGeometryResolution, shorelineStaticOnly);
+            }
+            else seaFloorDepth = terrainDepth;
             if (waves != null)
                 waves.Update(new Vector2(center.x, center.z), nearDiameter, farDiameter, waveTextureResolution,
                     time, windSpeedKmh, windTurbulence, waveChop, enableWaves ? waveAmplitude : 0f, waveDirectionDegrees, cascadeCount,
@@ -619,6 +634,7 @@ namespace Shuimian.Gameplay
             cascadeBuffer?.Release(); cascadeBuffer = null;
             instanceBuffer?.Release(); instanceBuffer = null;
             waterDepth?.Dispose(); waterDepth = null; seaFloorDepth = null;
+            meshShoreDepth?.Dispose(); meshShoreDepth = null;
             reflections?.Dispose(); reflections = null;
             underwaterRenderer?.Dispose(); underwaterRenderer = null;
             waterViewState?.Dispose(); waterViewState = null;

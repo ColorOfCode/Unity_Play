@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5134846541796753031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5134846541796753028}
+  - component: {fileID: 5134846541796753027}
+  m_Layer: 0
+  m_Name: Shuimian Water
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5134846541796753028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134846541796753031}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5134846541796753027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134846541796753031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116314f7bb8b47ed8a00281a2635b117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceMaterial: {fileID: 2100000, guid: b9f6119739fb46c68df9ac06839d1a93, type: 2}
+  nearCellSize: 0.33333334
+  subdivisions: 96
+  lodCount: 7
+  followCamera: 1
+  enableWaves: 1
+  waveAmplitude: 2
+  waveChop: 1.055
+  windSpeedKmh: 50
+  windTurbulence: 0
+  waveDirectionDegrees: 100
+  waveTimeScale: 2
+  waveTextureResolution: 402
+  previewWavesInEditor: 1
+  enableShallowAttenuation: 1
+  shallowAttenuation: 0.95
+  shallowAttenuationMaxDepth: 1000
+  enablePlanarReflection: 1
+  mirrorReflectionStrength: 0.1
+  mirrorNormalInfluence: 0.2
+  reflectionSky: 1
+  reflectionShadows: 1
+  reflectionFog: 1
+  reflectionPostProcessing: 1
+  reflectionPostProcessingStrength: 1
+  reflectionTextureSize: 512
+  reflectionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  reflectionClipOffset: 0.07
+  MyMeshRenderer: {fileID: 0}
+  MyForwardTransform: {fileID: 0}
+  maxRenderingDistance: 10000
+  fadeDistance: 0.735
+  maxBlend: 1
+  FadeColor: {r: 1, g: 1, b: 1, a: 1}
+  useRecursiveDarkening: 0
+  recursiveDarkeningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.030555569
+      value: -0.022035986
+      inSlope: 0.3287913
+      outSlope: 0.3287913
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.2237572
+    - serializedVersion: 3
+      time: 1.0194397
+      value: 0.025684357
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reflectionDistanceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableUnderwater: 1
+  underwaterMaterial: {fileID: 2100000, guid: 06c1a2185f1a4227bf7c453269cca1d1, type: 2}
+  enableCaustics: 1
+  enableFoam: 1
+  foamWaveStrength: 3.27
+  foamWaveCoverage: 0.76
+  foamFadeRate: 0.8
+  foamShoreDepth: 1
+  foamShoreStrength: 2
+  enableShipInteraction: 1
+  shipWakeShader: {fileID: 7200000, guid: b9cb4b0483a42f49c15f1903671ed8ee, type: 3}
+  shipWakeResolution: 512
+  shipWakeAreaSize: 192
+  spectrumShader: {fileID: 7200000, guid: af8a0b4e480b41ceb251037e534206ac, type: 3}
+  fftShader: {fileID: 7200000, guid: 0bccdc15e93b4c39b383fe0190d781cc, type: 3}
+  combineShader: {fileID: 7200000, guid: b0f7318fa44d46e7b746298bcdcf1b8f, type: 3}
