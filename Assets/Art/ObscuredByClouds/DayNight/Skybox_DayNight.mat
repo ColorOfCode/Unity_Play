@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Skybox_DayNight
+  m_Shader: {fileID: 4800000, guid: 5b9e25444ad62a042a971120c3a1e640, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BackGroundTex:
+        m_Texture: {fileID: 2800000, guid: 16e77392a8952ac47b9724d43adad14b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MoonTex:
+        m_Texture: {fileID: 2800000, guid: 6b72a2244a564d94ba6c61eb96130094, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _CloudsBackgroundBrightness: 0.31242797
+    - _HorizonFalloff: 1.0765595
+    - _HorizonOffset: -0.2
+    - _HorizonTilt: 0.2
+    - _MoonBloom: 1
+    - _MoonIntensity: 0.5
+    - _MoonScattering: 0.1
+    - _MoonSize: 1.46
+    - _StarsIntensity: 100
+    - _SunBloom: 1.16
+    - _SunIntensity: 2.0011873
+    - _SunRadius: 0.02
+    - _SunScattering: 0.04
+    m_Colors:
+    - _CloudsBackgroundColor: {r: 0.90488183, g: 0.81652397, b: 0.7280515, a: 1}
+    - _HorizonColor: {r: 1.1877885, g: 0.8440478, b: 0.23909071, a: 1}
+    - _MoonColor: {r: 0.317108, g: 0.25781935, b: 0.23981902, a: 1}
+    - _MoonDirection: {r: -0.73233205, g: -0.42264402, b: -0.5339117, a: 0}
+    - _StarTilling: {r: 2, g: 2, b: 0, a: 0}
+    - _StarsColor: {r: 0.06651476, g: 0.06602374, b: 0.07108921, a: 1}
+    - _SunColor: {r: 0.96600646, g: 0.7492531, b: 0.5556878, a: 1}
+    - _SunDirection: {r: 0.6702708, g: 0.4640128, b: 0.5791624, a: 0}
+    - _ZenithColor: {r: 0.056647904, g: 0.34114262, b: 0.56043136, a: 1}
+  m_BuildTextureStacks: []

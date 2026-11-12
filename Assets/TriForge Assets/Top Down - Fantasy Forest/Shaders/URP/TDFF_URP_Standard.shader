@@ -11,6 +11,7 @@ Shader "TriForge/URP/Standard"
 {
     Properties
     {
+        _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         _Color("Color", Color) = (1,1,1,1)
         _MainTex("Albedo", 2D) = "white" {}
         _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
@@ -72,6 +73,7 @@ Shader "TriForge/URP/Standard"
             TEXTURE2D(_EmissionMap);    SAMPLER(sampler_EmissionMap);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 half4 _Color;
                 half _Cutoff;
@@ -85,6 +87,7 @@ Shader "TriForge/URP/Standard"
                 half _DstBlend;
                 half _ZWrite;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             struct Attributes
             {
@@ -189,7 +192,7 @@ Shader "TriForge/URP/Standard"
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 inputData.shadowMask       = 1.0h;
 
-                half4 color = UniversalFragmentPBR(inputData, surfaceData);
+                half4 color = OBCUniversalFragmentPBR(inputData, surfaceData, OBCIndirectStrength(_IndirectLightStrength));
                 color.rgb = MixFog(color.rgb, input.fogFactor);
                 return color;
             }
@@ -222,6 +225,7 @@ Shader "TriForge/URP/Standard"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 half4 _Color;
                 half _Cutoff;
@@ -235,6 +239,7 @@ Shader "TriForge/URP/Standard"
                 half _DstBlend;
                 half _ZWrite;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             struct Attributes
             {
@@ -298,6 +303,7 @@ Shader "TriForge/URP/Standard"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 half4 _Color;
                 half _Cutoff;
@@ -311,6 +317,7 @@ Shader "TriForge/URP/Standard"
                 half _DstBlend;
                 half _ZWrite;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             struct Attributes
             {
@@ -345,6 +352,6 @@ Shader "TriForge/URP/Standard"
             ENDHLSL
         }
     }
-
+    CustomEditor "ObscuredByClouds.EditorTools.IndirectLightingShaderGUI"
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }

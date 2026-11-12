@@ -130,6 +130,10 @@ void ApplyReflectionSky
 #endif
 #endif
 #endif
+    // Baked probes retain the daytime sky. The day/night water samples the
+    // current HDR sky and its palette directly, independent of probe refresh.
+    if (_ObcTodEnabled > .5 && _ShuimianHorizonParams.x > .5)
+        skyColour = SampleObcWaterSky(refl, mip);
     // Keep the original Water lighting order: lighting joins the environment,
     // then the complete result is mixed through Fresnel once.
     float smoothness = _Smoothness;
@@ -151,6 +155,7 @@ void ApplyReflectionSky
     }
 #endif
 #endif
+    skyColour *= OBCWaterIndirectStrength();
     skyColour += lightColor;
     float R_theta = CalculateFresnelReflectionCoefficient(max(dot(i_n_pixel, i_view), 0.0));
     io_col = lerp(io_col, skyColour, R_theta * _Specular * i_weight);
@@ -167,7 +172,7 @@ void ApplyReflectionSky
         // Transparent Fade Color returns to water; neither fade nor sky escapes
         // the master strength, maximum blend and editable distance-alpha curve.
         half3 fadeBase = lerp(io_col, _ShuimianMirrorFadeColor.rgb, saturate(_ShuimianMirrorFadeColor.a));
-        half3 mirrorColour = lerp(fadeBase, reflected.rgb, surfaceBlend);
+        half3 mirrorColour = lerp(fadeBase, reflected.rgb * OBCWaterIndirectStrength(), surfaceBlend);
         io_col = lerp(io_col, mirrorColour, mirrorStrength * reflected.a * saturate(i_weight));
     }
 #endif

@@ -21,6 +21,11 @@ namespace Shuimian.Gameplay
         [Range(8, 128)] public int subdivisions = 96;
         [Range(1, 9)] public int lodCount = 7;
         public bool followCamera = true;
+        [Header("海天衔接")]
+        [Tooltip("远海逐渐融入当前天空的实际颜色，兼容 Cubemap 与 TimeOfDay 程序天空，避免海天硬边；仅影响此水面。")]
+        public bool blendHorizonWithSky;
+        [Min(0f)] public float horizonBlendStart = 120f;
+        [Min(1f)] public float horizonBlendEnd = 700f;
         [Header("FFT 海浪（来自 Water 的波谱参数）")]
         public bool enableWaves = true;
         [Range(0f, 3f)] public float waveAmplitude = 1f;
@@ -504,6 +509,7 @@ namespace Shuimian.Gameplay
             for (int level = 0; level < levels; level++)
             {
                 properties.Clear();
+                ApplyHorizonSky(properties);
                 properties.SetBuffer("_CrestCascadeData", cascadeBuffer);
                 properties.SetBuffer("_CrestPerCascadeInstanceData", instanceBuffer);
                 properties.SetInt("_LD_SliceIndex", level);
@@ -544,6 +550,27 @@ namespace Shuimian.Gameplay
             WaveFieldDiameters = new Vector2(nearDiameter, farDiameter);
             WaveFieldCascadeCount = cascadeCount;
             SurfacePrepared?.Invoke(camera);
+        }
+        void ApplyHorizonSky(MaterialPropertyBlock block)
+        {
+            var sky = RenderSettings.skybox;
+            Texture cube = sky != null && sky.HasProperty("_Tex") ? sky.GetTexture("_Tex") : null;
+            bool procedural = sky != null && sky.shader.name == "ObscuredByClouds/TimeOfDay Procedural Sky" && Shader.GetGlobalFloat("_ObcTodEnabled") > .5f;
+            bool enabled = blendHorizonWithSky && (procedural || (cube != null && cube.dimension == TextureDimension.Cube));
+            block.SetFloat("_ShuimianHorizonProcedural", procedural ? 1f : 0f);
+            block.SetVector("_ShuimianHorizonParams", new Vector4(enabled ? 1f : 0f,
+                Mathf.Max(0f, horizonBlendStart), Mathf.Max(horizonBlendStart + 1f, horizonBlendEnd),
+                sky != null && sky.HasProperty("_Rotation") ? sky.GetFloat("_Rotation") * Mathf.Deg2Rad : 0f));
+            if (!enabled || procedural) return;
+            block.SetTexture("_ShuimianHorizonSky", cube);
+            Vector4 decode = sky.GetVector("_Tex_HDR");
+            if (decode.x <= 0f) decode = new Vector4(1f, 1f, 0f, 0f);
+            block.SetVector("_ShuimianHorizonSkyHDR", decode);
+            Color tint = sky.HasProperty("_Tint") ? sky.GetColor("_Tint") : Color.gray;
+            float exposure = sky.HasProperty("_Exposure") ? sky.GetFloat("_Exposure") : 1f;
+            float skyTintScale = 2f;
+            if (QualitySettings.activeColorSpace == ColorSpace.Linear) tint = tint.linear;
+            block.SetVector("_ShuimianHorizonSkyTint", (Vector4)(tint * (exposure * skyTintScale)));
         }
         float MirrorCameraDistance(Camera camera)
         {

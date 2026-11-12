@@ -117,6 +117,7 @@ Shader "ObscuredByClouds/Terrain Grass Interactive"
                 half _ColorVarianceAmount;
                 half _DetailBendingIntensity;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             // ------- wind vertex displacement, ported from TreeTopDown vertexDataFunc
             float3 ApplyWind(float3 positionOS, float3 positionWS, float3 pivotWS, float uv2y)
@@ -268,14 +269,14 @@ Shader "ObscuredByClouds/Terrain Grass Interactive"
                 inputData.shadowCoord = float4(0,0,0,0);
             #endif
                 inputData.fogCoord         = input.fogFactor;
-                inputData.bakedGI          = SampleSH(worldNormal) * _IndirectLightStrength;
+                inputData.bakedGI          = SampleSH(worldNormal);
             #if defined(_ADDITIONAL_LIGHTS_VERTEX)
                 inputData.vertexLighting = VertexLighting(input.positionWS, worldNormal);
             #endif
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 inputData.shadowMask       = 1.0h;
 
-                half4 color = UniversalFragmentPBR(inputData, surfaceData);
+                half4 color = OBCUniversalFragmentPBR(inputData, surfaceData, OBCIndirectStrength(_IndirectLightStrength));
                 color.rgb = MixFog(color.rgb, input.fogFactor);
                 return color;
             }
@@ -332,6 +333,7 @@ Shader "ObscuredByClouds/Terrain Grass Interactive"
                 half _ColorVarianceAmount;
                 half _DetailBendingIntensity;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             float3 ApplyWind(float3 positionOS, float3 positionWS, float3 pivotWS, float uv2y)
             {
@@ -447,6 +449,7 @@ Shader "ObscuredByClouds/Terrain Grass Interactive"
                 half _ColorVarianceAmount;
                 half _DetailBendingIntensity;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             float3 ApplyWind(float3 positionOS, float3 positionWS, float3 pivotWS, float uv2y)
             {
@@ -508,6 +511,6 @@ Shader "ObscuredByClouds/Terrain Grass Interactive"
             ENDHLSL
         }
     }
-
+    CustomEditor "ObscuredByClouds.EditorTools.IndirectLightingShaderGUI"
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }

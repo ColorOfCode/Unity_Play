@@ -15,24 +15,24 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.4999555, g: 0.8398196, b: 0.990566, a: 1}
+  m_FogColor: {r: 0.49749815, g: 0.8416958, b: 1.0180587, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.001
   m_LinearFogStart: 58
   m_LinearFogEnd: 250
-  m_AmbientSkyColor: {r: 0.2216981, g: 0.5143164, b: 1, a: 1}
-  m_AmbientEquatorColor: {r: 1.7411011, g: 1.7411011, b: 1.7411011, a: 1}
-  m_AmbientGroundColor: {r: 0.045355596, g: 0.23584908, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.22060843, g: 0.5154654, b: 1.0277545, a: 1}
+  m_AmbientEquatorColor: {r: 1.7325433, g: 1.7449908, b: 1.7894247, a: 1}
+  m_AmbientGroundColor: {r: 0.04513267, g: 0.23637596, b: 0, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 0256400fe6bd8e34781ad8a813aada40, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
-  m_DefaultReflectionMode: 1
+  m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
@@ -10262,6 +10262,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -6.2300005
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &51823519 stripped
@@ -19115,6 +19123,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &94104183 stripped
@@ -58970,11 +58986,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7057435734839287044, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d38e9a65eae5fd438b24f544fa70c12, type: 2}
+    - target: {fileID: -7057435734839287044, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: bc2409ffe612d394c982518933b1bb3d, type: 2}
+    - target: {fileID: -2068200939641671153, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d38e9a65eae5fd438b24f544fa70c12, type: 2}
+    - target: {fileID: -2068200939641671153, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: bc2409ffe612d394c982518933b1bb3d, type: 2}
+    - target: {fileID: 154731439940118289, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d38e9a65eae5fd438b24f544fa70c12, type: 2}
+    - target: {fileID: 154731439940118289, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: bc2409ffe612d394c982518933b1bb3d, type: 2}
     - target: {fileID: 919132149155446097, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
         type: 3}
       propertyPath: m_Name
       value: SK_Mannequin
       objectReference: {fileID: 0}
+    - target: {fileID: 5735841443883199188, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d38e9a65eae5fd438b24f544fa70c12, type: 2}
+    - target: {fileID: 5735841443883199188, guid: cde5b4e4bbfba7943ab4de69cb5f0750,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: bc2409ffe612d394c982518933b1bb3d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cde5b4e4bbfba7943ab4de69cb5f0750, type: 3}
 --- !u!4 &321474029 stripped
@@ -74405,6 +74461,675 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 400037558}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &400246567
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400246569}
+  - component: {fileID: 400246568}
+  m_Layer: 0
+  m_Name: TimeOfDay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &400246568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400246567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c159f3343840049c07cdf037d77ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkyboxMaterial: {fileID: 2100000, guid: 0256400fe6bd8e34781ad8a813aada40, type: 2}
+  SunLight: {fileID: 1323095498}
+  MoonTexture: {fileID: 2800000, guid: 6b72a2244a564d94ba6c61eb96130094, type: 3}
+  SunMoonAngleAdjust: -5
+  UseTimeline: 1
+  Timeline: 14.96
+  TimelineOffset: -12
+  ProgressTime: 0
+  TimelineSpeed: 1
+  Latitude: 130.5
+  Longitude: 87
+  HorizonColor:
+    serializedVersion: 2
+    key0: {r: 0.00623, g: 0.004991, b: 0.02422, a: 1}
+    key1: {r: 0.022083582, g: 0.02130484, b: 0.03495578, a: 1}
+    key2: {r: 0.57768697, g: 0.3942421, b: 0.5024943, a: 0}
+    key3: {r: 0.843692, g: 0.50867724, b: 0.4011152, a: 0}
+    key4: {r: 1.2912905, g: 0.7047037, b: 0.18005505, a: 0}
+    key5: {r: 1.1701448, g: 0.8678013, b: 0.24915434, a: 0}
+    key6: {r: 0.4610016, g: 1.1091512, b: 1.133709, a: 0}
+    key7: {r: 0.9076501, g: 1.5165744, b: 1.5941424, a: 0}
+    ctime0: 0
+    ctime1: 16384
+    ctime2: 26214
+    ctime3: 32960
+    ctime4: 41056
+    ctime5: 49151
+    ctime6: 58982
+    ctime7: 65342
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
+  ZenithColor:
+    serializedVersion: 2
+    key0: {r: 0, g: 0, b: 0, a: 1}
+    key1: {r: 0.010138399, g: 0.009416517, b: 0.016576907, a: 1}
+    key2: {r: 0.11754475, g: 0.21791089, b: 0.34470078, a: 0}
+    key3: {r: 0.05933598, g: 0.27628177, b: 0.4234918, a: 0}
+    key4: {r: 0, g: 0.32264206, b: 0.52473986, a: 0}
+    key5: {r: 0.07576444, g: 0.34738585, b: 0.5724759, a: 0}
+    key6: {r: 0.11141775, g: 0.35902983, b: 0.5949396, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 20046
+    ctime2: 26600
+    ctime3: 32768
+    ctime4: 40478
+    ctime5: 50501
+    ctime6: 65535
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 7
+    m_NumAlphaKeys: 2
+  HorizonFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: 0.978
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: -0.1
+      value: 2.143
+      inSlope: -0.26917404
+      outSlope: -0.26917404
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3
+      value: 1.372
+      inSlope: -1.6955813
+      outSlope: -1.6955813
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 0.83
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.967
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  HorizonTilt: 0.2
+  HorizonOffset: -0.2
+  SunColor:
+    serializedVersion: 2
+    key0: {r: 0.86995333, g: 0.902013, b: 0.91375214, a: 1}
+    key1: {r: 0.89840364, g: 0.8459179, b: 0.8175695, a: 1}
+    key2: {r: 0.97695684, g: 0.7428883, b: 0.61650807, a: 0}
+    key3: {r: 0.9824696, g: 0.71566945, b: 0.5524393, a: 0}
+    key4: {r: 0.9637629, g: 0.75382984, b: 0.55613047, a: 0}
+    key5: {r: 0.85420305, g: 0.82045734, b: 0.9035546, a: 0}
+    key6: {r: 0.8146693, g: 0.9527606, b: 0.97461647, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 16577
+    ctime2: 32768
+    ctime3: 39321
+    ctime4: 49151
+    ctime5: 58596
+    ctime6: 65535
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 7
+    m_NumAlphaKeys: 2
+  SunIntensity:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: -0.5
+      value: 1.4
+      inSlope: 1.4475816
+      outSlope: 1.4475816
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.11050415
+      value: 2.0075455
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 2
+      inSlope: -0.03393145
+      outSlope: -0.03393145
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.68
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SunRadius: 0.02
+  SunBloom: 1.16
+  SunScattering: 0.04
+  MoonColor:
+    serializedVersion: 2
+    key0: {r: 0.40371585, g: 0.3882353, b: 0.49803922, a: 1}
+    key1: {r: 0.45675173, g: 0.4117647, b: 0.58431375, a: 1}
+    key2: {r: 0.41050655, g: 0.3872221, b: 0.41964683, a: 0}
+    key3: {r: 0.40651357, g: 0.3527476, b: 0.3543307, a: 0}
+    key4: {r: 0.30435485, g: 0.24427842, b: 0.22348464, a: 0}
+    key5: {r: 0.16897331, g: 0.12876949, b: 0.11754475, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 16384
+    ctime1: 26600
+    ctime2: 32960
+    ctime3: 39707
+    ctime4: 49151
+    ctime5: 55705
+    ctime6: 59174
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 7
+    m_NumAlphaKeys: 2
+  MoonIntensity:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MoonSize: 1.46
+  MoonBloom: 1
+  MoonScattering: 0.1
+  StarsColor:
+    serializedVersion: 2
+    key0: {r: 1.9624916, g: 1.9749894, b: 1.8386375, a: 1}
+    key1: {r: 1.9624916, g: 1.9749894, b: 1.8386375, a: 1}
+    key2: {r: 1.7726697, g: 1.7847376, b: 1.6448509, a: 0}
+    key3: {r: 1.4321538, g: 1.4406879, b: 1.3361667, a: 0}
+    key4: {r: 0.79819417, g: 0.7987896, b: 0.86995333, a: 0}
+    key5: {r: 0.5276865, g: 0.5237533, b: 0.56433004, a: 0}
+    key6: {r: 0.0007314645, g: 0.0007314645, b: 0.0007314645, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 6554
+    ctime2: 16577
+    ctime3: 22937
+    ctime4: 32768
+    ctime5: 39707
+    ctime6: 49151
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 7
+    m_NumAlphaKeys: 2
+  StarsIntensity: 100
+  StarTilling: {x: 2, y: 2}
+  CloudsBackgroundColor:
+    serializedVersion: 2
+    key0: {r: 0.024299802, g: 0.020950131, b: 0.03020418, a: 1}
+    key1: {r: 0.027400175, g: 0.022245219, b: 0.024133788, a: 1}
+    key2: {r: 0.84313446, g: 0.5440239, b: 0.41445345, a: 0}
+    key3: {r: 0.88694495, g: 0.5496513, b: 0.40651357, a: 0}
+    key4: {r: 0.92978984, g: 0.613249, b: 0.47122645, a: 0}
+    key5: {r: 0.9076501, g: 0.69634306, b: 0.57327616, a: 0}
+    key6: {r: 0.90149844, g: 0.8105882, b: 0.7163482, a: 0}
+    key7: {r: 0.96802735, g: 0.9273059, b: 0.94647384, a: 0}
+    ctime0: 0
+    ctime1: 16384
+    ctime2: 24287
+    ctime3: 30262
+    ctime4: 35081
+    ctime5: 41634
+    ctime6: 47031
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
+  CloudsBackgroundBrightness:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: -0.499505
+      value: 0.1626114
+      inSlope: 0.17371376
+      outSlope: 0.17371376
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: -0.004108721
+      value: 0.273
+      inSlope: 0.11029548
+      outSlope: 0.11029548
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.328
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ControlLighting: 1
+  SunLightColor:
+    serializedVersion: 2
+    key0: {r: 0.9637629, g: 0.75382984, b: 0.55613047, a: 1}
+    key1: {r: 0.9843137, g: 0.8571225, b: 0.7815451, a: 1}
+    key2: {r: 1, g: 0.9702965, b: 0.9009434, a: 0}
+    key3: {r: 1, g: 1, b: 1, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 9638
+    ctime2: 23708
+    ctime3: 65342
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 4
+    m_NumAlphaKeys: 2
+  SunLightIntensity:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MoonLightColor:
+    serializedVersion: 2
+    key0: {r: 0.4078498, g: 0.39004833, b: 0.49936828, a: 1}
+    key1: {r: 0.4078498, g: 0.39004833, b: 0.49936828, a: 1}
+    key2: {r: 0.6709894, g: 0.63105196, b: 0.8207547, a: 0}
+    key3: {r: 0.7775454, g: 0.82847136, b: 0.9528302, a: 0}
+    key4: {r: 0.7775454, g: 0.82847136, b: 0.9528302, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 13300
+    ctime2: 33153
+    ctime3: 53199
+    ctime4: 64379
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
+  MoonLightIntensity:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.26
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SkyLightColor:
+    serializedVersion: 2
+    key0: {r: 0.27224314, g: 0.31729105, b: 0.40392157, a: 1}
+    key1: {r: 0.25832146, g: 0.28206527, b: 0.4245283, a: 1}
+    key2: {r: 0.4862745, g: 0.4862745, b: 0.4862745, a: 0}
+    key3: {r: 0.38903797, g: 0.38688144, b: 0.3962264, a: 0}
+    key4: {r: 0.33103418, g: 0.33677468, b: 0.4056604, a: 0}
+    key5: {r: 0.54903877, g: 0.5591179, b: 0.5849056, a: 0}
+    key6: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
+    key7: {r: 0.80651474, g: 0.83545554, b: 0.8679245, a: 0}
+    ctime0: 0
+    ctime1: 11758
+    ctime2: 20239
+    ctime3: 26214
+    ctime4: 33924
+    ctime5: 45489
+    ctime6: 52814
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
+  DayLightMultiplier: 5.11
+  MoonLightMultiplier: 0.15
+  DayAmbientSky: {r: 0.22169808, g: 0.51431626, b: 0.99999976, a: 1}
+  DayAmbientEquator: {r: 1.7411009, g: 1.7411008, b: 1.7411008, a: 1}
+  DayAmbientGround: {r: 0.045355592, g: 0.23584902, b: 0, a: 1}
+  NightAmbientBrightness: 0.15
+  ControlFog: 1
+  DayFogColor: {r: 0.49995545, g: 0.83981943, b: 0.9905658, a: 1}
+  ControlIndirectLighting: 1
+  GlobalIndirectLightStrength: 1
+  IndirectLightByTimeline:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.025
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 5
+      value: 0.04
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 6
+      value: 0.12
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 8
+      value: 0.65
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 12
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 16
+      value: 0.7
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 18
+      value: 0.16
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 20
+      value: 0.05
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 24
+      value: 0.025
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  UpdateEnvironment: 1
+  EnvironmentUpdateInterval: 2
+--- !u!4 &400246569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400246567}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &400645516
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94518,6 +95243,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.55200005
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
+    - target: {fileID: 2300004, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
 --- !u!4 &501353514 stripped
@@ -102190,6 +102923,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
+    - target: {fileID: 2300004, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
 --- !u!4 &544622921 stripped
@@ -108316,6 +109057,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -5.6740003
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &571871085 stripped
@@ -114194,6 +114943,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &601731882 stripped
@@ -115836,7 +116593,7 @@ Terrain:
   m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
   m_ReflectionProbeUsage: 2
-  m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 8a16d894a2446b547858d4aebaa8a7e0, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -122322,6 +123079,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.078
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &642622559 stripped
@@ -158582,6 +159347,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.446
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &824355836 stripped
@@ -168503,6 +169276,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -6.084
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &878135613 stripped
@@ -189577,6 +190358,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -5.709
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &1003807849 stripped
@@ -190614,6 +191403,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.22700001
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &1007847352 stripped
@@ -205197,6 +205994,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 094cb27e3a03dc64e85ace74b5018fad, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8fe242f1edd0a7046aa7b44e0e150f4f, type: 2}
+    - target: {fileID: 2300004, guid: 094cb27e3a03dc64e85ace74b5018fad, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8fe242f1edd0a7046aa7b44e0e150f4f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 094cb27e3a03dc64e85ace74b5018fad, type: 3}
 --- !u!4 &1087959866 stripped
@@ -224193,6 +224998,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
+    - target: {fileID: 2300004, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
 --- !u!4 &1186250843 stripped
@@ -226597,6 +227410,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &1194335960 stripped
@@ -235086,6 +235907,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.0360003
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
+    - target: {fileID: 2300004, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38d1fb4cb25898247a8aa44c17727b45, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 561527a1f13281c4b98a6dd494c3116f, type: 3}
 --- !u!4 &1241955766 stripped
@@ -251116,7 +251945,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.8487876, b: 0.7327044, a: 1}
+  m_Color: {r: 1, g: 0.94423854, b: 0.8212431, a: 1}
   m_Intensity: 5.11
   m_Range: 10
   m_SpotAngle: 30
@@ -251174,7 +252003,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323095496}
-  m_LocalRotation: {x: 0.13938455, y: -0.7680266, z: 0.17872538, w: 0.59896946}
+  m_LocalRotation: {x: -0.0994047, y: 0.8830062, z: -0.21726587, w: -0.4039979}
   m_LocalPosition: {x: -226.76807, y: -9, z: -221.09749}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -338122,6 +338951,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
+    - target: {fileID: 2300004, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
 --- !u!4 &1757023221 stripped
@@ -384667,6 +385504,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
+    - target: {fileID: 2300004, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ea80fe45128cc3499c38eac6b92293c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033d5ff2dafc70a429fb8630b89ec34e, type: 3}
 --- !u!4 &1984456945 stripped
@@ -391828,6 +392673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623021290281415325, guid: 96582d5ef94dbdd469ea4a91cd5304fa,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623021290281415326, guid: 96582d5ef94dbdd469ea4a91cd5304fa,
         type: 3}
@@ -418784,6 +419634,9 @@ MonoBehaviour:
   subdivisions: 96
   lodCount: 7
   followCamera: 1
+  blendHorizonWithSky: 1
+  horizonBlendStart: 120
+  horizonBlendEnd: 700
   enableWaves: 1
   waveAmplitude: 0.16
   waveChop: 0.53

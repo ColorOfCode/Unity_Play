@@ -106,6 +106,7 @@ Material:
     - _GradientPosition: 2.93
     - _GradientUV: 0
     - _GrassSpecularStrength: 0
+    - _IndirectLightStrength: 0.45
     - _MainTextureBrightness: 1
     - _Metallic: 0
     - _Mode: 1
@@ -114,6 +115,7 @@ Material:
     - _OBCGrassMeshHeight: 2.185469
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ReceiveShadows: 1
     - _Smoothness: 0.18
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0

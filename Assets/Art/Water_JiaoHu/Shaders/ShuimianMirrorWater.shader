@@ -6,6 +6,8 @@ Shader "Shuimian/Mirror Water URP"
 {
 	Properties
 	{
+        _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
+		[HideInInspector] _ShuimianHorizonSky("Horizon Sky", Cube) = "black" {}
 		[Header(Shuimian Mirror)]
 		_ShuimianMirrorStrength("Mirror Strength", Range(0.0, 1.0)) = 1.0
 		[Toggle] _ShuimianReflectSky("Reflect Sky", Float) = 1
@@ -295,6 +297,9 @@ Shader "Shuimian/Mirror Water URP"
 			#include "Assets/Crest/Crest/Shaders/OceanGlobals.hlsl"
 			#include "Assets/Crest/Crest/Shaders/OceanInputsDriven.hlsl"
 			#include "Assets/Crest/Crest/Shaders/OceanShaderData.hlsl"
+#include "Assets/Art/ObscuredByClouds/Lighting/OBCIndirectControl.hlsl"
+            half _IndirectLightStrength;
+            half OBCWaterIndirectStrength() { return OBCIndirectStrength(_IndirectLightStrength); }
 			#include "Assets/Crest/Crest/Shaders/OceanHelpersNew.hlsl"
 			#include "Assets/Crest/Crest/Shaders/OceanVertHelpers.hlsl"
 			#include "Assets/Crest/Crest/Shaders/OceanShaderHelpers.hlsl"
@@ -302,10 +307,11 @@ Shader "Shuimian/Mirror Water URP"
 
 			#include "Assets/Crest/Crest/Shaders/Helpers/WaterVolume.hlsl"
 
-			#include "Assets/Crest/Crest/Shaders/OceanEmission.hlsl"
+			#include "ShuimianOceanEmission.hlsl"
 			#include "Assets/Crest/Crest/Shaders/OceanNormalMapping.hlsl"
+			#include "Assets/Art/ObscuredByClouds/DayNight/TimeOfDayWaterSky.hlsl"
 			#include "ShuimianMirrorReflection.hlsl"
-			#include "Assets/Crest/Crest/Shaders/OceanFoam.hlsl"
+			#include "ShuimianOceanFoam.hlsl"
 
 			struct Attributes
 			{
@@ -728,7 +734,21 @@ Shader "Shuimian/Mirror Water URP"
 				if (!underwater)
 				{
 					// Above water - do atmospheric fog. If you are using a third party sky package such as Azure, replace this with their stuff!
-					col = MixFog(col, input.positionWS_fogFactor.w);
+					if (_ShuimianHorizonParams.x > .5)
+					{
+						// Match the sky along this exact ray, including rotation,
+						// HDR decode, tint and exposure. At the far clip edge the
+						// ocean and sky therefore converge to the same color.
+						float3 ray = normalize(input.positionWS_fogFactor.xyz - GetCameraPositionWS());
+						half3 skyColor = SampleObcWaterSky(ray, 0);
+						float distanceToWater = distance(input.positionWS_fogFactor.xyz, GetCameraPositionWS());
+						float haze = smoothstep(_ShuimianHorizonParams.y, _ShuimianHorizonParams.z, distanceToWater);
+						// Also converge before each camera's far plane, including Scene view.
+						float viewDepth = -TransformWorldToView(input.positionWS_fogFactor.xyz).z;
+						haze = max(haze, smoothstep(_ProjectionParams.z * .65, _ProjectionParams.z * .95, viewDepth));
+						col = lerp(col, skyColor, haze);
+					}
+					else col = MixFog(col, input.positionWS_fogFactor.w);
 				}
 #if CREST_UNDERWATER_BEFORE_TRANSPARENT
 				else
@@ -766,5 +786,6 @@ Shader "Shuimian/Mirror Water URP"
 	}
 
 	// If the above doesn't work then error.
-	FallBack "Hidden/InternalErrorShader"
+	CustomEditor "ObscuredByClouds.EditorTools.IndirectLightingShaderGUI"
+    FallBack "Hidden/InternalErrorShader"
 }

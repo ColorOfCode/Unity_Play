@@ -17,6 +17,7 @@ Shader "TriForge/URP/Tree"
 {
     Properties
     {
+        _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         _Cutoff("Mask Clip Value", Float) = 0.5
         _MainTex("Base Color", 2D) = "white" {}
         _Normal("Normal", 2D) = "bump" {}
@@ -81,6 +82,7 @@ Shader "TriForge/URP/Tree"
             float  TD_WindStrength;
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 float4 _Normal_ST;
                 float4 _MaskMap_ST;
@@ -99,6 +101,7 @@ Shader "TriForge/URP/Tree"
                 half _ColorVarianceAmount;
                 half _DetailBendingIntensity;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             // ------- wind vertex displacement, ported from TreeTopDown vertexDataFunc
             float3 ApplyWind(float3 positionOS, float3 positionWS, float3 pivotWS, float uv2y)
@@ -247,7 +250,7 @@ Shader "TriForge/URP/Tree"
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 inputData.shadowMask       = 1.0h;
 
-                half4 color = UniversalFragmentPBR(inputData, surfaceData);
+                half4 color = OBCUniversalFragmentPBR(inputData, surfaceData, OBCIndirectStrength(_IndirectLightStrength));
                 color.rgb = MixFog(color.rgb, input.fogFactor);
                 return color;
             }
@@ -282,6 +285,7 @@ Shader "TriForge/URP/Tree"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 float4 _Normal_ST;
                 float4 _MaskMap_ST;
@@ -300,6 +304,7 @@ Shader "TriForge/URP/Tree"
                 half _ColorVarianceAmount;
                 half _DetailBendingIntensity;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             float3 ApplyWind(float3 positionOS, float3 positionWS, float3 pivotWS, float uv2y)
             {
@@ -392,6 +397,7 @@ Shader "TriForge/URP/Tree"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 float4 _Normal_ST;
                 float4 _MaskMap_ST;
@@ -410,6 +416,7 @@ Shader "TriForge/URP/Tree"
                 half _ColorVarianceAmount;
                 half _DetailBendingIntensity;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 
             float3 ApplyWind(float3 positionOS, float3 positionWS, float3 pivotWS, float uv2y)
             {
@@ -470,6 +477,6 @@ Shader "TriForge/URP/Tree"
             ENDHLSL
         }
     }
-
+    CustomEditor "ObscuredByClouds.EditorTools.IndirectLightingShaderGUI"
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }

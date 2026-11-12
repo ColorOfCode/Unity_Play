@@ -17,6 +17,7 @@ Shader "TriForge/URP/SimpleWater"
 {
     Properties
     {
+        _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         [Normal]_NormalMap("Normal Map", 2D) = "bump" {}
         _NormalMapScale("Normal Map Scale", Range(0.0, 10.0)) = 1
         _NormalIntensity("Normal Intensity", Range(0.0, 5.0)) = 0
@@ -70,6 +71,7 @@ Shader "TriForge/URP/SimpleWater"
             TEXTURE2D(_FoamTexture); SAMPLER(sampler_FoamTexture);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 half _NormalMapScale;
                 half _NormalIntensity;
                 half4 _WaterDeepColor;
@@ -87,6 +89,7 @@ Shader "TriForge/URP/SimpleWater"
                 half _SpecularHighlights;
                 half _GlossyReflections;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCIndirectControl.hlsl"
 
             struct Attributes
             {
@@ -184,9 +187,10 @@ Shader "TriForge/URP/SimpleWater"
                 float distanceDepth256 = saturate(abs((sceneEyeZ - fragEyeZ) / 0.11));
                 half alpha = saturate(pow(abs(distanceDepth256), 1.5));
 
-                half3 rgb = albedo.rgb + spec;
+                half3 surfaceTint = lerp(waterColor.rgb, _FoamColor.rgb, foam);
+                half3 rgb = surfaceTint * OBCIndirectStrength(_IndirectLightStrength) + refraction.rgb * (1.0h - foam) + spec;
                 // water ambient tint
-                rgb += albedo.rgb * SampleSH(waterNormal) * 0.1h;
+                rgb += surfaceTint * SampleSH(waterNormal) * 0.1h * OBCIndirectStrength(_IndirectLightStrength);
 
                 rgb = MixFog(rgb, input.fogFactor);
                 return half4(rgb, alpha);
@@ -194,6 +198,6 @@ Shader "TriForge/URP/SimpleWater"
             ENDHLSL
         }
     }
-
+    CustomEditor "ObscuredByClouds.EditorTools.IndirectLightingShaderGUI"
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: b16efc0c198574a41b8e01a0d1cbd881
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Rainbow_Tex05: {fileID: 2800000, guid: 6c38e4dbbe30ff24b87e622b610f2858, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

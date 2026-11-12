@@ -12,6 +12,7 @@ Shader "TriForge/URP/TreeLod"
 {
     Properties
     {
+        _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         _Cutoff("Mask Clip Value", Float) = 0.5
         _MainTex1("Base Color", 2D) = "white" {}
         _MainTextureBrightness("Main Texture Brightness", Range(0.0, 2.0)) = 0.5
@@ -45,12 +46,14 @@ Shader "TriForge/URP/TreeLod"
             TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex1_ST;
                 half4 _Color;
                 half _Cutoff;
                 half _MainTextureBrightness;
                 half _TopBrightness;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCIndirectControl.hlsl"
 
             struct Attributes
             {
@@ -109,7 +112,7 @@ Shader "TriForge/URP/TreeLod"
                                 * mainLight.shadowAttenuation
             #endif
                                 ;
-                half3 ambient = SampleSH(normalWS);
+                half3 ambient = SampleSH(normalWS) * OBCIndirectStrength(_IndirectLightStrength);
 
                 half3 rgb = albedo * (lambert + ambient);
                 rgb = MixFog(rgb, input.fogFactor);
@@ -143,12 +146,14 @@ Shader "TriForge/URP/TreeLod"
             TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex1_ST;
                 half4 _Color;
                 half _Cutoff;
                 half _MainTextureBrightness;
                 half _TopBrightness;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCIndirectControl.hlsl"
 
             struct Attributes
             {
@@ -210,12 +215,14 @@ Shader "TriForge/URP/TreeLod"
             TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 
             CBUFFER_START(UnityPerMaterial)
+                half _IndirectLightStrength;
                 float4 _MainTex1_ST;
                 half4 _Color;
                 half _Cutoff;
                 half _MainTextureBrightness;
                 half _TopBrightness;
             CBUFFER_END
+            #include "Assets/Art/ObscuredByClouds/Lighting/OBCIndirectControl.hlsl"
 
             struct Attributes
             {
@@ -248,6 +255,6 @@ Shader "TriForge/URP/TreeLod"
             ENDHLSL
         }
     }
-
+    CustomEditor "ObscuredByClouds.EditorTools.IndirectLightingShaderGUI"
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }

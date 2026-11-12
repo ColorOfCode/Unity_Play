@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_Grass_ASE2
+  m_Shader: {fileID: 4800000, guid: a2ca9b1a32c82ab4a93a2dfeac303142, type: 3}
+  m_ValidKeywords:
+  - _COLORGRADIENT_UV
+  - _WINDGRADIENT_UV
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AO:
+        m_Texture: {fileID: 2800000, guid: de2b2fc8e77919544b98984e789068d2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: d1abf591cfe58fe4ab5536e453c7214a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 2d6416eb64f48174fb9c5f123bfadbbc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: 05d820e7e403bee46b9659ebfca253ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 2d6416eb64f48174fb9c5f123bfadbbc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VariationMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO: 1
+    - _AlphaClip: 1
+    - _AlphaCutoff: 0.5
+    - _BaseColorIntensity: 1
+    - _BaseMap_Intensity: 1
+    - _BumpScale: 1
+    - _ColorGradient: 0
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DIFFUSE_OFF: 0
+    - _DIRHIGHLIGHT_OFF: 0
+    - _DIR_OFF: 0
+    - _DstBlend: 0
+    - _EMISSION: 0
+    - _EnvRotation: 0
+    - _Float0: 0.1
+    - _Float2: 1
+    - _IBLScale: 0
+    - _IBL_OFF: 0
+    - _IBL_Scale: 2
+    - _Metallic: 0.01
+    - _NarmalMap_Scale: 1
+    - _Occlusion: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Roughness: 0.5
+    - _SHScale: 1.5
+    - _SH_OFF: 0
+    - _SH_Scale: 1
+    - _SPECULAR_OFF: 0
+    - _Smoothness: 0.76
+    - _SrcBlend: 1
+    - _TRANSPARENT_ON: 0
+    - _TipGradient: 1
+    - _VariationMaskScale: 50
+    - _WindDirection: 88
+    - _WindGradient: 0
+    - _WindIntensity: 0.5
+    - _WindSizeBig: 10
+    - _WindSizeSmall: 5
+    - _WindSpeed: 0.2
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _VariationColorA: {r: 0.24705875, g: 1, b: 0, a: 0}
+    - _VariationColorB: {r: 0, g: 0.40392157, b: 0.42745098, a: 0}
+    - _Vector5: {r: 0, g: 0, b: 0, a: 0}
+    - _WindStetch: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
