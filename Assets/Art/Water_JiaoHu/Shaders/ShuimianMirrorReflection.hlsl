@@ -11,18 +11,20 @@ float4 _ShuimianMirrorDistanceParams;
 half4 _ShuimianMirrorFadeColor;
 float _ShuimianMirrorRecursiveDarkening;
 float4 _ShuimianMirrorRecursionData;
-sampler2D _ShuimianMirrorDistanceCurve;
-sampler2D _ShuimianMirrorRecursiveCurve;
+// Curves and reflection captures all use bilinear clamping.
+SamplerState sampler_ShuiCapture_linear_clamp;
+Texture2D _ShuimianMirrorDistanceCurve;
+Texture2D _ShuimianMirrorRecursiveCurve;
 float _ShuimianUseReflectionCoverage;
-sampler2D _ShuimianReflectionCoverage;
+Texture2D _ShuimianReflectionCoverage;
 float _ShuimianReflectionPostProcessingStrength;
-sampler2D _ShuimianReflectionUnprocessed;
+Texture2D _ShuimianReflectionUnprocessed;
 
-float SampleShuimianMirrorCurve(sampler2D curve, float t)
+float SampleShuimianMirrorCurve(Texture2D curve, float t)
 {
     // Key endpoints map to texel centres, so editable Unity curves retain their
     // exact endpoints rather than acquiring a half-texel plateau.
-    return saturate(tex2D(curve, float2(saturate(t) * (255.0 / 256.0) + 0.5 / 256.0, 0.5)).r);
+    return saturate(curve.Sample(sampler_ShuiCapture_linear_clamp, float2(saturate(t) * (255.0 / 256.0) + 0.5 / 256.0, 0.5)).r);
 }
 
 float ShuimianMirrorDistanceAlpha(float3 positionWS)
@@ -78,12 +80,12 @@ half4 SampleShuimianMirror(in const float4 screenPosition, in const half3 normal
     // Both captures share the same projection and frame. Mix only colour;
     // geometric coverage comes from before post-processing below.
     if (_ShuimianReflectionPostProcessingStrength < 1.0)
-        reflection.rgb = lerp(tex2D(_ShuimianReflectionUnprocessed, uv).rgb, reflection.rgb,
+        reflection.rgb = lerp(_ShuimianReflectionUnprocessed.Sample(sampler_ShuiCapture_linear_clamp, uv).rgb, reflection.rgb,
             saturate(_ShuimianReflectionPostProcessingStrength));
     // URP post-processing can replace alpha with one. In that mode the capture
     // supplies coverage from before post-processing, at the identical UV.
     half coverage = _ShuimianUseReflectionCoverage > 0.5
-        ? tex2D(_ShuimianReflectionCoverage, uv).a : reflection.a;
+        ? _ShuimianReflectionCoverage.Sample(sampler_ShuiCapture_linear_clamp, uv).a : reflection.a;
     reflection.a = saturate(coverage);
     return reflection;
 }

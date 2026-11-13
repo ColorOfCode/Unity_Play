@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2202435623919673666
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8974793680767832050, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4179bf9b7ace4615831adc30d4a918cd, type: 2}
+    - target: {fileID: -8836626675286333779, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4179bf9b7ace4615831adc30d4a918cd, type: 2}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8405428094814096994, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4179bf9b7ace4615831adc30d4a918cd, type: 2}
+    - target: {fileID: -5927816721914524936, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4179bf9b7ace4615831adc30d4a918cd, type: 2}
+    - target: {fileID: 919132149155446097, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_Name
+      value: CliffIce_4_Warp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4361334363098559254, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4179bf9b7ace4615831adc30d4a918cd, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 395a83123b1c43f1a419869ff59e54fd, type: 3}

@@ -30,8 +30,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CloudsBackgroundBrightness: 0.31242797
-    - _HorizonFalloff: 1.0765595
+    - _CloudsBackgroundBrightness: 0.31342208
+    - _HorizonFalloff: 1.0469307
     - _HorizonOffset: -0.2
     - _HorizonTilt: 0.2
     - _MoonBloom: 1
@@ -40,17 +40,17 @@ Material:
     - _MoonSize: 1.46
     - _StarsIntensity: 100
     - _SunBloom: 1.16
-    - _SunIntensity: 2.0011873
+    - _SunIntensity: 2.0006242
     - _SunRadius: 0.02
     - _SunScattering: 0.04
     m_Colors:
-    - _CloudsBackgroundColor: {r: 0.90488183, g: 0.81652397, b: 0.7280515, a: 1}
-    - _HorizonColor: {r: 1.1877885, g: 0.8440478, b: 0.23909071, a: 1}
-    - _MoonColor: {r: 0.317108, g: 0.25781935, b: 0.23981902, a: 1}
-    - _MoonDirection: {r: -0.73233205, g: -0.42264402, b: -0.5339117, a: 0}
+    - _CloudsBackgroundColor: {r: 0.9069234, g: 0.82010573, b: 0.7351134, a: 1}
+    - _HorizonColor: {r: 1.1792905, g: 0.8554885, b: 0.24393779, a: 1}
+    - _MoonColor: {r: 0.31096554, g: 0.25129744, b: 0.23195168, a: 1}
+    - _MoonDirection: {r: -0.89915246, g: -0.4375589, b: 0.008190881, a: 0}
     - _StarTilling: {r: 2, g: 2, b: 0, a: 0}
-    - _StarsColor: {r: 0.06651476, g: 0.06602374, b: 0.07108921, a: 1}
-    - _SunColor: {r: 0.96600646, g: 0.7492531, b: 0.5556878, a: 1}
-    - _SunDirection: {r: 0.6702708, g: 0.4640128, b: 0.5791624, a: 0}
-    - _ZenithColor: {r: 0.056647904, g: 0.34114262, b: 0.56043136, a: 1}
+    - _StarsColor: {r: 0.03483072, g: 0.034576178, b: 0.03720188, a: 1}
+    - _SunColor: {r: 0.9649259, g: 0.75145745, b: 0.555901, a: 1}
+    - _SunDirection: {r: 0.8742627, g: 0.48134217, b: 0.063041866, a: 0}
+    - _ZenithColor: {r: 0.060940214, g: 0.34254444, b: 0.5631358, a: 1}
   m_BuildTextureStacks: []

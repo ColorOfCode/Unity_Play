@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CliffIce_5
+  m_Shader: {fileID: 4800000, guid: 29fe3971b3873054e848f1fbec3ce3c9, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _VERTEXCOLORCHANNEL_B
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: f8c42205b9114b689ea4c34b74a76dd4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedo:
+        m_Texture: {fileID: 2800000, guid: 221cd8f8ab9a472d87fccd5a8a4963b7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: 64ab79d23fac49599c0f6fd106b56dca, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 2800000, guid: 020c491496e34f9ca1a9a30859c8002d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerAlbedo:
+        m_Texture: {fileID: 2800000, guid: cfe3a0b939a74d11a3ad9f8292598728, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerMetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LayerNormalMap:
+        m_Texture: {fileID: 2800000, guid: a1a76ed66ed34bdb8435306703707b23, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d089a8dd73284b3582beaf0ed18038eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: ff127acebf6944dc818a206a0495bf4b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap1:
+        m_Texture: {fileID: 2800000, guid: fe3b666afa6849be8c80b290cc28d9c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _2ndNormalPower: 1
+    - _AlphaCutoff: 0.5
+    - _BlendPower: 1
+    - _EnvironmentReflections: 1
+    - _InvertMask: 0
+    - _InvertMaskDetail: 0
+    - _LayerContrast: 0
+    - _LayerPosition: 0
+    - _LayerPower: 0.695
+    - _LayerThreshold: 50
+    - _MetallicPower: 0
+    - _NormalPower: 1
+    - _OcclusionPower: 0.25
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ScatteringPower: 1
+    - _SecondNormalPower: 1
+    - _SmoothnessPower: 0.5
+    - _SpecularHighlights: 1
+    - _Tiling: 0.1
+    - _Tiling2: 0.1
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormal: 0.5
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _TransStrength: 1
+    - _Translucency: 1
+    - _UseVertexColor: 0
+    - _VertexColorChannel: 2
+    - __dirty: 1
+    m_Colors:
+    - _2ndColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ScatteringColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

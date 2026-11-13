@@ -59,3 +59,7 @@ Thumbs.db
 
 # Local tooling
 .workbuddy/
+
+# Unity baked occlusion culling (large binary, regenerate via Window > Rendering > Occlusion Culling)
+[Oo]cclusionCullingData.asset
+[Oo]cclusionCullingData.asset.meta
