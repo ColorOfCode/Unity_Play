@@ -2,6 +2,8 @@ Shader "ObscuredByClouds/Lit Indirect"
 {
     Properties
     {
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+
         _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         // Specular vs Metallic workflow
         _WorkflowMode("WorkflowMode", Float) = 1.0

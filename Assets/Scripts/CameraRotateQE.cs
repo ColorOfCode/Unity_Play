@@ -54,6 +54,54 @@ public class CameraRotateQE : MonoBehaviour
     [Tooltip("以开启跟随那一刻的 X 值为中心，上/下最多可再偏移的角度（度）")]
     public float pitchMaxAngle = 20f;
 
+    [Header("滚轮远近（运行时，编辑器机位为 0）")]
+    public bool enableScrollZoom = true;
+    [Tooltip("拉近端的控制值；0 是当前模式的基准机位。")]
+    [InspectorName("最近控制值")] public float zoomNearLimit = -1f;
+    [Tooltip("拉远端的控制值；0 是当前模式的基准机位。")]
+    [InspectorName("最远控制值")] public float zoomFarLimit = 1f;
+    [Tooltip("拉到最近端时，与目标的距离相对基准距离的比例。")]
+    [InspectorName("最近距离比例"), Range(.05f, 1f)] public float zoomNearDistanceRatio = .5f;
+    [Tooltip("拉到最远端时，与目标的距离相对基准距离的比例。")]
+    [InspectorName("最远距离比例"), Min(1f)] public float zoomFarDistanceRatio = 2f;
+    [Tooltip("每一格滚轮改变的控制值。默认 0.12，约 8～9 格到达任一边界；滚轮向上拉近。")]
+    [InspectorName("滚轮灵敏度"), Min(.001f)] public float scrollZoomSensitivity = .12f;
+    [Tooltip("缩放过渡时间（秒）。0 为立即响应；建议 0.08～0.18。")]
+    [InspectorName("缩放平滑时间"), Range(0f, .5f)] public float scrollZoomSmoothTime = .12f;
+    [InspectorName("鼠标悬停 UI 时忽略滚轮")] public bool ignoreZoomOverUI = true;
+    [Tooltip("自由模式画面中心射线可命中的层。忽略 Trigger。")]
+    public LayerMask orbitPivotLayers = ~0;
+
+    public float CurrentZoom => _zoomValue;
+    public float TargetZoom => _zoomTarget;
+    public Vector3 ZoomPivot => _zoomPivot;
+
+    private Camera _zoomCamera;
+    private float _zoomValue, _zoomTarget, _zoomVelocity;
+    private Vector3 _zoomDisplacement, _zoomPivot, _zoomBasePosition;
+    private Quaternion _zoomBaseRotation;
+    private bool _zoomApplied, _zoomContextReady, _zoomWasFollowing;
+    private Transform _zoomFollowTarget;
+
+    private void OnEnable()
+    {
+        _zoomCamera = GetComponent<Camera>();
+        _zoomValue = _zoomTarget = _zoomVelocity = 0f;
+        _zoomApplied = _zoomContextReady = false;
+    }
+
+    private void OnDisable() { RemoveZoomDisplacement(); }
+
+    private void OnValidate()
+    {
+        zoomNearLimit = Mathf.Min(0f, zoomNearLimit);
+        zoomFarLimit = Mathf.Max(0f, zoomFarLimit);
+        zoomNearDistanceRatio = Mathf.Clamp(zoomNearDistanceRatio, .05f, 1f);
+        zoomFarDistanceRatio = Mathf.Max(1f, zoomFarDistanceRatio);
+        scrollZoomSensitivity = Mathf.Max(.001f, scrollZoomSensitivity);
+        scrollZoomSmoothTime = Mathf.Clamp(scrollZoomSmoothTime, 0f, .5f);
+    }
+
     // 跟随时保持的相对偏移（开开关那一刻的相机-目标相对位置）
     private Vector3 _followOffset;
     private bool _offsetReady;
@@ -78,6 +126,7 @@ public class CameraRotateQE : MonoBehaviour
 
     private void Update()
     {
+        PrepareZoomFrame();
         // ================= 旋转输入：Q / E（始终可用）=================
         float yawDelta = 0f;      // 水平旋转量（度）
         float pitchDelta = 0f;    // 俯仰变化量（度）
@@ -137,14 +186,19 @@ public class CameraRotateQE : MonoBehaviour
             _offsetReady = false;
             _basePitchReady = false;
         }
+        RefreshZoomContext();
+        if (enableScrollZoom &&
+            (!ignoreZoomOverUI || UnityEngine.EventSystems.EventSystem.current == null ||
+             !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) &&
+            (_zoomCamera == null || _zoomCamera.pixelRect.Contains(Input.mousePosition)))
+            AddScrollZoomInput(Input.mouseScrollDelta.y);
     }
 
     private void LateUpdate()
     {
         // 跟随放在 LateUpdate：目标（角色/动画）先动完，相机再贴上，避免抖动
-        if (!followMannequin || followTarget == null)
-            return;
-
+        if (followMannequin && followTarget != null)
+        {
         Vector3 desired = followTarget.position + _followOffset;
 
         if (followSmoothTime <= 0f)
@@ -156,6 +210,91 @@ public class CameraRotateQE : MonoBehaviour
             transform.position = Vector3.SmoothDamp(              // 平滑跟随
                 transform.position, desired, ref _followVelocity, followSmoothTime);
         }
+        }
+        ApplyScrollZoom(Time.unscaledDeltaTime);
+    }
+
+    private void PrepareZoomFrame()
+    {
+        bool following = followMannequin && followTarget != null;
+        if (_zoomContextReady && (following != _zoomWasFollowing ||
+            (following && _zoomFollowTarget != followTarget)))
+        {
+            // A mode/target change uses the currently visible pose as its new
+            // zero. Do not strip the previous zoom and cause a camera jump.
+            _zoomApplied = false;
+            _zoomValue = _zoomTarget = _zoomVelocity = 0f;
+            _zoomContextReady = false;
+            _offsetReady = _basePitchReady = false;
+            _followVelocity = Vector3.zero;
+        }
+        else RemoveZoomDisplacement();
+    }
+
+    private void RemoveZoomDisplacement()
+    {
+        if (!_zoomApplied) return;
+        transform.position -= _zoomDisplacement;
+        _zoomApplied = false;
+    }
+
+    private void RefreshZoomContext()
+    {
+        bool following = followMannequin && followTarget != null;
+        if (!_zoomContextReady || (!following &&
+            ((transform.position - _zoomBasePosition).sqrMagnitude > .000001f ||
+             Quaternion.Angle(transform.rotation, _zoomBaseRotation) > .001f)))
+            _zoomPivot = following ? followTarget.position : GetScreenCenterPivot();
+        _zoomWasFollowing = following;
+        _zoomFollowTarget = following ? followTarget : null;
+        _zoomContextReady = true;
+    }
+
+    /// <summary>滚轮格数输入；正数拉近，不乘 deltaTime，也可由其他输入适配器调用。</summary>
+    public void AddScrollZoomInput(float wheelSteps)
+    {
+        if (!enableScrollZoom || float.IsNaN(wheelSteps) || float.IsInfinity(wheelSteps)) return;
+        _zoomTarget = Mathf.Clamp(_zoomTarget - wheelSteps * Mathf.Max(.001f, scrollZoomSensitivity),
+            Mathf.Min(0f, zoomNearLimit), Mathf.Max(0f, zoomFarLimit));
+    }
+
+    private float ZoomDistanceRatio(float value)
+    {
+        // Exponential distance makes equal wheel movements feel symmetric when
+        // approaching and retreating, independently of the initial scene scale.
+        if (value < 0f && zoomNearLimit < 0f)
+            return Mathf.Pow(Mathf.Clamp(zoomNearDistanceRatio, .05f, 1f), Mathf.Clamp01(value / zoomNearLimit));
+        if (value > 0f && zoomFarLimit > 0f)
+            return Mathf.Pow(Mathf.Max(1f, zoomFarDistanceRatio), Mathf.Clamp01(value / zoomFarLimit));
+        return 1f;
+    }
+
+    private void ApplyScrollZoom(float deltaTime)
+    {
+        _zoomBasePosition = transform.position;
+        _zoomBaseRotation = transform.rotation;
+        if (!enableScrollZoom) { _zoomValue = _zoomTarget = _zoomVelocity = 0f; return; }
+        if (!_zoomContextReady) RefreshZoomContext();
+        _zoomTarget = Mathf.Clamp(_zoomTarget, Mathf.Min(0f, zoomNearLimit), Mathf.Max(0f, zoomFarLimit));
+        _zoomValue = scrollZoomSmoothTime <= 0f ? _zoomTarget :
+            Mathf.SmoothDamp(_zoomValue, _zoomTarget, ref _zoomVelocity, scrollZoomSmoothTime,
+                Mathf.Infinity, Mathf.Max(0f, deltaTime));
+        _zoomValue = Mathf.Clamp(_zoomValue, Mathf.Min(0f, zoomNearLimit), Mathf.Max(0f, zoomFarLimit));
+        if (_zoomWasFollowing && followTarget != null) _zoomPivot = followTarget.position;
+        Vector3 radial = transform.position - _zoomPivot;
+        float distance = radial.magnitude;
+        if (distance < .0001f) return;
+        float minimum = Mathf.Min(distance, _zoomCamera ? Mathf.Max(.05f, _zoomCamera.nearClipPlane * 1.1f) : .05f);
+        float desiredDistance = Mathf.Max(minimum, distance * ZoomDistanceRatio(_zoomValue));
+        _zoomDisplacement = radial * (desiredDistance / distance - 1f);
+        transform.position += _zoomDisplacement;
+        _zoomApplied = true;
+    }
+
+    [ContextMenu("运行时恢复默认远近（0）")]
+    public void ResetScrollZoom()
+    {
+        _zoomTarget = 0f;
     }
 
     /// <summary>
@@ -237,8 +376,8 @@ public class CameraRotateQE : MonoBehaviour
     /// </summary>
     private Vector3 GetScreenCenterPivot()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        Ray ray = _zoomCamera ? _zoomCamera.ViewportPointToRay(new Vector3(.5f, .5f, 0f)) : new Ray(transform.position, transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, orbitPivotLayers, QueryTriggerInteraction.Ignore))
             return hit.point;
 
         return transform.position + transform.forward * orbitFallbackDistance;

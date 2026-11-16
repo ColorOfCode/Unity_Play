@@ -4,6 +4,11 @@ Shader "Snowfield/Glacier/VegetationLeaves"
 {
 	Properties
 	{
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+        [HideInInspector] _OcclusionSrcBlend("Occlusion Src Blend", Float) = 1
+        [HideInInspector] _OcclusionDstBlend("Occlusion Dst Blend", Float) = 0
+        [HideInInspector] _OcclusionZWrite("Occlusion ZWrite", Float) = 1
+
         _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         [HideInInspector] _SnowTerrainMatch("Terrain Match", Float) = 0
         [HideInInspector] _SnowTerrainUV("Terrain UV", Vector) = (1,1,0,0)
@@ -226,8 +231,8 @@ Texture2D _DetailMetallicGlossMap;
 			Name "Forward"
 			Tags { "LightMode"="UniversalForwardOnly" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -382,6 +387,7 @@ Texture2D _DetailMetallicGlossMap;
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -1015,6 +1021,10 @@ half4 color = OBCUniversalFragmentPBR(inputData,surfaceData,OBCIndirectStrength(
 					outRenderingLayers = float4( EncodeMeshRenderingLayer( renderingLayers ), 0, 0, 0 );
 				#endif
 
+				// Texture alpha has already cut the leaf silhouette above. All surviving
+				// snow/leaf pixels use one shared fade, as opaque cutout foliage does.
+				color.a = _OcclusionOpacity;
+
 				return color;
 			}
 
@@ -1124,6 +1134,7 @@ half4 color = OBCUniversalFragmentPBR(inputData,surfaceData,OBCIndirectStrength(
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -1586,6 +1597,7 @@ float _Tiling;
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -2004,6 +2016,7 @@ float _Tiling;
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -2383,8 +2396,8 @@ float _Tiling;
 			Name "Universal2D"
 			Tags { "LightMode"="Universal2D" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -2455,6 +2468,7 @@ float _Tiling;
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -2798,6 +2812,8 @@ float _Tiling;
 					clip(Alpha - AlphaClipThreshold);
 				#endif
 
+				color.a = _OcclusionOpacity;
+
 				return color;
 			}
 			ENDHLSL
@@ -2918,6 +2934,7 @@ float _Tiling;
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -3385,6 +3402,7 @@ float _Tiling;
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -3791,6 +3809,7 @@ float _Tiling;
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;

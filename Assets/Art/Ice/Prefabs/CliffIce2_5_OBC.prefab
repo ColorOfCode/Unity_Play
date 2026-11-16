@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 5932128400861656277}
   - component: {fileID: 4684855269434861694}
   - component: {fileID: 426354401086898341}
+  - component: {fileID: 7781498499553182409}
   m_Layer: 0
   m_Name: CliffIce2_5_OBC
   m_TagString: Untagged
@@ -191,6 +192,24 @@ MonoBehaviour:
   maximumGroundDistance: 2
   normalStrengthMultiplier: 0.35
   updateInterval: 0.35
+--- !u!114 &7781498499553182409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325068171936958402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e236f3c3a0ab64da1a98deb3d99f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowFade: 1
+  renderers: []
+  materialBindings:
+  - source: {fileID: 2100000, guid: 11d351c95da06f647bc513c0dfa70e1c, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 3224b8bc9c65c5c479d58262bd03e4d9, type: 3}
 --- !u!1 &7252946090292478951
 GameObject:
   m_ObjectHideFlags: 0

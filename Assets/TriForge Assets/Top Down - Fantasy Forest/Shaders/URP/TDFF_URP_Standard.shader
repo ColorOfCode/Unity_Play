@@ -11,6 +11,8 @@ Shader "TriForge/URP/Standard"
 {
     Properties
     {
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+
         _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         _Color("Color", Color) = (1,1,1,1)
         _MainTex("Albedo", 2D) = "white" {}
@@ -73,6 +75,7 @@ Shader "TriForge/URP/Standard"
             TEXTURE2D(_EmissionMap);    SAMPLER(sampler_EmissionMap);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 half4 _Color;
@@ -194,6 +197,7 @@ Shader "TriForge/URP/Standard"
 
                 half4 color = OBCUniversalFragmentPBR(inputData, surfaceData, OBCIndirectStrength(_IndirectLightStrength));
                 color.rgb = MixFog(color.rgb, input.fogFactor);
+                color.a *= _OcclusionOpacity;
                 return color;
             }
             ENDHLSL
@@ -225,6 +229,7 @@ Shader "TriForge/URP/Standard"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 half4 _Color;
@@ -303,6 +308,7 @@ Shader "TriForge/URP/Standard"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 half4 _Color;

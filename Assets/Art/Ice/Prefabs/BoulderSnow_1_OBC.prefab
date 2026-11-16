@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 2536433940022046371}
   - component: {fileID: 4737170990048191866}
   - component: {fileID: 926510526726058084}
+  - component: {fileID: 819251006052985309}
   m_Layer: 0
   m_Name: BoulderSnow_1_OBC
   m_TagString: Untagged
@@ -583,3 +584,21 @@ MonoBehaviour:
   maximumGroundDistance: 2
   normalStrengthMultiplier: 0.35
   updateInterval: 0.35
+--- !u!114 &819251006052985309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8267635518352229124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e236f3c3a0ab64da1a98deb3d99f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowFade: 1
+  renderers: []
+  materialBindings:
+  - source: {fileID: 2100000, guid: bba655ceeabde1540bc4c7d986fec813, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 6d03868087f77f04dbcf85716270a04c, type: 3}

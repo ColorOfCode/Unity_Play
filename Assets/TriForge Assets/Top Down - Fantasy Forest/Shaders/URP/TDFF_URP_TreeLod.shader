@@ -12,6 +12,11 @@ Shader "TriForge/URP/TreeLod"
 {
     Properties
     {
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+        [HideInInspector] _OcclusionSrcBlend("Occlusion Src Blend", Float) = 1
+        [HideInInspector] _OcclusionDstBlend("Occlusion Dst Blend", Float) = 0
+        [HideInInspector] _OcclusionZWrite("Occlusion ZWrite", Float) = 1
+
         _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         _Cutoff("Mask Clip Value", Float) = 0.5
         _MainTex1("Base Color", 2D) = "white" {}
@@ -29,6 +34,8 @@ Shader "TriForge/URP/TreeLod"
         {
             Name "ForwardLit"
             Tags { "LightMode" = "UniversalForward" }
+            Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 
             Cull Off
 
@@ -46,6 +53,7 @@ Shader "TriForge/URP/TreeLod"
             TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex1_ST;
                 half4 _Color;
@@ -116,7 +124,7 @@ Shader "TriForge/URP/TreeLod"
 
                 half3 rgb = albedo * (lambert + ambient);
                 rgb = MixFog(rgb, input.fogFactor);
-                return half4(rgb, 1.0h);
+                return half4(rgb, _OcclusionOpacity);
             }
             ENDHLSL
         }
@@ -146,6 +154,7 @@ Shader "TriForge/URP/TreeLod"
             TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex1_ST;
                 half4 _Color;
@@ -215,6 +224,7 @@ Shader "TriForge/URP/TreeLod"
             TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex1_ST;
                 half4 _Color;

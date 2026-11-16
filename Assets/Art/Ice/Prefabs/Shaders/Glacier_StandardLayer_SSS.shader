@@ -4,6 +4,11 @@ Shader "Snowfield/Glacier/StandardLayer_SSS"
 {
 	Properties
 	{
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+        [HideInInspector] _OcclusionSrcBlend("Occlusion Src Blend", Float) = 1
+        [HideInInspector] _OcclusionDstBlend("Occlusion Dst Blend", Float) = 0
+        [HideInInspector] _OcclusionZWrite("Occlusion ZWrite", Float) = 1
+
         _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         [HideInInspector] _SnowTerrainMatch("Terrain Match", Float) = 0
         [HideInInspector] _SnowTerrainUV("Terrain UV", Vector) = (1,1,0,0)
@@ -226,8 +231,8 @@ void GlacierSnow(inout InputData i,inout SurfaceData s,float enabled,float4 uv,f
 			Name "Forward"
 			Tags { "LightMode"="UniversalForwardOnly" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -383,6 +388,7 @@ void GlacierSnow(inout InputData i,inout SurfaceData s,float enabled,float4 uv,f
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -1060,6 +1066,8 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 					outRenderingLayers = float4( EncodeMeshRenderingLayer( renderingLayers ), 0, 0, 0 );
 				#endif
 
+				color.a *= _OcclusionOpacity;
+
 				return color;
 			}
 			ENDHLSL
@@ -1161,6 +1169,7 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -1501,6 +1510,7 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -1809,6 +1819,7 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -2169,8 +2180,8 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			Name "Universal2D"
 			Tags { "LightMode"="Universal2D" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -2245,6 +2256,7 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -2568,6 +2580,8 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 					clip(Alpha - AlphaClipThreshold);
 				#endif
 
+				color.a *= _OcclusionOpacity;
+
 				return color;
 			}
 			ENDHLSL
@@ -2692,6 +2706,7 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -3136,6 +3151,7 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;
@@ -3420,6 +3436,7 @@ float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMa
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;

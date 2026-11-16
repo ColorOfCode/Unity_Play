@@ -350,6 +350,7 @@ GameObject:
   - component: {fileID: 8956735754625947495}
   - component: {fileID: 5006165775648158740}
   - component: {fileID: 5859494975746474176}
+  - component: {fileID: 4348845859358654696}
   m_Layer: 0
   m_Name: SnowFir1_OBC
   m_TagString: Untagged
@@ -441,3 +442,33 @@ MonoBehaviour:
   maximumGroundDistance: 2
   normalStrengthMultiplier: 0.35
   updateInterval: 0.35
+--- !u!114 &4348845859358654696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8817558448702266139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e236f3c3a0ab64da1a98deb3d99f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowFade: 1
+  renderers: []
+  materialBindings:
+  - source: {fileID: 2100000, guid: ea5a860c30391f142878d9aaf1971951, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: bc71eeaad8c40e74595de8fa66425b4f, type: 3}
+  - source: {fileID: 2100000, guid: ab365a89eea05c943a9935a322b1927a, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: bc71eeaad8c40e74595de8fa66425b4f, type: 3}
+  - source: {fileID: 2100000, guid: ed691ce2c4ab4274a929d20ae13d7b46, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 3e6446c72f1b4814fbb46deff372534d, type: 3}
+  - source: {fileID: 2100000, guid: 95e056b9e0bf83c4c940ccbee1da47a5, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 9e88cc89717048d4f83292b15b4ab41f, type: 3}
+  - source: {fileID: 2100000, guid: f7ba491d33839664cbff6d7375ba93fe, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 07ebf0f3ac930a241a833f9388bb7b08, type: 3}

@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8883754409036314215}
   m_RootOrder: 0
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -110,6 +112,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8883754409036314215}
   m_RootOrder: 1
@@ -133,6 +136,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -192,6 +196,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8883754409036314215}
   m_RootOrder: 2
@@ -215,6 +220,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -256,6 +262,7 @@ GameObject:
   - component: {fileID: 8883754409036314215}
   - component: {fileID: 8234377174765159875}
   - component: {fileID: 6423991504540250518}
+  - component: {fileID: 1445737426534514144}
   m_Layer: 0
   m_Name: P_tdFF_Spruce_05
   m_TagString: Untagged
@@ -273,6 +280,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 358705096611100003}
   - {fileID: 3290528998343880189}
@@ -321,3 +329,27 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.85, z: 0}
+--- !u!114 &1445737426534514144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4879085689820091193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e236f3c3a0ab64da1a98deb3d99f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowFade: 1
+  renderers: []
+  materialBindings:
+  - source: {fileID: 2100000, guid: b1efc50e4fd52364f8fc7a32c58a7de6, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 7d1c5a9e3f2b4c8d9a0e1f2a3b4c5d03, type: 3}
+  - source: {fileID: 2100000, guid: 2da579371d53f9b44a77c50ca20a184b, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 7d1c5a9e3f2b4c8d9a0e1f2a3b4c5d03, type: 3}
+  - source: {fileID: 2100000, guid: 89463ded4dbc163489c4a6ebdedfee9c, type: 2}
+    transitionMaterial: {fileID: 0}
+    transitionShader: {fileID: 4800000, guid: 7d1c5a9e3f2b4c8d9a0e1f2a3b4c5d05, type: 3}

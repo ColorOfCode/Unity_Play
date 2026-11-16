@@ -13,6 +13,7 @@
 
 // NOTE: Do not ifdef the properties here as SRP batcher can not handle different layouts.
 CBUFFER_START(UnityPerMaterial)
+half _OcclusionOpacity;
 
 float _IndirectLightStrength, _SnowTerrainMatch;
 float4 _SnowTerrainUV, _SnowTerrainOrigin, _SnowTerrainMaskScale, _SnowTerrainMaskOffset;

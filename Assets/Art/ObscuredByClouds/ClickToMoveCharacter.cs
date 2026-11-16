@@ -26,6 +26,7 @@ namespace ObscuredByClouds.Gameplay
     /// 用 pelvis → spine_01 当模型的“上”。这样不管 FBX 是 Z-up 还是 Y-up、
     /// 场景根节点被转成什么角度，朝向都是算出来的，不需要手工填偏移。
     /// </summary>
+    [DefaultExecutionOrder(100)]
     [DisallowMultipleComponent]
     [AddComponentMenu("ObscuredByClouds/点击移动角色 (Click To Move)")]
     public class ClickToMoveCharacter : MonoBehaviour
@@ -93,8 +94,10 @@ namespace ObscuredByClouds.Gameplay
         [Header("点击特效")]
         [Tooltip("特效尺寸倍率")]
         [Min(0.01f)] public float fxScale = 1f;
-        [Tooltip("相对落点的偏移，默认略微抬高一点，避免和地面 z-fighting")]
+        [Tooltip("普通模式为世界坐标偏移；完整点击反馈模式下，偏移长度用于沿视线朝相机偏移，不改变屏幕落点。")]
         public Vector3 fxOffset = new Vector3(0f, 0.02f, 0f);
+        [Tooltip("点击提示按反馈层绘制，保持完整粒子轮廓，不被地表或透明水面切掉。仅影响本控制器生成的特效。")]
+        public bool fxCompleteFeedback = true;
         [Tooltip("特效自动销毁时间（秒）；0 = 按粒子系统时长自动算")]
         [Min(0f)] public float fxLifetime = 0f;
 
@@ -103,6 +106,9 @@ namespace ObscuredByClouds.Gameplay
         public LayerMask clickMask = ~0;
         [Tooltip("射线最大长度")]
         [Min(1f)] public float rayLength = 500f;
+        [Tooltip("拾取没有 Collider 的 Shuimian 水面；留空自动从角色涉水组件或当前场景查找。")]
+        public Shuimian.Gameplay.ShuimianWaterMesh clickWater;
+        public bool pickWaterSurface = true;
 
         [Header("碰撞阻挡（台阶 / 坡度判据）")]
         [Tooltip("障碍碰撞层；移动同时检测 Ground Mask 中的地面。需要忽略的层请从两者中同时排除")]
@@ -144,6 +150,10 @@ namespace ObscuredByClouds.Gameplay
         float _fallSpeed;
         RaycastHit[] _hitBuffer = new RaycastHit[32];
         RaycastHit[] _sweepHits = new RaycastHit[32];   // 查询满载时自动扩容并重查
+        readonly System.Collections.Generic.Dictionary<Material, Material> _tapMaterials =
+            new System.Collections.Generic.Dictionary<Material, Material>();
+        Shader _tapShader;
+        float _nextWaterSearch;
 
         // 扫掠调试可视化数据
         Vector3 _dbgCapsuleP0, _dbgCapsuleP1;
@@ -289,24 +299,6 @@ namespace ObscuredByClouds.Gameplay
 
         void Update()
         {
-            Camera cam = clickCamera != null ? clickCamera : Camera.main;
-
-            // ---- 1. 点击：落点特效 + 记录目标点（点一次就会一直跑到那里） ----
-            if (Input.GetMouseButtonDown(0) && cam != null)
-            {
-                if (TryGetGroundPoint(cam, out Vector3 point))
-                {
-                    SpawnFx(point);
-                    SetTarget(point);
-                }
-            }
-
-            // ---- 2. 按住拖动：目标点实时跟随光标；一松开就停在最后的位置，然后继续跑到那儿 ----
-            if (holdToMove && Input.GetMouseButton(0) && cam != null)
-            {
-                if (TryGetGroundPoint(cam, out Vector3 point)) SetTarget(point);
-            }
-
             // ---- 3. 位移 + 动画 ----
             float dt = Time.deltaTime;
 
@@ -320,6 +312,18 @@ namespace ObscuredByClouds.Gameplay
 
             UpdateGrounding(dt);
             ApplyAnimPlaybackSpeed(dt);
+        }
+
+        // CameraRotateQE 在 LateUpdate 完成跟随、平滑和缩放后，再使用本帧最终机位拾取。
+        void LateUpdate()
+        {
+            bool pressed = Input.GetMouseButtonDown(0);
+            if (!pressed && !(holdToMove && Input.GetMouseButton(0))) return;
+            Camera cam = clickCamera != null ? clickCamera : Camera.main;
+            if (cam == null || !cam.pixelRect.Contains(Input.mousePosition)) return;
+            if (!TryGetGroundPoint(cam, out Vector3 point)) return;
+            SetTarget(point);
+            if (pressed) SpawnFx(point, cam);
         }
 
         // ================= 移动 =================
@@ -427,6 +431,12 @@ namespace ObscuredByClouds.Gameplay
 
         void OnDestroy()
         {
+            foreach (Material material in _tapMaterials.Values)
+            {
+                if (Application.isPlaying) Destroy(material);
+                else DestroyImmediate(material);
+            }
+            _tapMaterials.Clear();
             if (_penetrationShape != null)
             {
                 if (Application.isPlaying) Destroy(_penetrationShape.gameObject);
@@ -728,7 +738,12 @@ namespace ObscuredByClouds.Gameplay
             point = default;
             if (cam == null) return false;
 
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            return TryGetSurfacePoint(cam.ScreenPointToRay(Input.mousePosition), out point);
+        }
+
+        bool TryGetSurfacePoint(Ray ray, out Vector3 point)
+        {
+            point = default;
 
             int count;
             while (true)
@@ -754,6 +769,21 @@ namespace ObscuredByClouds.Gameplay
                 found = true;
             }
 
+            // FFT 水面仅在 GPU 变形，没有可拾取 Collider。先与平均水面求交，
+            // 和物理命中按射线距离比较，岸上/水面前方的物体仍优先。
+            ResolveClickWater();
+            if (pickWaterSurface && clickWater != null && clickWater.isActiveAndEnabled &&
+                (clickMask.value & (1 << clickWater.gameObject.layer)) != 0)
+            {
+                Plane waterPlane = new Plane(Vector3.up, clickWater.transform.position);
+                if (waterPlane.Raycast(ray, out float waterDistance) && waterDistance <= rayLength &&
+                    waterDistance < nearest)
+                {
+                    point = ray.GetPoint(waterDistance);
+                    found = true;
+                }
+            }
+
             if (found)
             {
                 // 落点高度保留射线命中点（特效打在你点的位置）；
@@ -765,7 +795,7 @@ namespace ObscuredByClouds.Gameplay
             if (useGroundPlaneFallback)
             {
                 Plane ground = new Plane(Vector3.up, new Vector3(0f, _baseY, 0f));
-                if (ground.Raycast(ray, out float enter))
+                if (ground.Raycast(ray, out float enter) && enter <= rayLength)
                 {
                     point = ray.GetPoint(enter);
                     point.y = _baseY;
@@ -774,6 +804,19 @@ namespace ObscuredByClouds.Gameplay
             }
 
             return false;
+        }
+
+        void ResolveClickWater()
+        {
+            if (!pickWaterSurface || (clickWater != null && clickWater.isActiveAndEnabled)) return;
+            if (Time.unscaledTime < _nextWaterSearch) return;
+            _nextWaterSearch = Time.unscaledTime + 2f;
+            var wake = GetComponent<CharacterWaterWake>();
+            if (wake != null && wake.water != null && wake.water.isActiveAndEnabled)
+            { clickWater = wake.water; return; }
+            foreach (var water in FindObjectsOfType<Shuimian.Gameplay.ShuimianWaterMesh>())
+                if (water.gameObject.scene == gameObject.scene && water.isActiveAndEnabled)
+                { clickWater = water; return; }
         }
 
         bool IsSelf(Transform t)
@@ -817,15 +860,25 @@ namespace ObscuredByClouds.Gameplay
 
         // ================= 点击特效 =================
 
-        void SpawnFx(Vector3 groundPoint)
+        void SpawnFx(Vector3 groundPoint, Camera cam)
         {
             if (fxPrefab == null) return;
 
             Vector3 pos = groundPoint + fxOffset;
+            if (fxCompleteFeedback && cam != null)
+            {
+                // 世界 Y 抬高在低视角下会产生明显的屏幕偏移。沿同一视线偏移，
+                // 透视/正交相机都保持锚点落在原点击像素上。
+                Vector3 towardCamera = cam.orthographic ? -cam.transform.forward :
+                    (cam.transform.position - groundPoint).normalized;
+                pos = groundPoint + towardCamera * Mathf.Min(fxOffset.magnitude,
+                    Vector3.Distance(groundPoint, cam.transform.position) * .1f);
+            }
             GameObject go = Instantiate(fxPrefab, pos, fxPrefab.transform.rotation);
             go.name = fxPrefab.name + "_Click";
             if (!Mathf.Approximately(fxScale, 1f))
                 go.transform.localScale = fxPrefab.transform.localScale * fxScale;
+            if (fxCompleteFeedback) ConfigureTapFeedback(go);
 
             float life = fxLifetime;
             if (life <= 0f)
@@ -842,6 +895,50 @@ namespace ObscuredByClouds.Gameplay
             }
 
             Destroy(go, life);
+        }
+
+        void ConfigureTapFeedback(GameObject effect)
+        {
+            if (_tapShader == null)
+                _tapShader = Resources.Load<Shader>("ObscuredByClouds/TapFeedback");
+            if (_tapShader == null) return;
+            foreach (var renderer in effect.GetComponentsInChildren<ParticleSystemRenderer>(true))
+            {
+                var materials = renderer.sharedMaterials;
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    Material source = materials[i];
+                    if (source == null) continue;
+                    if (!_tapMaterials.TryGetValue(source, out Material feedback))
+                    {
+                        feedback = new Material(_tapShader) { name = source.name + " (Tap feedback)" };
+                        if (source.HasProperty("_MainTex"))
+                        {
+                            feedback.SetTexture("_MainTex", source.GetTexture("_MainTex"));
+                            feedback.SetTextureScale("_MainTex", source.GetTextureScale("_MainTex"));
+                            feedback.SetTextureOffset("_MainTex", source.GetTextureOffset("_MainTex"));
+                        }
+                        Color tint = source.HasProperty("_TintColor") ? source.GetColor("_TintColor") :
+                            source.HasProperty("_Color") ? source.GetColor("_Color") : Color.white;
+                        feedback.SetColor("_TintColor", tint);
+                        bool legacy = source.shader.name.StartsWith("Particles/") ||
+                            source.shader.name.StartsWith("Legacy Shaders/Particles/");
+                        float brightness = source.HasProperty("_Brightness") ? source.GetFloat("_Brightness") :
+                            source.HasProperty("_ColorIntensity") ? source.GetFloat("_ColorIntensity") : 1f;
+                        feedback.SetFloat("_Brightness", legacy ? brightness * 2f : brightness);
+                        bool additive = source.shader.name.IndexOf("Additive", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                        feedback.SetFloat("_DstBlend", (float)(additive ? UnityEngine.Rendering.BlendMode.One :
+                            UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha));
+                        // 反馈层在透明水面之后绘制。原贴图、粒子颜色、尺寸和寿命不变。
+                        feedback.renderQueue = 3900 + Mathf.Clamp(source.renderQueue - 3000, 0, 99);
+                        _tapMaterials.Add(source, feedback);
+                    }
+                    materials[i] = feedback;
+                }
+                renderer.sharedMaterials = materials;
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                renderer.receiveShadows = false;
+            }
         }
 
         // ================= 调试 =================

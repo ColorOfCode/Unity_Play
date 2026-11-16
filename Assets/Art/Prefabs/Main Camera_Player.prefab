@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1463908841261967625}
   - component: {fileID: 8431566469040772273}
   - component: {fileID: 1463908841261967632}
+  - component: {fileID: 7992170333550680418}
   m_Layer: 0
   m_Name: Main Camera_Player
   m_TagString: MainCamera
@@ -141,3 +142,47 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   followSmoothTime: 0.1
   pitchMaxAngle: 50
+  enableScrollZoom: 1
+  zoomNearLimit: -1
+  zoomFarLimit: 1
+  zoomNearDistanceRatio: 0.5
+  zoomFarDistanceRatio: 2
+  scrollZoomSensitivity: 0.12
+  scrollZoomSmoothTime: 0.12
+  ignoreZoomOverUI: 1
+  orbitPivotLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &7992170333550680418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463908841261967621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 864b8ad61d8a91c40a4b24224b709539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  occluderLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  autoDiscover: 1
+  extraTargets: []
+  minimumObjectHeight: 0.6
+  triggerCoverage: 0.8
+  restoreCoverage: 0.6
+  fadedOpacity: 0.2
+  activationDelay: 0.1
+  restoreDelay: 0.2
+  fadeDuration: 0.2
+  checkInterval: 0.075
+  discoveryInterval: 1
+  sampleColumns: 5
+  sampleRows: 7
+  characterHeight: 0
+  characterWidth: 0
+  characterFeetOffset: {x: 0, y: 0, z: 0}
+  fadeTerrainTrees: 1

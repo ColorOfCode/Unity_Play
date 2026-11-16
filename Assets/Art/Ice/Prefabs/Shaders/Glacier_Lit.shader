@@ -2,6 +2,8 @@ Shader "Snowfield/Glacier/Lit"
 {
     Properties
     {
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+
         _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         [HideInInspector] _SnowTerrainMatch("Terrain Match", Float) = 0
         [HideInInspector] _SnowTerrainUV("Terrain UV", Vector) = (1,1,0,0)

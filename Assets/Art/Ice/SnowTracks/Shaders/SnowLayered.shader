@@ -4,6 +4,11 @@ Shader "Snowfield/Layered Snow"
 {
 	Properties
 	{
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+        [HideInInspector] _OcclusionSrcBlend("Occlusion Src Blend", Float) = 1
+        [HideInInspector] _OcclusionDstBlend("Occlusion Dst Blend", Float) = 0
+        [HideInInspector] _OcclusionZWrite("Occlusion ZWrite", Float) = 1
+
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[Header(Mesh Maps)][Space(10)]_Color("Main Color", Color) = (1,1,1,1)
@@ -210,8 +215,8 @@ Shader "Snowfield/Layered Snow"
 			Name "Forward"
 			Tags { "LightMode"="UniversalForward" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -330,6 +335,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -1007,6 +1013,8 @@ Shader "Snowfield/Layered Snow"
 					outRenderingLayers = float4( EncodeMeshRenderingLayer( renderingLayers ), 0, 0, 0 );
 				#endif
 
+				color.a *= _OcclusionOpacity;
+
 				return color;
 			}
 
@@ -1091,6 +1099,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -1421,6 +1430,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -1729,6 +1739,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -2088,8 +2099,8 @@ Shader "Snowfield/Layered Snow"
 			Name "Universal2D"
 			Tags { "LightMode"="Universal2D" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -2153,6 +2164,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -2480,6 +2492,8 @@ Shader "Snowfield/Layered Snow"
 					clip(Alpha - AlphaClipThreshold);
 				#endif
 
+				color.a *= _OcclusionOpacity;
+
 				return color;
 			}
 			ENDHLSL
@@ -2576,6 +2590,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -2955,8 +2970,8 @@ Shader "Snowfield/Layered Snow"
 			Name "GBuffer"
 			Tags { "LightMode"="UniversalGBuffer" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -3069,6 +3084,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -3675,6 +3691,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;
@@ -3940,6 +3957,7 @@ Shader "Snowfield/Layered Snow"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+            half _OcclusionOpacity;
                 float _IndirectLightStrength;
                 float _SnowDisplacementStrength;
                 float _SnowTerrainMatch;

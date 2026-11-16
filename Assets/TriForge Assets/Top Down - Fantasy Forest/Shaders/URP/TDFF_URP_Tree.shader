@@ -17,6 +17,11 @@ Shader "TriForge/URP/Tree"
 {
     Properties
     {
+        [HideInInspector] _OcclusionOpacity("Character Occlusion Opacity", Range(0,1)) = 1
+        [HideInInspector] _OcclusionSrcBlend("Occlusion Src Blend", Float) = 1
+        [HideInInspector] _OcclusionDstBlend("Occlusion Dst Blend", Float) = 0
+        [HideInInspector] _OcclusionZWrite("Occlusion ZWrite", Float) = 1
+
         _IndirectLightStrength("Indirect Light Strength", Range(0,2)) = 1
         _Cutoff("Mask Clip Value", Float) = 0.5
         _MainTex("Base Color", 2D) = "white" {}
@@ -50,6 +55,8 @@ Shader "TriForge/URP/Tree"
         {
             Name "ForwardLit"
             Tags { "LightMode" = "UniversalForward" }
+            Blend [_OcclusionSrcBlend] [_OcclusionDstBlend]
+            ZWrite [_OcclusionZWrite]
 
             Cull Off
 
@@ -82,6 +89,7 @@ Shader "TriForge/URP/Tree"
             float  TD_WindStrength;
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 float4 _Normal_ST;
@@ -252,6 +260,7 @@ Shader "TriForge/URP/Tree"
 
                 half4 color = OBCUniversalFragmentPBR(inputData, surfaceData, OBCIndirectStrength(_IndirectLightStrength));
                 color.rgb = MixFog(color.rgb, input.fogFactor);
+                color.a *= _OcclusionOpacity;
                 return color;
             }
             ENDHLSL
@@ -285,6 +294,7 @@ Shader "TriForge/URP/Tree"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 float4 _Normal_ST;
@@ -397,6 +407,7 @@ Shader "TriForge/URP/Tree"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                half _OcclusionOpacity;
                 half _IndirectLightStrength;
                 float4 _MainTex_ST;
                 float4 _Normal_ST;
