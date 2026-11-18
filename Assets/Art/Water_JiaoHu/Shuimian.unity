@@ -122,12 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &223843858 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1872742626298632167, guid: 5fd066a37ca699f48857aa44ecd88937,
-    type: 3}
-  m_PrefabInstance: {fileID: 1483296454}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390af303395234b4d8c6fa2a09dbe691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 223843858}
+  target: {fileID: 1278724387}
   controller: {fileID: 1278724388}
   offset: {x: 0.03497959, y: 1.1103215, z: -1.4154588}
   autoOffsetOnStart: 1
@@ -407,42 +401,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1278724388, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: moveSpeed
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
       propertyPath: water
       value: 
       objectReference: {fileID: 1800000005}
-    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: response
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: heightOffset
-      value: -4.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: maxRollAngle
-      value: 3.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: rollStrength
-      value: 0.245
-      objectReference: {fileID: 0}
-    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: sampleRadius
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: maxPitchAngle
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1800000011, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
-      propertyPath: pitchStrength
-      value: 0.846
-      objectReference: {fileID: 0}
     - target: {fileID: 1800000012, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}
       propertyPath: water
       value: 
@@ -451,20 +413,10 @@ PrefabInstance:
       propertyPath: water
       value: 
       objectReference: {fileID: 1800000005}
-    - target: {fileID: 4458529422413046744, guid: 5fd066a37ca699f48857aa44ecd88937,
+    - target: {fileID: 583350520132375115, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458529422413046744, guid: 5fd066a37ca699f48857aa44ecd88937,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458529422413046744, guid: 5fd066a37ca699f48857aa44ecd88937,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.4
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
@@ -479,7 +431,7 @@ PrefabInstance:
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.1314697
+      value: 3.4835808
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
@@ -489,22 +441,22 @@ PrefabInstance:
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.0031302932
+      value: -0.0014492339
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.017391115
+      value: 0.038563065
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.99791735
+      value: 0.9827735
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.062037867
+      value: -0.18074057
       objectReference: {fileID: 0}
     - target: {fileID: 4816328821630488272, guid: 5fd066a37ca699f48857aa44ecd88937,
         type: 3}
@@ -525,6 +477,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ship
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696012231937214704, guid: 5fd066a37ca699f48857aa44ecd88937,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fd066a37ca699f48857aa44ecd88937, type: 3}

@@ -1,0 +1,61 @@
+actors=6 meshes=6 materials=20
+法线已翻转，跳过: T_Beams_1_Mask-Normal
+法线已翻转，跳过: T_Beams_2_Mask-Normal
+法线已翻转，跳过: T_Deck_1_Mask-Normal
+法线已翻转，跳过: T_Deck_2_Mask-Normal
+法线已翻转，跳过: T_Fabric_1_Normal
+MRA 已存在，跳过: T_Fabric_1_MRA.png
+法线已翻转，跳过: T_Frame1_Mask-Normal
+法线已翻转，跳过: T_Frame2_Mask-Normal
+法线已翻转，跳过: T_Frame3_Mask-Normal
+法线已翻转，跳过: T_Metal_1_Normal
+MRA 已存在，跳过: T_Metal_1_MRA.png
+法线已翻转，跳过: T_Moss_1_Normal
+MRA 已存在，跳过: T_Moss_1_MRA.png
+法线已翻转，跳过: T_Rope_1_Normal
+MRA 已存在，跳过: T_Rope_1_MRA.png
+法线已翻转，跳过: T_Sail_Normal_Mask
+法线已翻转，跳过: T_WoodPainted_1_Normal
+MRA 已存在，跳过: T_WoodPainted_1_MRA.png
+法线已翻转，跳过: T_Wood_1_Normal
+MRA 已存在，跳过: T_Wood_1_MRA.png
+法线已翻转，跳过: T_Wood_2_Normal
+MRA 已存在，跳过: T_Wood_2_MRA.png
+贴图处理完成
+材质 MI_Beams_1: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.86,0.03,0.00)
+材质 MI_Beams_1-2: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.12,0.14,0.27)
+材质 MI_Beams_1-3: layer=G_ base=T_WoodPainted_1_BaseColor tint=(1.00,1.00,1.00)
+材质 MI_Beams_1-door: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.32,0.13,0.02)
+材质 MI_Metal: layer=G_ base=T_Metal_1_BaseColor tint=(0.23,0.58,0.53)
+材质 MI_Beams_2-2: layer=G_ base=T_WoodPainted_1_BaseColor tint=(1.00,1.00,1.00)
+材质 MI_Beams_2: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.41,0.10,0.04)
+材质 MI_Deck_1: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.40,0.39,0.36)
+材质 MI_Deck_2: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.61,0.31,0.16)
+材质 MI_Frame_1: layer=G_ base=T_WoodPainted_1_BaseColor tint=(1.00,1.00,1.00)
+材质 MI_Frame_1-2: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.12,0.14,0.27)
+材质 MI_Frame_1-3: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.26,0.10,0.06)
+材质 MI_Frame_1-4: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.12,0.14,0.27)
+材质 MI_Frame_2: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.68,0.64,0.45)
+材质 MI_Frame_3: layer=G_ base=T_WoodPainted_1_BaseColor tint=(0.33,0.33,0.33)
+材质 MI_Wood-tile1: layer=1_ base=T_Wood_1_BaseColor tint=(0.00,0.08,0.50)
+材质 MI_Rope: layer=G_ base=T_Rope_1_BaseColor tint=(0.20,0.15,0.09)
+材质 MI_Mast_1: layer=G_ base=T_WoodPainted_1_BaseColor tint=(1.00,0.74,0.64)
+材质 MI_Sail_1: layer=G_ base=T_Fabric_1_BaseColor tint=(0.75,0.71,0.72)
+FBX SM_Hull: bounds=(46.15,11.40,11.66)
+FBX SM_Hull_Support: bounds=(6.92,2.48,0.34)
+FBX StaticMesh01: bounds=(65.05,25.92,49.84)
+FBX 缺失: Assets/Art/Mesh/Ship/Meshes/SK_Sail_2.fbx
+FBX 缺失: Assets/Art/Mesh/Ship/Meshes/SK_Sail_3.fbx
+FBX 缺失: Assets/Art/Mesh/Ship/Meshes/SK_Sail_7.fbx
+Prefab: Assets/Art/Mesh/Ship/Prefabs/SM_Hull.prefab
+Prefab: Assets/Art/Mesh/Ship/Prefabs/SM_Hull_Support.prefab
+Prefab: Assets/Art/Mesh/Ship/Prefabs/StaticMesh01.prefab
+Prefab 跳过(无FBX): SK_Sail_2
+Prefab 跳过(无FBX): SK_Sail_3
+Prefab 跳过(无FBX): SK_Sail_7
+跳过(无FBX): SK_Sail_2
+跳过(无FBX): SK_Sail_3
+跳过(无FBX): SK_Sail_7
+放置对象: 3
+整体包围盒: center=(-22.01,0.00,-4.90) size=(55.42,25.92,65.05)
+场景已保存: Assets/Art/Mesh/Ship/Scene_Ship.unity

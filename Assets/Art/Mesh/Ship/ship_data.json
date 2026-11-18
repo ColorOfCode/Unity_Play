@@ -1,0 +1,1968 @@
+{
+ "actors": [
+  {
+   "name": "StaticMeshActor_2",
+   "cls": "StaticMeshActor",
+   "components": [
+    {
+     "type": "StaticMeshComponent",
+     "mesh_type": "static",
+     "mesh": "/Game/Frigate/SM_Hull",
+     "transform": {
+      "location": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      },
+      "rotation": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0,
+       "w": 1.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0,
+       "z": 1.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "StaticMeshActor_4",
+   "cls": "StaticMeshActor",
+   "components": [
+    {
+     "type": "StaticMeshComponent",
+     "mesh_type": "static",
+     "mesh": "/Game/Frigate/SM_Hull_Support",
+     "transform": {
+      "location": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      },
+      "rotation": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0,
+       "w": 1.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0,
+       "z": 1.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "StaticMeshActor_3",
+   "cls": "StaticMeshActor",
+   "components": [
+    {
+     "type": "StaticMeshComponent",
+     "mesh_type": "static",
+     "mesh": "/Game/Frigate/StaticMesh01",
+     "transform": {
+      "location": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      },
+      "rotation": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0,
+       "w": 1.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0,
+       "z": 1.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "SkeletalMeshActor_1",
+   "cls": "SkeletalMeshActor",
+   "components": [
+    {
+     "type": "SkeletalMeshComponent",
+     "mesh_type": "skeletal",
+     "mesh": "/Game/Frigate/SK_Sail_2",
+     "transform": {
+      "location": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      },
+      "rotation": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0,
+       "w": 1.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0,
+       "z": 1.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "SkeletalMeshActor_3",
+   "cls": "SkeletalMeshActor",
+   "components": [
+    {
+     "type": "SkeletalMeshComponent",
+     "mesh_type": "skeletal",
+     "mesh": "/Game/Frigate/Meshes/Ship/Sail/3/SK_Sail_3",
+     "transform": {
+      "location": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      },
+      "rotation": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0,
+       "w": 1.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0,
+       "z": 1.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "SkeletalMeshActor_11",
+   "cls": "SkeletalMeshActor",
+   "components": [
+    {
+     "type": "SkeletalMeshComponent",
+     "mesh_type": "skeletal",
+     "mesh": "/Game/Frigate/Meshes/Ship/Sail/7/SK_Sail_7",
+     "transform": {
+      "location": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      },
+      "rotation": {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0,
+       "w": 1.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0,
+       "z": 1.0
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "meshes": {
+  "/Game/Frigate/SM_Hull": {
+   "type": "static",
+   "materials": [
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_1",
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-2",
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-3",
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-door",
+    "/Game/Frigate/materials/Ship/Metal/MI_Metal",
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_2-2",
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_2",
+    "/Game/Frigate/materials/Ship/Deck/MI_Deck_1",
+    "/Game/Frigate/materials/Ship/Deck/MI_Deck_2",
+    "/Game/Frigate/materials/Ship/Frame/MI_Frame_1",
+    "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-2",
+    "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-3",
+    "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-4",
+    "/Game/Frigate/materials/Ship/Frame/MI_Frame_2",
+    "/Game/Frigate/materials/Ship/Frame/MI_Frame_3",
+    "/Game/Frigate/materials/Wood-tile/MI_Wood-tile1",
+    "/Game/Frigate/materials/Wood-tile/MI_Wood-tile1",
+    "/Game/Frigate/materials/Rope/MI_Rope"
+   ]
+  },
+  "/Game/Frigate/SM_Hull_Support": {
+   "type": "static",
+   "materials": [
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_1"
+   ]
+  },
+  "/Game/Frigate/StaticMesh01": {
+   "type": "static",
+   "materials": [
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_1",
+    "/Game/Frigate/materials/Ship/Beams/MI_Beams_2-2",
+    "/Game/Frigate/materials/Rope/MI_Rope",
+    "/Game/Frigate/materials/Ship/Metal/MI_Metal",
+    "/Game/Frigate/materials/Ship/Mast/MI_Mast_1"
+   ]
+  },
+  "/Game/Frigate/SK_Sail_2": {
+   "type": "skeletal",
+   "materials": [
+    "/Game/Frigate/materials/Ship/Sail/MI_Sail_1.MI_Sail_1"
+   ]
+  },
+  "/Game/Frigate/Meshes/Ship/Sail/3/SK_Sail_3": {
+   "type": "skeletal",
+   "materials": [
+    "/Game/Frigate/materials/Ship/Sail/MI_Sail_1.MI_Sail_1"
+   ]
+  },
+  "/Game/Frigate/Meshes/Ship/Sail/7/SK_Sail_7": {
+   "type": "skeletal",
+   "materials": [
+    "/Game/Frigate/materials/Ship/Sail/MI_Sail_1.MI_Sail_1"
+   ]
+  }
+ },
+ "materials": {
+  "/Game/Frigate/materials/Ship/Beams/MI_Beams_1": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "mask_Normal": "T_Beams_1_Mask-Normal",
+    "uv-maska": "T_Beams_1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Beams_1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.35,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 20.0,
+    "G_Brightness": 0.2,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.566266,
+    "G_Roughness_min": 0.771081,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 25.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.765333,
+    "2_Roughness_max": 0.623514,
+    "2_Roughness_min": 0.832164,
+    "3_Normal_Strengh": 0.25,
+    "Rotation_custom": 0.25,
+    "Tiling": 25.0,
+    "Mask_Normal_Strengh": 0.0,
+    "B-BLUR": 0.5,
+    "B-OPACITY": 0.397333,
+    "G-BLUR": -0.226666,
+    "G-OPACITY": 0.466662,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.369559,
+    "R_Brightness": 1.0,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.107332,
+    "R_Roughness_min": 0.278,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 25.0,
+    "Tint-brig-BLUR": 0.4442,
+    "Tint-brig-OPACITY": 0.067736,
+    "Tint-Brightness+": -3.658855,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.859375,
+     "g": 0.029392,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.161458,
+     "g": 0.105426,
+     "b": 0.063914,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.5,
+     "g": 0.375062,
+     "b": 0.341633,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Root/M_1": {
+   "textures": {},
+   "scalars": {},
+   "vectors": {},
+   "parent": null,
+   "cls": "Material"
+  },
+  "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-2": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "mask_Normal": "T_Beams_1_Mask-Normal",
+    "uv-maska": "T_Beams_1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Beams_1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.35,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 20.0,
+    "G_Brightness": 1.0,
+    "G_Normal_Strengh": 0.5,
+    "G_Roughness_max": 0.349333,
+    "G_Roughness_min": 0.394667,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.853612,
+    "2_Roughness_max": -0.214551,
+    "2_Roughness_min": 0.832164,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.25,
+    "Tiling": 10.0,
+    "Mask_Normal_Strengh": 0.125147,
+    "B-BLUR": 0.5,
+    "B-OPACITY": 0.381333,
+    "G-BLUR": -0.197281,
+    "G-OPACITY": 0.246466,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.400537,
+    "R_Brightness": 0.644678,
+    "R_Normal_Strengh": 0.5,
+    "R_Roughness_max": 0.464666,
+    "R_Roughness_min": 0.752667,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": -0.270467,
+    "Tint-brig-OPACITY": 0.067736,
+    "Tint-Brightness+": -16.259686,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.121928,
+     "g": 0.137853,
+     "b": 0.265625,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.184314,
+     "g": 0.177857,
+     "b": 0.177245,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.223529,
+     "g": 0.235294,
+     "b": 0.341176,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-3": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "mask_Normal": "T_Beams_1_Mask-Normal",
+    "uv-maska": "T_Beams_1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Beams_1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.22,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 20.0,
+    "G_Brightness": 1.0,
+    "G_color_tone": 0.0,
+    "G_contrast": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.114666,
+    "G_Roughness_min": 0.170667,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 0.202181,
+    "2_Roughness_min": 0.106831,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.25,
+    "Tiling": 10.0,
+    "Mask_Normal_Strengh": 0.171277,
+    "B-BLUR": 0.1,
+    "B-OPACITY": 1.0,
+    "G-BLUR": 0.018667,
+    "G-OPACITY": 0.246465,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.434553,
+    "R_Brightness": 0.472001,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.107332,
+    "R_Roughness_min": 0.278,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": -0.270467,
+    "Tint-brig-OPACITY": 0.067736,
+    "Tint-Brightness+": -13.439301,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 1.0,
+     "g": 1.0,
+     "b": 1.0,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.236174,
+     "g": 0.279514,
+     "b": 0.254927,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.980955,
+     "g": 1.0,
+     "b": 0.928419,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-door": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "uv-maska": "T_Beams_1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Beams_1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.35,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 20.0,
+    "G_Brightness": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.566266,
+    "G_Roughness_min": 0.771081,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 25.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.765333,
+    "2_Roughness_max": 0.623514,
+    "2_Roughness_min": 0.832164,
+    "3_Normal_Strengh": 0.25,
+    "Rotation_custom": 0.25,
+    "Tiling": 25.0,
+    "B-BLUR": 0.5,
+    "B-OPACITY": 0.397333,
+    "G-BLUR": -0.226666,
+    "G-OPACITY": 0.151995,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.369559,
+    "R_Brightness": 1.0,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.107332,
+    "R_Roughness_min": 0.278,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 25.0,
+    "Tint-brig-BLUR": 0.4442,
+    "Tint-brig-OPACITY": 0.067736,
+    "Tint-Brightness+": -3.658855,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.324653,
+     "g": 0.130274,
+     "b": 0.023417,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.161458,
+     "g": 0.105426,
+     "b": 0.063914,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.5,
+     "g": 0.375062,
+     "b": 0.341633,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Metal/MI_Metal": {
+   "textures": {
+    "A_Base_Texture": "T_Moss_1_BaseColor",
+    "A_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "A_Normal": "T_Moss_1_Normal",
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_Metal_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_Metal_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_Metal_1_Normal",
+    "1_Base_Texture": "T_Metal_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Metal_1_OcclusionRoughnessMetallic",
+    "uv-maska": "T_Metal_Mask",
+    "R_Base_Texture": "T_Metal_1_BaseColor",
+    "R_Normal": "T_Metal_1_Normal",
+    "Mask-brigness": "T_Metal_Mask"
+   },
+   "scalars": {
+    "A_Brightness": 0.109334,
+    "A_Normal_Strengh": 0.957305,
+    "A_Roughness_max": 0.749334,
+    "A_Roughness_min": 0.651144,
+    "Tiling-A": 50.0,
+    "B_Brightness": 0.22,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 0.6,
+    "B_Roughness_max": 0.413333,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 8.957799,
+    "G_Brightness": 0.763999,
+    "G_Normal_Strengh": 0.679403,
+    "G_Roughness_max": 0.744,
+    "G_Roughness_min": 0.812136,
+    "Tiling-G": 15.0,
+    "Specular_Amount": 0.15,
+    "1_Brightness": 1.474303,
+    "2_metal_ADD": 0.0,
+    "2_metal_power": 1.0,
+    "2_Roughness_max": 0.289333,
+    "2_Roughness_min": 0.288,
+    "Tiling": 15.0,
+    "Mask_Normal_Strengh": 1.0,
+    "B-BLUR": 0.045333,
+    "B-OPACITY": 1.0,
+    "G-BLUR": 0.108406,
+    "G-OPACITY": 0.493305,
+    "R-BLUR": 0.334627,
+    "R-OPACITY": 0.649832,
+    "R_Brightness": 0.168,
+    "R_Normal_Strengh": 0.1,
+    "R_Roughness_max": 0.295999,
+    "R_Roughness_min": 0.186666,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.018668,
+    "Tint-brig-OPACITY": 0.300339,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "A_Tint_base_texture": {
+     "r": 0.027079,
+     "g": 0.144097,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.23074,
+     "g": 0.584078,
+     "b": 0.533276,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.694445,
+     "g": 0.328557,
+     "b": 0.113685,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.170344,
+     "g": 0.246528,
+     "b": 0.173101,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Beams/MI_Beams_2-2": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal",
+    "mask_Normal": "T_Beams_2_Mask-Normal",
+    "uv-maska": "T_Beams_2_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Beams_2_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.22,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 20.0,
+    "G_Brightness": 1.0,
+    "G_color_tone": 0.0,
+    "G_contrast": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.114666,
+    "G_Roughness_min": 0.170667,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 0.202181,
+    "2_Roughness_min": 0.106831,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.0,
+    "Tiling": 15.0,
+    "Mask_Normal_Strengh": 0.5,
+    "B-BLUR": 0.1,
+    "B-OPACITY": 1.0,
+    "G-BLUR": 0.018667,
+    "G-OPACITY": 0.310465,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.498553,
+    "R_Brightness": 0.472001,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.107332,
+    "R_Roughness_min": 0.278,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.088887,
+    "Tint-brig-OPACITY": 0.755735,
+    "Tint-Brightness+": 0.254497,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 1.0,
+     "g": 1.0,
+     "b": 1.0,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.184314,
+     "g": 0.133333,
+     "b": 0.054902,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.980955,
+     "g": 1.0,
+     "b": 0.928419,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Beams/MI_Beams_2": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "mask_Normal": "T_Beams_2_Mask-Normal",
+    "uv-maska": "T_Beams_2_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Beams_2_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.22,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 20.0,
+    "G_Brightness": 0.35,
+    "G_color_tone": 0.0,
+    "G_contrast": 1.0,
+    "G_Normal_Strengh": 0.5,
+    "G_Roughness_max": 0.743175,
+    "G_Roughness_min": 0.581333,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 6.0,
+    "1_Brightness": 0.232,
+    "1_contrast": -0.045333,
+    "2_Roughness_max": 0.623514,
+    "2_Roughness_min": 0.832164,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.25,
+    "Tiling": 25.0,
+    "Mask_Normal_Strengh": 0.292,
+    "B-BLUR": 0.5,
+    "B-OPACITY": 1.0,
+    "G-BLUR": -0.136,
+    "G-OPACITY": 0.616,
+    "R-BLUR": 1.0,
+    "R-OPACITY": 0.637333,
+    "R_Brightness": 0.546667,
+    "R_Normal_Strengh": 0.658667,
+    "R_Roughness_max": 0.845333,
+    "R_Roughness_min": 0.752667,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 8.0,
+    "Tint-brig-BLUR": 0.088887,
+    "Tint-brig-OPACITY": 0.755735,
+    "Tint-Brightness+": 0.254497,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.407986,
+     "g": 0.101996,
+     "b": 0.035172,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.277778,
+     "g": 0.022046,
+     "b": 0.0,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Deck/MI_Deck_1": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "mask_Normal": "T_Deck_1_Mask-Normal",
+    "uv-maska": "T_Deck_1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Deck_1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.095843,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 0.745402,
+    "G_contrast": 0.352071,
+    "G_Roughness_max": 0.68,
+    "G_Roughness_min": 0.825406,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 8.0,
+    "1_Brightness": 0.855573,
+    "1_contrast": 0.298667,
+    "2_Roughness_max": 1.0,
+    "2_Roughness_min": 1.0,
+    "3_Normal_Strengh": 0.205333,
+    "Rotation_custom": 0.25,
+    "Tiling": 11.0,
+    "Mask_Normal_Strengh": 0.35,
+    "B-BLUR": 0.557476,
+    "B-OPACITY": 1.0,
+    "G-BLUR": 0.194667,
+    "G-OPACITY": 0.456,
+    "R-BLUR": 0.178667,
+    "R-OPACITY": 0.370667,
+    "R_Brightness": 0.491768,
+    "R_color_tone": 0.0,
+    "R_contrast": 0.0,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 1.0,
+    "R_Roughness_min": 1.0,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.405332,
+    "Tint-brig-OPACITY": 0.365333,
+    "Tint-Brightness+": 0.164679,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.397569,
+     "g": 0.393054,
+     "b": 0.360988,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.180262,
+     "g": 0.185188,
+     "b": 0.192708,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.785543,
+     "b": 0.697996,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Deck/MI_Deck_2": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "mask_Normal": "T_Deck_2_Mask-Normal",
+    "uv-maska": "T_Deck_2_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Deck_2_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.106509,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 1.0,
+    "G_contrast": 0.352071,
+    "G_Roughness_max": 0.68,
+    "G_Roughness_min": 0.825406,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 8.0,
+    "1_Brightness": 0.782667,
+    "2_Roughness_max": 1.0,
+    "2_Roughness_min": 1.0,
+    "3_Normal_Strengh": 1.0,
+    "Rotation_custom": 0.25,
+    "Tiling": 8.0,
+    "Mask_Normal_Strengh": 0.411294,
+    "B-BLUR": 0.142713,
+    "B-OPACITY": 1.0,
+    "G-BLUR": -0.589333,
+    "G-OPACITY": 1.0,
+    "R-BLUR": -1.315029,
+    "R-OPACITY": 1.0,
+    "R_Brightness": 1.0,
+    "R_color_tone": 0.0,
+    "R_contrast": 0.0,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 1.0,
+    "R_Roughness_min": 1.0,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.0,
+    "Tint-brig-OPACITY": 0.812727,
+    "Tint-Brightness+": 0.159346,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.612847,
+     "g": 0.31038,
+     "b": 0.163242,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.359375,
+     "g": 0.359375,
+     "b": 0.359375,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.708333,
+     "g": 0.425663,
+     "b": 0.252,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Frame/MI_Frame_1": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal",
+    "mask_Normal": "T_Frame1_Mask-Normal",
+    "uv-maska": "T_Frame1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Frame1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.22,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 1.0,
+    "G_color_tone": 0.0,
+    "G_contrast": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.114666,
+    "G_Roughness_min": 0.170667,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 0.202181,
+    "2_Roughness_min": 0.106831,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.0,
+    "Tiling": 15.0,
+    "Mask_Normal_Strengh": 0.376,
+    "B-BLUR": 0.1,
+    "B-OPACITY": 1.0,
+    "G-BLUR": 0.018667,
+    "G-OPACITY": 0.310465,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.498553,
+    "R_Brightness": 0.472001,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.107332,
+    "R_Roughness_min": 0.278,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.281707,
+    "Tint-brig-OPACITY": 0.704165,
+    "Tint-Brightness+": 0.2,
+    "Tint-rougnes+": 0.461997,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 1.0,
+     "g": 1.0,
+     "b": 1.0,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.184314,
+     "g": 0.133333,
+     "b": 0.054902,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.980955,
+     "g": 1.0,
+     "b": 0.928419,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-2": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal",
+    "mask_Normal": "T_Frame1_Mask-Normal",
+    "uv-maska": "T_Frame1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Frame1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.35,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.349333,
+    "G_Roughness_min": 0.394667,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 0.738667,
+    "1_contrast": 0.35,
+    "2_Roughness_max": 0.378181,
+    "2_Roughness_min": 0.768165,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.0,
+    "Tiling": 15.0,
+    "Mask_Normal_Strengh": 0.25,
+    "B-BLUR": 0.5,
+    "B-OPACITY": 0.381333,
+    "G-BLUR": -0.197281,
+    "G-OPACITY": 0.246466,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.77387,
+    "R_Brightness": 0.644678,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.464666,
+    "R_Roughness_min": 0.752667,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.281707,
+    "Tint-brig-OPACITY": 0.704165,
+    "Tint-Brightness+": 0.2,
+    "Tint-rougnes+": 0.461997,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.121928,
+     "g": 0.137853,
+     "b": 0.265625,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.238735,
+     "g": 0.265625,
+     "b": 0.251748,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.22378,
+     "g": 0.236893,
+     "b": 0.340278,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-3": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal",
+    "mask_Normal": "T_Frame1_Mask-Normal",
+    "uv-maska": "T_Frame1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Frame1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.35,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.566266,
+    "G_Roughness_min": 0.771081,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 0.228848,
+    "2_Roughness_min": 0.357498,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.0,
+    "Tiling": 15.0,
+    "Mask_Normal_Strengh": 0.077333,
+    "B-BLUR": 0.5,
+    "B-OPACITY": 0.397333,
+    "G-BLUR": -0.226666,
+    "G-OPACITY": 1.378301,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.369559,
+    "R_Brightness": 0.723709,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.107332,
+    "R_Roughness_min": 0.278,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.281707,
+    "Tint-brig-OPACITY": 0.704165,
+    "Tint-Brightness+": 0.2,
+    "Tint-rougnes+": 0.461997,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.260417,
+     "g": 0.102007,
+     "b": 0.063751,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.238735,
+     "g": 0.265625,
+     "b": 0.251748,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.152778,
+     "g": 0.11537,
+     "b": 0.021775,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-4": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal",
+    "mask_Normal": "T_Frame1_Mask-Normal",
+    "uv-maska": "T_Frame1_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Frame1_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.35,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.349333,
+    "G_Roughness_min": 0.394667,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 0.228848,
+    "2_Roughness_min": 0.298831,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.0,
+    "Tiling": 9.0,
+    "Mask_Normal_Strengh": 0.131333,
+    "B-BLUR": 0.5,
+    "B-OPACITY": 0.685333,
+    "G-BLUR": 0.018667,
+    "G-OPACITY": 0.310465,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.498553,
+    "R_Brightness": 0.644678,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.165999,
+    "R_Roughness_min": 0.235334,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.281707,
+    "Tint-brig-OPACITY": 0.704165,
+    "Tint-Brightness+": 0.2,
+    "Tint-rougnes+": 0.461997,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.121928,
+     "g": 0.137853,
+     "b": 0.265625,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.238735,
+     "g": 0.265625,
+     "b": 0.251748,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.22378,
+     "g": 0.236893,
+     "b": 0.340278,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Frame/MI_Frame_2": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal",
+    "mask_Normal": "T_Frame2_Mask-Normal",
+    "uv-maska": "T_Frame2_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Frame2_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.22,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_max": 0.413333,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 1.0,
+    "G_color_tone": 0.0,
+    "G_contrast": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.349333,
+    "G_Roughness_min": 0.394667,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 10.0,
+    "1_Brightness": 1.0,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 0.623514,
+    "2_Roughness_min": 0.528164,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.0,
+    "Tiling": 15.0,
+    "Mask_Normal_Strengh": 0.352712,
+    "B-BLUR": 0.1,
+    "B-OPACITY": 1.0,
+    "G-BLUR": 0.157333,
+    "G-OPACITY": 0.310465,
+    "R-BLUR": 0.306667,
+    "R-OPACITY": 0.498553,
+    "R_Brightness": 0.472001,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_max": 0.464666,
+    "R_Roughness_min": 0.422,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.161533,
+    "Tint-brig-OPACITY": 0.105069,
+    "Tint-Brightness+": -3.658855,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.682292,
+     "g": 0.635621,
+     "b": 0.448938,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.390625,
+     "g": 0.340114,
+     "b": 0.328381,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.007843,
+     "g": 0.007843,
+     "b": 0.0,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Frame/MI_Frame_3": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal",
+    "mask_Normal": "T_Frame3_Mask-Normal",
+    "uv-maska": "T_Frame3_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Frame3_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.22,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 10.0,
+    "G_Brightness": 1.0,
+    "G_Normal_Strengh": 0.0,
+    "G_Roughness_max": 0.5,
+    "G_Roughness_min": 0.5,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 6.0,
+    "1_Brightness": 0.225681,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 0.712,
+    "2_Roughness_min": 0.786667,
+    "3_Normal_Strengh": -0.031735,
+    "Rotation_custom": 0.0,
+    "Tiling": 3.181155,
+    "Mask_Normal_Strengh": 0.018707,
+    "B-BLUR": 0.1,
+    "B-OPACITY": 0.365333,
+    "G-BLUR": 0.674667,
+    "G-OPACITY": 0.136535,
+    "R-BLUR": 0.653333,
+    "R-OPACITY": 0.246526,
+    "R_Brightness": 0.5,
+    "R_Normal_Strengh": 0.5,
+    "R_Roughness_max": 0.529361,
+    "R_Roughness_min": 0.5,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 10.0,
+    "Tint-brig-BLUR": 0.774388,
+    "Tint-brig-OPACITY": 0.352062,
+    "Tint-Brightness+": 0.141789,
+    "Tint-rougnes+": 0.701333,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.326389,
+     "g": 0.326389,
+     "b": 0.326389,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.699539,
+     "b": 0.480903,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.173611,
+     "g": 0.0254,
+     "b": 0.0,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Wood-tile/MI_Wood-tile1": {
+   "textures": {
+    "1_Base_Texture": "T_Wood_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_1_Normal"
+   },
+   "scalars": {
+    "1_Brightness": 0.384,
+    "1_contrast": -0.634667,
+    "3_Normal_Strengh": 0.109333,
+    "Rotation_custom": 0.0,
+    "Tiling": 10.0,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "1_Tint_base_texture": {
+     "r": 0.0,
+     "g": 0.084212,
+     "b": 0.503472,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Rope/MI_Rope": {
+   "textures": {
+    "G_Base_Texture": "T_Rope_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_Rope_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_Rope_1_Normal",
+    "1_Base_Texture": "T_Rope_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Rope_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Rope_1_Normal",
+    "uv-maska": "T_Rope_Mask",
+    "R_Base_Texture": "T_Rope_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_Rope_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_Rope_1_Normal"
+   },
+   "scalars": {
+    "G_Brightness": 2.0,
+    "G_metal_power": 1.0,
+    "G_Normal_Strengh": 1.0,
+    "G_Roughness_max": 0.8,
+    "G_Roughness_min": 0.8,
+    "Rotation_custom-G": 0.15,
+    "Tiling-G": 40.0,
+    "1_Brightness": 0.296,
+    "2_Roughness_max": 0.765333,
+    "2_Roughness_min": 0.722582,
+    "3_Normal_Strengh": 0.5,
+    "Rotation_custom": 0.15,
+    "Tiling": 40.0,
+    "U tile": 0.0,
+    "G-BLUR": 0.216,
+    "G-OPACITY": 1.0,
+    "R-BLUR": 0.152,
+    "R-OPACITY": 1.0,
+    "R_Brightness": 0.541334,
+    "R_Normal_Strengh": 1.0,
+    "R_Roughness_min": 1.0,
+    "Rotation_custom-R": 0.15,
+    "Tiling-R": 40.0,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "G_Tint_base_texture": {
+     "r": 0.203125,
+     "g": 0.150984,
+     "b": 0.090609,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.911476,
+     "g": 0.938298,
+     "b": 1.0,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.788195,
+     "g": 0.646704,
+     "b": 0.498599,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Mast/MI_Mast_1": {
+   "textures": {
+    "B_Base_Texture": "T_Moss_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Moss_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Moss_1_Normal",
+    "G_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_WoodPainted_1_Normal",
+    "1_Base_Texture": "T_Wood_2_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Wood_2_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Wood_2_Normal",
+    "mask_Normal": "T_Mast_Mask-normal",
+    "uv-maska": "T_Mast_Mask",
+    "R_Base_Texture": "T_WoodPainted_1_BaseColor",
+    "R_Masks (Occ,Rough,Met)": "T_WoodPainted_1_OcclusionRoughnessMetallic",
+    "R_Normal": "T_WoodPainted_1_Normal",
+    "Mask-brigness": "T_Mast_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.228992,
+    "B_contrast": 2.0,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_min": 0.373333,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 25.0,
+    "G_Brightness": 0.7,
+    "G_color_tone": 0.0,
+    "G_contrast": 1.0,
+    "G_Normal_Strengh": 0.5,
+    "G_Roughness_max": 0.748509,
+    "G_Roughness_min": 0.48,
+    "Rotation_custom-G": 0.25,
+    "Tiling-G": 25.0,
+    "1_Brightness": 0.7,
+    "1_contrast": 0.312,
+    "2_Roughness_max": 1.0,
+    "2_Roughness_min": 1.0,
+    "3_Normal_Strengh": 1.0,
+    "Rotation_custom": 0.25,
+    "Tiling": 15.0,
+    "Mask_Normal_Strengh": 0.273334,
+    "B-BLUR": 0.024,
+    "B-OPACITY": 0.6,
+    "G-BLUR": 3.690896,
+    "G-OPACITY": 0.430522,
+    "R-BLUR": 0.509333,
+    "R-OPACITY": 0.386666,
+    "R_Brightness": 0.7,
+    "R_Normal_Strengh": 0.5,
+    "R_Roughness_max": 0.736539,
+    "R_Roughness_min": 0.661063,
+    "Rotation_custom-R": 0.25,
+    "Tiling-R": 25.0,
+    "Tint-brig-BLUR": 0.261333,
+    "Tint-brig-OPACITY": 0.570715,
+    "Tint-Brightness+": 0.125334,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.892062,
+     "b": 0.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.736792,
+     "b": 0.642766,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 0.552083,
+     "g": 0.522421,
+     "b": 0.488824,
+     "a": 1.0
+    },
+    "R_Tint_base_texture": {
+     "r": 0.378741,
+     "g": 0.385417,
+     "b": 0.374627,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  },
+  "/Game/Frigate/materials/Ship/Sail/MI_Sail_1.MI_Sail_1": {
+   "textures": {
+    "B_Base_Texture": "T_Rope_1_BaseColor",
+    "B_Masks (Occ,Rough,Met)": "T_Rope_1_OcclusionRoughnessMetallic",
+    "B_Normal": "T_Rope_1_Normal",
+    "G_Base_Texture": "T_Fabric_1_BaseColor",
+    "G_Masks (Occ,Rough,Met)": "T_Fabric_1_OcclusionRoughnessMetallic",
+    "G_Normal": "T_Fabric_1_Normal",
+    "1_Base_Texture": "T_Fabric_1_BaseColor",
+    "2_Masks (Occ,Rough,Met)": "T_Fabric_1_OcclusionRoughnessMetallic",
+    "3_Normal": "T_Fabric_1_Normal",
+    "mask_Normal": "T_Sail_Normal_Mask",
+    "uv-maska": "T_Sail_Mask",
+    "Mask-brigness": "T_Sail_Mask"
+   },
+   "scalars": {
+    "B_Brightness": 0.296,
+    "B_Normal_Strengh": 1.0,
+    "B_Roughness_max": 0.765333,
+    "B_Roughness_min": 0.821334,
+    "Rotation_custom-B": 0.25,
+    "Tiling-B": 40.0,
+    "G_Brightness": 0.689983,
+    "G_Roughness_max": 0.552,
+    "G_Roughness_min": 0.858511,
+    "Tiling-G": 60.0,
+    "SSS": 0.35,
+    "Acseliration_x": 0.5,
+    "Acseliration_y": 0.5,
+    "Acseliration_z": 0.5,
+    "Amplitude_X": 0.5,
+    "Amplitude_y": 1.0,
+    "Amplitude_z": 0.5,
+    "Disp_for_x": 300.0,
+    "Disp_for_y": 300.0,
+    "Disp_for_z": 300.0,
+    "intensity": 0.5,
+    "scale": 0.5,
+    "sped": 1.0,
+    "Weigt": 1.0,
+    "1_Brightness": 0.680579,
+    "1_contrast": 1.713567,
+    "2_Roughness_max": 0.765333,
+    "2_Roughness_min": 0.810667,
+    "3_Normal_Strengh": 1.0,
+    "Tiling": 60.0,
+    "Mask_Normal_Strengh": 1.0,
+    "B-BLUR": 0.045333,
+    "B-OPACITY": 1.0,
+    "G-BLUR": 0.2,
+    "G-OPACITY": 0.683741,
+    "Tint-brig-BLUR": 0.221333,
+    "Tint-brig-OPACITY": 0.477334,
+    "Tint-Brightness+": -0.114668,
+    "Tint-rougnes+": 1.0,
+    "RefractionDepthBias": 0.0
+   },
+   "vectors": {
+    "B_Tint_base_texture": {
+     "r": 0.911476,
+     "g": 0.938298,
+     "b": 1.0,
+     "a": 1.0
+    },
+    "G_Tint_base_texture": {
+     "r": 0.746528,
+     "g": 0.709415,
+     "b": 0.72474,
+     "a": 1.0
+    },
+    "1_Tint_base_texture": {
+     "r": 1.0,
+     "g": 0.972553,
+     "b": 0.937404,
+     "a": 1.0
+    }
+   },
+   "parent": "/Game/Frigate/materials/Root/M_1",
+   "cls": "MaterialInstanceConstant"
+  }
+ },
+ "textures": {
+  "/Game/Frigate/textures/Tiling/T_Moss_1_BaseColor.T_Moss_1_BaseColor": {
+   "file": "T_Moss_1_BaseColor.T_Moss_1_BaseColor.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Moss_1_OcclusionRoughnessMetallic.T_Moss_1_OcclusionRoughnessMetallic": {
+   "file": "T_Moss_1_OcclusionRoughnessMetallic.T_Moss_1_OcclusionRoughnessMetallic.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Moss_1_Normal.T_Moss_1_Normal": {
+   "file": "T_Moss_1_Normal.T_Moss_1_Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_WoodPainted_1_BaseColor.T_WoodPainted_1_BaseColor": {
+   "file": "T_WoodPainted_1_BaseColor.T_WoodPainted_1_BaseColor.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_WoodPainted_1_OcclusionRoughnessMetallic.T_WoodPainted_1_OcclusionRoughnessMetallic": {
+   "file": "T_WoodPainted_1_OcclusionRoughnessMetallic.T_WoodPainted_1_OcclusionRoughnessMetallic.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_WoodPainted_1_Normal.T_WoodPainted_1_Normal": {
+   "file": "T_WoodPainted_1_Normal.T_WoodPainted_1_Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Wood_2_BaseColor.T_Wood_2_BaseColor": {
+   "file": "T_Wood_2_BaseColor.T_Wood_2_BaseColor.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Wood_2_OcclusionRoughnessMetallic.T_Wood_2_OcclusionRoughnessMetallic": {
+   "file": "T_Wood_2_OcclusionRoughnessMetallic.T_Wood_2_OcclusionRoughnessMetallic.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Wood_2_Normal.T_Wood_2_Normal": {
+   "file": "T_Wood_2_Normal.T_Wood_2_Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Beams/T_Beams_1_Mask-Normal.T_Beams_1_Mask-Normal": {
+   "file": "T_Beams_1_Mask-Normal.T_Beams_1_Mask-Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Beams/T_Beams_1_Mask.T_Beams_1_Mask": {
+   "file": "T_Beams_1_Mask.T_Beams_1_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Metal_1_BaseColor.T_Metal_1_BaseColor": {
+   "file": "T_Metal_1_BaseColor.T_Metal_1_BaseColor.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Metal_1_OcclusionRoughnessMetallic.T_Metal_1_OcclusionRoughnessMetallic": {
+   "file": "T_Metal_1_OcclusionRoughnessMetallic.T_Metal_1_OcclusionRoughnessMetallic.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Metal_1_Normal.T_Metal_1_Normal": {
+   "file": "T_Metal_1_Normal.T_Metal_1_Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Metal/T_Metal_Mask.T_Metal_Mask": {
+   "file": "T_Metal_Mask.T_Metal_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Wood_1_BaseColor.T_Wood_1_BaseColor": {
+   "file": "T_Wood_1_BaseColor.T_Wood_1_BaseColor.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Wood_1_OcclusionRoughnessMetallic.T_Wood_1_OcclusionRoughnessMetallic": {
+   "file": "T_Wood_1_OcclusionRoughnessMetallic.T_Wood_1_OcclusionRoughnessMetallic.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Wood_1_Normal.T_Wood_1_Normal": {
+   "file": "T_Wood_1_Normal.T_Wood_1_Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Beams/T_Beams_2_Mask-Normal.T_Beams_2_Mask-Normal": {
+   "file": "T_Beams_2_Mask-Normal.T_Beams_2_Mask-Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Beams/T_Beams_2_Mask.T_Beams_2_Mask": {
+   "file": "T_Beams_2_Mask.T_Beams_2_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Deck/T_Deck_1_Mask-Normal.T_Deck_1_Mask-Normal": {
+   "file": "T_Deck_1_Mask-Normal.T_Deck_1_Mask-Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Deck/T_Deck_1_Mask.T_Deck_1_Mask": {
+   "file": "T_Deck_1_Mask.T_Deck_1_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Deck/T_Deck_2_Mask-Normal.T_Deck_2_Mask-Normal": {
+   "file": "T_Deck_2_Mask-Normal.T_Deck_2_Mask-Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Deck/T_Deck_2_Mask.T_Deck_2_Mask": {
+   "file": "T_Deck_2_Mask.T_Deck_2_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Frame/T_Frame1_Mask-Normal.T_Frame1_Mask-Normal": {
+   "file": "T_Frame1_Mask-Normal.T_Frame1_Mask-Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Frame/T_Frame1_Mask.T_Frame1_Mask": {
+   "file": "T_Frame1_Mask.T_Frame1_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Frame/T_Frame2_Mask-Normal.T_Frame2_Mask-Normal": {
+   "file": "T_Frame2_Mask-Normal.T_Frame2_Mask-Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Frame/T_Frame2_Mask.T_Frame2_Mask": {
+   "file": "T_Frame2_Mask.T_Frame2_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Frame/T_Frame3_Mask-Normal.T_Frame3_Mask-Normal": {
+   "file": "T_Frame3_Mask-Normal.T_Frame3_Mask-Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Frame/T_Frame3_Mask.T_Frame3_Mask": {
+   "file": "T_Frame3_Mask.T_Frame3_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Rope_1_BaseColor.T_Rope_1_BaseColor": {
+   "file": "T_Rope_1_BaseColor.T_Rope_1_BaseColor.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Rope_1_OcclusionRoughnessMetallic.T_Rope_1_OcclusionRoughnessMetallic": {
+   "file": "T_Rope_1_OcclusionRoughnessMetallic.T_Rope_1_OcclusionRoughnessMetallic.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Rope_1_Normal.T_Rope_1_Normal": {
+   "file": "T_Rope_1_Normal.T_Rope_1_Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Rope/T_Rope_Mask.T_Rope_Mask": {
+   "file": "T_Rope_Mask.T_Rope_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Mast/T_Mast_Mask-normal.T_Mast_Mask-normal": {
+   "file": "T_Mast_Mask-normal.T_Mast_Mask-normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Mast/T_Mast_Mask.T_Mast_Mask": {
+   "file": "T_Mast_Mask.T_Mast_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Fabric_1_BaseColor.T_Fabric_1_BaseColor": {
+   "file": "T_Fabric_1_BaseColor.T_Fabric_1_BaseColor.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Fabric_1_OcclusionRoughnessMetallic.T_Fabric_1_OcclusionRoughnessMetallic": {
+   "file": "T_Fabric_1_OcclusionRoughnessMetallic.T_Fabric_1_OcclusionRoughnessMetallic.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Tiling/T_Fabric_1_Normal.T_Fabric_1_Normal": {
+   "file": "T_Fabric_1_Normal.T_Fabric_1_Normal.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Sail/T_Sail_Normal_Mask.T_Sail_Normal_Mask": {
+   "file": "T_Sail_Normal_Mask.T_Sail_Normal_Mask.png",
+   "exported": true
+  },
+  "/Game/Frigate/textures/Ship/Sail/T_Sail_Mask.T_Sail_Mask": {
+   "file": "T_Sail_Mask.T_Sail_Mask.png",
+   "exported": true
+  }
+ },
+ "fbx_exported": {
+  "/Game/Frigate/SM_Hull": true,
+  "/Game/Frigate/SM_Hull_Support": true,
+  "/Game/Frigate/StaticMesh01": true,
+  "/Game/Frigate/SK_Sail_2": true,
+  "/Game/Frigate/Meshes/Ship/Sail/3/SK_Sail_3": true,
+  "/Game/Frigate/Meshes/Ship/Sail/7/SK_Sail_7": true
+ }
+}

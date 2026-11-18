@@ -23,6 +23,22 @@ namespace Shuimian.Gameplay
         {
             bounds = default;
             if (target == null) return false;
+            var body = target.GetComponent<ShuimianShipModel>();
+            if (body != null && body.isActiveAndEnabled && body.fixedHull)
+            {
+                var hull = body.hullBounds;
+                var matrix = worldToFrame * target.localToWorldMatrix;
+                bool valid = false;
+                for (int i = 0; i < 8; i++)
+                {
+                    var sign = new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1);
+                    var p = matrix.MultiplyPoint3x4(hull.center + Vector3.Scale(hull.extents, sign));
+                    if (!Finite(p)) continue;
+                    if (!valid) { bounds = new Bounds(p, Vector3.zero); valid = true; }
+                    else bounds.Encapsulate(p);
+                }
+                return valid && bounds.size.sqrMagnitude > .000001f;
+            }
             target.GetComponentsInChildren<Renderer>(false, renderers);
             bool found = false;
             foreach (var renderer in renderers)

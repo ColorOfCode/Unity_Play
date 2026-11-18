@@ -1,0 +1,483 @@
+{
+ "actors": [
+  {
+   "name": "StaticMeshActor_2",
+   "cls": "StaticMeshActor",
+   "components": [
+    {
+     "mesh": "SM_Hull",
+     "meshType": "static",
+     "px": 0.0,
+     "py": 0.0,
+     "pz": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0,
+     "sx": 1.0,
+     "sy": 1.0,
+     "sz": 1.0,
+     "actorName": "StaticMeshActor_2"
+    }
+   ]
+  },
+  {
+   "name": "StaticMeshActor_4",
+   "cls": "StaticMeshActor",
+   "components": [
+    {
+     "mesh": "SM_Hull_Support",
+     "meshType": "static",
+     "px": 0.0,
+     "py": 0.0,
+     "pz": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0,
+     "sx": 1.0,
+     "sy": 1.0,
+     "sz": 1.0,
+     "actorName": "StaticMeshActor_4"
+    }
+   ]
+  },
+  {
+   "name": "StaticMeshActor_3",
+   "cls": "StaticMeshActor",
+   "components": [
+    {
+     "mesh": "StaticMesh01",
+     "meshType": "static",
+     "px": 0.0,
+     "py": 0.0,
+     "pz": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0,
+     "sx": 1.0,
+     "sy": 1.0,
+     "sz": 1.0,
+     "actorName": "StaticMeshActor_3"
+    }
+   ]
+  },
+  {
+   "name": "SkeletalMeshActor_1",
+   "cls": "SkeletalMeshActor",
+   "components": [
+    {
+     "mesh": "SK_Sail_2",
+     "meshType": "skeletal",
+     "px": 0.0,
+     "py": 0.0,
+     "pz": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0,
+     "sx": 1.0,
+     "sy": 1.0,
+     "sz": 1.0,
+     "actorName": "SkeletalMeshActor_1"
+    }
+   ]
+  },
+  {
+   "name": "SkeletalMeshActor_3",
+   "cls": "SkeletalMeshActor",
+   "components": [
+    {
+     "mesh": "SK_Sail_3",
+     "meshType": "skeletal",
+     "px": 0.0,
+     "py": 0.0,
+     "pz": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0,
+     "sx": 1.0,
+     "sy": 1.0,
+     "sz": 1.0,
+     "actorName": "SkeletalMeshActor_3"
+    }
+   ]
+  },
+  {
+   "name": "SkeletalMeshActor_11",
+   "cls": "SkeletalMeshActor",
+   "components": [
+    {
+     "mesh": "SK_Sail_7",
+     "meshType": "skeletal",
+     "px": 0.0,
+     "py": 0.0,
+     "pz": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0,
+     "sx": 1.0,
+     "sy": 1.0,
+     "sz": 1.0,
+     "actorName": "SkeletalMeshActor_11"
+    }
+   ]
+  }
+ ],
+ "meshes": [
+  {
+   "path": "/Game/Frigate/SM_Hull",
+   "name": "SM_Hull",
+   "type": "static",
+   "materials": [
+    "MI_Beams_1",
+    "MI_Beams_1-2",
+    "MI_Beams_1-3",
+    "MI_Beams_1-door",
+    "MI_Metal",
+    "MI_Beams_2-2",
+    "MI_Beams_2",
+    "MI_Deck_1",
+    "MI_Deck_2",
+    "MI_Frame_1",
+    "MI_Frame_1-2",
+    "MI_Frame_1-3",
+    "MI_Frame_1-4",
+    "MI_Frame_2",
+    "MI_Frame_3",
+    "MI_Wood-tile1",
+    "MI_Wood-tile1",
+    "MI_Rope"
+   ]
+  },
+  {
+   "path": "/Game/Frigate/SM_Hull_Support",
+   "name": "SM_Hull_Support",
+   "type": "static",
+   "materials": [
+    "MI_Beams_1"
+   ]
+  },
+  {
+   "path": "/Game/Frigate/StaticMesh01",
+   "name": "StaticMesh01",
+   "type": "static",
+   "materials": [
+    "MI_Beams_1",
+    "MI_Beams_2-2",
+    "MI_Rope",
+    "MI_Metal",
+    "MI_Mast_1"
+   ]
+  },
+  {
+   "path": "/Game/Frigate/SK_Sail_2",
+   "name": "SK_Sail_2",
+   "type": "skeletal",
+   "materials": [
+    "MI_Sail_1"
+   ]
+  },
+  {
+   "path": "/Game/Frigate/Meshes/Ship/Sail/3/SK_Sail_3",
+   "name": "SK_Sail_3",
+   "type": "skeletal",
+   "materials": [
+    "MI_Sail_1"
+   ]
+  },
+  {
+   "path": "/Game/Frigate/Meshes/Ship/Sail/7/SK_Sail_7",
+   "name": "SK_Sail_7",
+   "type": "skeletal",
+   "materials": [
+    "MI_Sail_1"
+   ]
+  }
+ ],
+ "materials": [
+  {
+   "path": "/Game/Frigate/materials/Ship/Beams/MI_Beams_1",
+   "name": "MI_Beams_1",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.859375,
+    0.029392,
+    0.0
+   ],
+   "roughAvg": 0.6686735
+  },
+  {
+   "path": "/Game/Frigate/materials/Root/M_1",
+   "name": "M_1",
+   "layer": "",
+   "baseTex": "",
+   "normalTex": "",
+   "mraTex": "",
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "roughAvg": 0.8
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-2",
+   "name": "MI_Beams_1-2",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.121928,
+    0.137853,
+    0.265625
+   ],
+   "roughAvg": 0.372
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-3",
+   "name": "MI_Beams_1-3",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "roughAvg": 0.1426665
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Beams/MI_Beams_1-door",
+   "name": "MI_Beams_1-door",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.324653,
+    0.130274,
+    0.023417
+   ],
+   "roughAvg": 0.6686735
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Metal/MI_Metal",
+   "name": "MI_Metal",
+   "layer": "G_",
+   "baseTex": "T_Metal_1_BaseColor",
+   "normalTex": "T_Metal_1_Normal",
+   "mraTex": "T_Metal_1_MRA",
+   "tint": [
+    0.23074,
+    0.584078,
+    0.533276
+   ],
+   "roughAvg": 0.778068
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Beams/MI_Beams_2-2",
+   "name": "MI_Beams_2-2",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "roughAvg": 0.1426665
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Beams/MI_Beams_2",
+   "name": "MI_Beams_2",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.407986,
+    0.101996,
+    0.035172
+   ],
+   "roughAvg": 0.662254
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Deck/MI_Deck_1",
+   "name": "MI_Deck_1",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.397569,
+    0.393054,
+    0.360988
+   ],
+   "roughAvg": 0.752703
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Deck/MI_Deck_2",
+   "name": "MI_Deck_2",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.612847,
+    0.31038,
+    0.163242
+   ],
+   "roughAvg": 0.752703
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Frame/MI_Frame_1",
+   "name": "MI_Frame_1",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "roughAvg": 0.1426665
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-2",
+   "name": "MI_Frame_1-2",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.121928,
+    0.137853,
+    0.265625
+   ],
+   "roughAvg": 0.372
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-3",
+   "name": "MI_Frame_1-3",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.260417,
+    0.102007,
+    0.063751
+   ],
+   "roughAvg": 0.6686735
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Frame/MI_Frame_1-4",
+   "name": "MI_Frame_1-4",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.121928,
+    0.137853,
+    0.265625
+   ],
+   "roughAvg": 0.372
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Frame/MI_Frame_2",
+   "name": "MI_Frame_2",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.682292,
+    0.635621,
+    0.448938
+   ],
+   "roughAvg": 0.372
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Frame/MI_Frame_3",
+   "name": "MI_Frame_3",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    0.326389,
+    0.326389,
+    0.326389
+   ],
+   "roughAvg": 0.5
+  },
+  {
+   "path": "/Game/Frigate/materials/Wood-tile/MI_Wood-tile1",
+   "name": "MI_Wood-tile1",
+   "layer": "1_",
+   "baseTex": "T_Wood_1_BaseColor",
+   "normalTex": "T_Wood_1_Normal",
+   "mraTex": "T_Wood_1_MRA",
+   "tint": [
+    0.0,
+    0.084212,
+    0.503472
+   ],
+   "roughAvg": 0.8
+  },
+  {
+   "path": "/Game/Frigate/materials/Rope/MI_Rope",
+   "name": "MI_Rope",
+   "layer": "G_",
+   "baseTex": "T_Rope_1_BaseColor",
+   "normalTex": "T_Rope_1_Normal",
+   "mraTex": "T_Rope_1_MRA",
+   "tint": [
+    0.203125,
+    0.150984,
+    0.090609
+   ],
+   "roughAvg": 0.8
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Mast/MI_Mast_1",
+   "name": "MI_Mast_1",
+   "layer": "G_",
+   "baseTex": "T_WoodPainted_1_BaseColor",
+   "normalTex": "T_WoodPainted_1_Normal",
+   "mraTex": "T_WoodPainted_1_MRA",
+   "tint": [
+    1.0,
+    0.736792,
+    0.642766
+   ],
+   "roughAvg": 0.6142544999999999
+  },
+  {
+   "path": "/Game/Frigate/materials/Ship/Sail/MI_Sail_1.MI_Sail_1",
+   "name": "MI_Sail_1",
+   "layer": "G_",
+   "baseTex": "T_Fabric_1_BaseColor",
+   "normalTex": "T_Fabric_1_Normal",
+   "mraTex": "T_Fabric_1_MRA",
+   "tint": [
+    0.746528,
+    0.709415,
+    0.72474
+   ],
+   "roughAvg": 0.7052555
+  }
+ ]
+}

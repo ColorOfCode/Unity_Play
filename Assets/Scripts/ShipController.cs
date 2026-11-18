@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Shuimian.Gameplay
@@ -49,6 +50,52 @@ namespace Shuimian.Gameplay
 
         Vector3 _velocity; // 当前速度（仅 X/Z 有用）
         ShuimianShipTerrainCollision _terrainCollision;
+
+        static readonly int SailMoving = Animator.StringToHash("IsMoving");
+        Vector3 _previousSailPosition;
+        Transform _sailMoveTarget;
+        readonly List<Animator> _sailAnimators = new List<Animator>();
+
+        void OnEnable()
+        {
+            _velocity = Vector3.zero;
+            _sailAnimators.Clear();
+            foreach (var animator in GetComponentsInChildren<Animator>(true))
+                if (animator.name == "SK_Sail_322" || animator.name == "SK_Sail_7")
+                    _sailAnimators.Add(animator);
+            _sailMoveTarget = Target;
+            _previousSailPosition = Target.position;
+            SetSailMoving(false);
+        }
+
+        void OnDisable()
+        {
+            _velocity = Vector3.zero;
+            SetSailMoving(false);
+        }
+
+        void LateUpdate()
+        {
+            Transform target = Target;
+            Vector3 position = target.position;
+            Vector3 displacement = target == _sailMoveTarget
+                ? position - _previousSailPosition : Vector3.zero;
+            displacement.y = 0f; // Wave bobbing does not count as sailing.
+            _sailMoveTarget = target;
+            _previousSailPosition = position;
+            SetSailMoving(displacement.sqrMagnitude > 0.0000000001f);
+        }
+
+        void SetSailMoving(bool moving)
+        {
+            foreach (var animator in _sailAnimators)
+            {
+                if (animator == null || !animator.isActiveAndEnabled
+                    || animator.runtimeAnimatorController == null || !animator.isInitialized) continue;
+                // Let the Animator transitions control blending, duration and exit time.
+                animator.SetBool(SailMoving, moving);
+            }
+        }
 
         /// <summary>当前实际移动的 Transform</summary>
         public Transform Target => moveTarget != null ? moveTarget : transform;
@@ -119,6 +166,7 @@ namespace Shuimian.Gameplay
 
             Vector3 requested = _velocity * Time.deltaTime;
             Vector3 actual = Move(requested);
+
             if (Time.deltaTime > 0f && (actual - requested).sqrMagnitude > .000001f)
                 _velocity = actual / Time.deltaTime;
         }

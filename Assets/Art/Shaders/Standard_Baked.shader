@@ -40,7 +40,7 @@ Shader "URP/Standard_Baked"
         [Toggle(_DIR_OFF)] _DIR_OFF("DIR OFF",Float) = 0.0
         [Toggle(_DIRHIGHLIGHT_OFF)] _DIRHIGHLIGHT_OFF("DIRHIGHLIGHT OFF",Float) = 0.0*/
         
-        [Toggle(_ENABLEFOG)] _Enablefog("Enablefog?", Float) = 1
+        [Toggle(_ENABLEFOG)] _Enablefog("Custom Fog (Otherwise Scene Fog)", Float) = 0
         _FogColor7 ("Fog Color", Color) = (1,1,1,1) 
     	_FogParameter7("FogParameter",Vector) = (0.1,0.1,0.1,0.1)
     }
@@ -100,7 +100,7 @@ Shader "URP/Standard_Baked"
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            //#pragma multi_compile_fog
+            #pragma multi_compile_fog
 
             //自定义高度雾
             #pragma multi_compile_fragment _ _ENABLEFOG
@@ -313,7 +313,7 @@ Shader "URP/Standard_Baked"
                 //---------------输入数据-----------------
                 float2 UV = input.uv;
                 float3 WorldPos = input.positionWS.xyz;
-                float fogFactor = input.positionWS.w;
+                float fogFactor = InitializeInputDataFog(float4(WorldPos, 1.0), input.positionWS.w);
                 half3 ViewDir = GetWorldSpaceNormalizeViewDir(WorldPos);
                 half3 WorldNormal = normalize(input.normalWS);
 
@@ -496,13 +496,12 @@ Shader "URP/Standard_Baked"
                 #endif
 
                 half4 color = saturate(half4(DirectLighting + IndirectLighting + Emission, BaseAlpha));
-                //unity 雾
-                //color.rgb = MixFog(color.rgb,fogFactor);
-
-                //自定义Fog
-				#ifdef _ENABLEFOG
-				color.rgb = Mix_Fog(color.rgb, input.fogFactor_zy.z);
-				#endif
+                // Use scene fog by default; preserve the optional legacy custom fog.
+                #ifdef _ENABLEFOG
+                    color.rgb = Mix_Fog(color.rgb, input.fogFactor_zy.z);
+                #else
+                    color.rgb = MixFog(color.rgb, fogFactor);
+                #endif
 
                 return color;
             }
