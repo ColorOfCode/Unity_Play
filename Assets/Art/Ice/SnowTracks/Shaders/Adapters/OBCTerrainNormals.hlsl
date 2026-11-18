@@ -1,7 +1,7 @@
 #ifndef UNIVERSAL_FORWARD_LIT_DEPTH_NORMALS_PASS_INCLUDED
 #define UNIVERSAL_FORWARD_LIT_DEPTH_NORMALS_PASS_INCLUDED
 
-#include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
+#include "OBCTerrainPasses.hlsl"
 
 // DepthNormal pass
 struct AttributesDepthNormal

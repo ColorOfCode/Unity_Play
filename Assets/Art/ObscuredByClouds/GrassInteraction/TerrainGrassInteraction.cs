@@ -35,6 +35,7 @@ namespace ObscuredByClouds.Gameplay
 
         void OnEnable()
         {
+            if (!character) character = transform;
             if (Application.isPlaying) InitializeInteraction();
         }
 

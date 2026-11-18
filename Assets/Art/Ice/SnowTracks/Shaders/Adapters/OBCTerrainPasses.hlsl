@@ -3,10 +3,10 @@
 #define UNIVERSAL_TERRAIN_LIT_PASSES_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-#include "Assets/Art/ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
+#include "../../../../ObscuredByClouds/Lighting/OBCPBRLighting.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
-#include "Assets/Art/Ice/SnowTracks/Shaders/SnowSampling.hlsl"
+#include "../SnowSampling.hlsl"
 
 struct Attributes
 {

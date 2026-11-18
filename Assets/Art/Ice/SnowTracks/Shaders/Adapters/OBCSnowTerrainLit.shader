@@ -98,9 +98,9 @@ Shader "Snowfield/OBC Terrain Lit Indirect"
             // Sample normal in pixel shader when doing instancing
             #pragma shader_feature_local _TERRAIN_INSTANCED_PERPIXEL_NORMAL
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainPasses.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
 
@@ -130,9 +130,9 @@ Shader "Snowfield/OBC Terrain Lit Indirect"
             // This is used during shadow map generation to differentiate between directional and punctual light shadows, as they use different formulas to apply Normal Bias
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainPasses.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
 
@@ -185,9 +185,9 @@ Shader "Snowfield/OBC Terrain Lit Indirect"
             #pragma shader_feature_local _TERRAIN_INSTANCED_PERPIXEL_NORMAL
             #define TERRAIN_GBUFFER 1
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainPasses.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
 
@@ -211,9 +211,9 @@ Shader "Snowfield/OBC Terrain Lit Indirect"
             #pragma multi_compile_instancing
             #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainPasses.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
 
@@ -237,9 +237,9 @@ Shader "Snowfield/OBC Terrain Lit Indirect"
             #pragma multi_compile_instancing
             #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainNormals.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainNormals.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
 
@@ -261,9 +261,9 @@ Shader "Snowfield/OBC Terrain Lit Indirect"
             #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap
 
             #define SCENESELECTIONPASS
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainPasses.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
 
@@ -285,7 +285,7 @@ Shader "Snowfield/OBC Terrain Lit Indirect"
             #define _METALLICSPECGLOSSMAP 1
             #define _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A 1
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
+            #include "OBCTerrainInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/TerrainLitMetaPass.hlsl"
 
             ENDHLSL

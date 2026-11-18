@@ -104,6 +104,8 @@ namespace ObscuredByClouds.Gameplay
         {
             ResolveTarget();
             if (!target || !view || !view.enabled) { ResetVisibility();return; }
+            var characterSwitch = target.GetComponent<CharacterOcclusionSwitch>();
+            if (characterSwitch && !characterSwitch.CanFade) { ResetVisibility();return; }
             if (previousTarget!=target) { ResetVisibility();previousTarget=target;nextDiscovery=0; }
             float now=Time.unscaledTime;
             if(now>=nextDiscovery){RefreshObjects();nextDiscovery=now+Mathf.Max(.2f,discoveryInterval);}

@@ -199,17 +199,6 @@ namespace Shuimian.Gameplay
             Cursor.visible = true;
         }
 
-        /// <summary>运行时 HUD：显示鼠标输入累计值与旋转目标，确认是否真的在接收鼠标</summary>
-        void OnGUI()
-        {
-            if (!Application.isPlaying) return;
-            var style = new GUIStyle(GUI.skin.label) { fontSize = 16 };
-            GUI.color = new Color(0.5f, 1f, 0.5f);
-            GUI.Label(new Rect(10, 120, 620, 90),
-                $"鼠标偏航 yaw={_yaw:F1}°  俯仰 pitch={_pitch:F1}°  相机环绕={ShipYawDeltaDeg:F1}°\n" +
-                $"旋转目标: {(yawTarget ? yawTarget.name : "null")}  相机: {(cameraTarget ? cameraTarget.name : "null")}",
-                style);
-        }
 
         /// <summary>右键菜单：归零当前视角</summary>
         [ContextMenu("重置视角")]

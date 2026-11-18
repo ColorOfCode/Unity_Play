@@ -48,9 +48,6 @@ namespace Shuimian.Gameplay
         [Tooltip("是否让相机始终看向目标（关闭则只平移、保持原朝向）")]
         public bool lookAtTarget = false;
 
-        [Header("调试")]
-        [Tooltip("运行时在 Game 视图左上角显示跟随 HUD（验证相机是否真的在动）")]
-        public bool showDebugHud = true;
 
         Vector3 _velocity;
         float _fixedCameraHeight;
@@ -179,20 +176,6 @@ namespace Shuimian.Gameplay
             return Mathf.Atan2(flatForward.x, flatForward.z) * Mathf.Rad2Deg;
         }
 
-        /// <summary>运行时 HUD：显示跟随目标与相机实时世界坐标</summary>
-        void OnGUI()
-        {
-            if (!showDebugHud || !Application.isPlaying) return;
-            Transform t = ResolveFollowTarget();
-            string info = t != null
-                ? $"跟随目标: {t.name}\n目标位置: {t.position:F2}\n相机位置: {transform.position:F2}\n" +
-                  $"回弹: {followBounce:F2}（0=不回弹）  偏移: {offset:F2}"
-                : "跟随目标: null（未设置！）";
-            var style = new GUIStyle(GUI.skin.label) { fontSize = 18 };
-            GUI.color = new Color(1f, 0.92f, 0.2f);
-            GUI.backgroundColor = new Color(0f, 0f, 0f, 0.55f);
-            GUI.Label(new Rect(10, 10, 620, 110), info, style);
-        }
 
         /// <summary>右键菜单：打印当前接线情况，便于排查</summary>
         [ContextMenu("打印当前跟随目标")]

@@ -26,10 +26,16 @@ namespace ObscuredByClouds.EditorTools
                 prepared += TerrainGrassTexturePadding.PrepareTerrain(terrain);
             if (!existing)
             {
-                var manager = new GameObject("Terrain Grass Interaction");
-                SceneManager.MoveGameObjectToScene(manager, scene);
-                Undo.RegisterCreatedObjectUndo(manager, "Add character grass interaction");
-                existing = Undo.AddComponent<TerrainGrassInteraction>(manager);
+                existing = Undo.AddComponent<TerrainGrassInteraction>(actor.gameObject);
+            }
+            else if (existing.gameObject != actor.gameObject)
+            {
+                var previous = existing;
+                existing = actor.GetComponent<TerrainGrassInteraction>();
+                if (!existing) existing = Undo.AddComponent<TerrainGrassInteraction>(actor.gameObject);
+                Undo.RecordObject(existing, "Move grass interaction to character");
+                EditorUtility.CopySerialized(previous, existing);
+                Undo.DestroyObjectImmediate(previous);
             }
             Undo.RecordObject(existing, "Bind grass interaction character");
             existing.character = actor;

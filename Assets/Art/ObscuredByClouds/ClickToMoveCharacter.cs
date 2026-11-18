@@ -231,10 +231,6 @@ namespace ObscuredByClouds.Gameplay
             _baseYawDeg = Mathf.Atan2(_modelForward.x, _modelForward.z) * Mathf.Rad2Deg;
             _currentYawDeg = _baseYawDeg;
 
-            string src = (footL != null && ballL != null) ? "骨骼" : "根节点 forward 兜底";
-            Debug.Log($"[ClickToMoveCharacter] 朝向校准（{src}）: 出场正前方 yaw = {_baseYawDeg:F1}°," +
-                      $" forward = {_modelForward:F3}, 模型上方向 = {_modelUp:F3}" +
-                      $"（与世界上方向夹角 {Vector3.Angle(_modelUp, Vector3.up):F1}°）", this);
         }
 
         Transform FindBone(string boneName)
@@ -271,10 +267,7 @@ namespace ObscuredByClouds.Gameplay
             SetRunState(false, true);
             ApplyAnimPlaybackSpeed(0f);
 
-            if (_useAnimatorParam)
-                Debug.Log($"[ClickToMoveCharacter] 动画由参数 {runBoolParam} 驱动，" +
-                          $"过渡交给 Animator 的 Idle/Run 过渡线（{animBlendTime:0.00}s）。", this);
-            else
+            if (!_useAnimatorParam)
                 Debug.LogWarning($"[ClickToMoveCharacter] Controller 里没有 Bool 参数「{runBoolParam}」，" +
                                  "已退回按状态名 CrossFade。想要过渡效果请执行菜单 " +
                                  "Tools → ObscuredByClouds → 修复：Idle→Run 过渡。", this);

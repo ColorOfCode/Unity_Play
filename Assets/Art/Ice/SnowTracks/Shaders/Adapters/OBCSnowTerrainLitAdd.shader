@@ -91,9 +91,9 @@ Shader "Hidden/Snowfield/OBC Terrain Add"
             #pragma shader_feature_local _TERRAIN_INSTANCED_PERPIXEL_NORMAL
             #define TERRAIN_SPLAT_ADDPASS
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainPasses.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
 
@@ -142,9 +142,9 @@ Shader "Hidden/Snowfield/OBC Terrain Add"
             #define TERRAIN_SPLAT_ADDPASS 1
             #define TERRAIN_GBUFFER 1
 
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainInput.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/Adapters/OBCTerrainPasses.hlsl"
-            #include "Assets/Art/Ice/SnowTracks/Shaders/SnowTerrainTessellation.hlsl"
+            #include "OBCTerrainInput.hlsl"
+            #include "OBCTerrainPasses.hlsl"
+            #include "../SnowTerrainTessellation.hlsl"
             ENDHLSL
         }
     }
